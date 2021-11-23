@@ -20,6 +20,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module PerfectShape
+  class Arc
+    TYPES = [:open, :chord, :pie]
+    attr_reader :type, :x, :y, :width, :height, :start, :extent
+    
+    def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)
+      @type = type
+      @x = x
+      @y = y
+      @width = width
+      @height = height
+      @start = start
+      @extent = extent
+    end
+  end
 end
-
-Dir[File.expand_path('./perfect_shape/*.rb', __dir__)].each {|f| require f}

@@ -1,9 +1,9 @@
-perfect-shape===================
+# Perfect Shape
+## Geometric Algorithms
 
-Description goes here.
+Perfect Shape is a collection of geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.
 
-Contributing to perfect-shape
-------------------------------------------
+## Contributing to perfect-shape
 
 -   Check out the latest master to make sure the feature hasn't been
     implemented or the bug hasn't been fixed yet.
@@ -19,8 +19,9 @@ Contributing to perfect-shape
     is fine, but please isolate to its own commit so I can cherry-pick
     around it.
 
-Copyright
----------
+## Copyright
+
+[MIT](LICENSE.txt)
 
 Copyright (c) 2021 Andy Maleh. See
-LICENSE.txt for further details.
+[LICENSE.txt](LICENSE.txt) for further details.
