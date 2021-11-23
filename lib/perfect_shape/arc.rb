@@ -22,7 +22,7 @@
 module PerfectShape
   class Arc
     TYPES = [:open, :chord, :pie]
-    attr_reader :type, :x, :y, :width, :height, :start, :extent
+    attr_accessor :type, :x, :y, :width, :height, :start, :extent
     
     def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)
       @type = type
