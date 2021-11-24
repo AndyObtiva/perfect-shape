@@ -48,5 +48,23 @@ module Glimmer::Specification
         fact { arc.extent == 90 }
       }
     }
+    
+    use_case('check if arc contains point') {
+      scenario('point is inside chord arc') {
+        arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+        point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
+        
+        fact { arc.contain?(*point) }
+        fact { arc.contain?(point) }
+      }
+      
+#       scenario('point is not inside chord arc') {
+#         arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+#         point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
+#
+#         fact { arc.contain?(*point) }
+#         fact { arc.contain?(point) }
+#       }
+    }
   }
 end

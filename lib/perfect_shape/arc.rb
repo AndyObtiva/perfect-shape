@@ -33,5 +33,97 @@ module PerfectShape
       @start = start
       @extent = extent
     end
+    
+    def contain?(x_or_point, y = nil)
+      x = x_or_point
+      x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
+      return unless x && y
+      # Normalize the coordinates compared to the ellipse
+      # having a center at 0,0 and a radius of 0.5.
+      ellw = width
+      return false if (ellw <= 0.0)
+      normx = (x - self.x) / ellw - 0.5
+      ellh = height
+      return false if (ellh <= 0.0)
+      normy = (y - self.y) / ellh - 0.5
+      dist_sq = (normx * normx + normy * normy)
+      return false if (dist_sq >= 0.25)
+      double ang_ext = self.extent.abs
+      return true if (ang_ext >= 360.0)
+      # TODO
+      boolean inarc = containsAngle(-Math.toDegrees(Math.atan2(normy,
+                                                               normx)));
+      if (type == PIE) {
+          return inarc;
+      }
+      # CHORD and OPEN behave the same way
+      if (inarc) {
+          if (ang_ext >= 180.0) {
+              return true;
+          }
+          # point must be outside the "pie triangle"
+      } else {
+          if (ang_ext <= 180.0) {
+              return false;
+          }
+          # point must be inside the "pie triangle"
+      }
+      # The point is inside the pie triangle iff it is on the same
+      # side of the line connecting the ends of the arc as the center.
+      double angle = Math.toRadians(-getAngleStart());
+      double x1 = Math.cos(angle);
+      double y1 = Math.sin(angle);
+      angle += Math.toRadians(-getAngleExtent());
+      double x2 = Math.cos(angle);
+      double y2 = Math.sin(angle);
+      boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
+                        Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
+      return inarc ? !inside : inside;
+    end
+    
+    def contain_angle?(angle)
+        ang_ext = self.extent
+        backwards = (ang_ext < 0.0)
+        ang_ext = -ang_ext if (backwards)
+        return true if (ang_ext >= 360.0)
+              # TODO
+
+        angle = normalizeDegrees(angle) - normalizeDegrees(getAngleStart());
+        if (backwards) {
+            angle = -angle;
+        }
+        if (angle < 0.0) {
+            angle += 360.0;
+        }
+
+
+        return (angle >= 0.0) && (angle < ang_ext);
+    end
+    
+    def normalizeDegrees(double angle)
+      # TODO
+        if (angle > 180.0) {
+            if (angle <= (180.0 + 360.0)) {
+                angle = angle - 360.0;
+            } else {
+                angle = Math.IEEEremainder(angle, 360.0);
+                // IEEEremainder can return -180 here for some input values...
+                if (angle == -180.0) {
+                    angle = 180.0;
+                }
+            }
+        } else if (angle <= -180.0) {
+            if (angle > (-180.0 - 360.0)) {
+                angle = angle + 360.0;
+            } else {
+                angle = Math.IEEEremainder(angle, 360.0);
+                // IEEEremainder can return -180 here for some input values...
+                if (angle == -180.0) {
+                    angle = 180.0;
+                }
+            }
+        }
+        return angle;
+    end
   end
 end
