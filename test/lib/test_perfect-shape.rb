@@ -1,4 +1,5 @@
-require "minitest/autorun"
+require 'puts_debuggerer'
+require 'minitest/autorun'
 
 require_relative '../../lib/perfect-shape'
 
@@ -46,36 +47,13 @@ describe PerfectShape do
       _(arc.start).must_equal 30
       _(arc.extent).must_equal 90
     end
+    
+    it 'contains point' do
+      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 0, extent: 360)
+      point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
+      
+      _(arc).must_be :contain?, *point
+      _(arc).must_be :contain?, point
+    end
   end
-  
-#   specification('Arc') {
-#     use_case('Construction') {
-#       scenario('construction with :chord type and dimensions') {
-#       }
-#
-#       scenario('construction with defaults') {
-#       }
-#
-#       scenario('updating attributes') {
-#       }
-#     }
-#
-#     use_case('check if arc contains point') {
-#       scenario('point is inside chord arc') {
-#         arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
-#         point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
-#
-#         fact { arc.contain?(*point) }
-#         fact { arc.contain?(point) }
-#       }
-#
-#       scenario('point is not inside chord arc') {
-#         arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
-#         point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
-#
-#         fact { arc.contain?(*point) }
-#         fact { arc.contain?(point) }
-#       }
-#     }
-#   }
 end
