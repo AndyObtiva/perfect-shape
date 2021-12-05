@@ -8,5 +8,5 @@ source "https://rubygems.org"
 group :development do
   gem "rdoc", "~> 3.12"
   gem "juwelier", "~> 2.1.0"
-  gem 'glimmer-dsl-specification', '~> 0.0.4'
+  gem 'minitest', '~> 5.14.4'
 end

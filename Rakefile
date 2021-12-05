@@ -25,9 +25,15 @@ Juwelier::Tasks.new do |gem|
 end
 Juwelier::RubygemsDotOrgTasks.new
 
-require 'glimmer/specification/rake_tasks'
+require "rake/testtask"
 
-task :default => :verify
+Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList["test/**/test_*.rb"]
+end
+
+task :default => :test
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|

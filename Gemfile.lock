@@ -3,13 +3,9 @@ GEM
   specs:
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    array_include_methods (1.4.0)
-    awesome_print (1.9.2)
     builder (3.2.4)
-    colours (0.6.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    facets (3.1.0)
     faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -37,13 +33,6 @@ GEM
       faraday (>= 0.8, < 2)
       hashie (~> 3.5, >= 3.5.2)
       oauth2 (~> 1.0)
-    glimmer (2.5.1)
-      array_include_methods (~> 1.4.0)
-      facets (>= 3.1.0, < 4.0.0)
-    glimmer-dsl-specification (0.0.5)
-      colours (~> 0.6.1)
-      glimmer (~> 2.5.1)
-      puts_debuggerer (~> 0.13.1)
     hashie (3.6.0)
     highline (2.0.3)
     json (1.8.6)
@@ -58,6 +47,7 @@ GEM
       rdoc
       semver
     jwt (2.3.0)
+    minitest (5.14.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -70,8 +60,6 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     public_suffix (4.0.6)
-    puts_debuggerer (0.13.1)
-      awesome_print (~> 1.9.2)
     racc (1.6.0)
     rack (2.2.3)
     rake (13.0.6)
@@ -86,8 +74,8 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  glimmer-dsl-specification (~> 0.0.4)
   juwelier (~> 2.1.0)
+  minitest (~> 5.14.4)
   rdoc (~> 3.12)
 
 BUNDLED WITH

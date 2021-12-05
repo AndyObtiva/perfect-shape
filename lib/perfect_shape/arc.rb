@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require_relative 'line'
+
 module PerfectShape
   class Arc
     TYPES = [:open, :chord, :pie]
@@ -51,79 +53,69 @@ module PerfectShape
       double ang_ext = self.extent.abs
       return true if (ang_ext >= 360.0)
       # TODO
-      boolean inarc = containsAngle(-Math.toDegrees(Math.atan2(normy,
-                                                               normx)));
-      if (type == PIE) {
-          return inarc;
-      }
+      inarc = contain_angle?(-1*radians_to_degrees(Math.atan2(normy, normx)));
+      
+      return inarc if type == PIE
       # CHORD and OPEN behave the same way
-      if (inarc) {
-          if (ang_ext >= 180.0) {
-              return true;
-          }
-          # point must be outside the "pie triangle"
-      } else {
-          if (ang_ext <= 180.0) {
-              return false;
-          }
-          # point must be inside the "pie triangle"
-      }
+      if inarc
+        return true if ang_ext >= 180.0
+        # point must be outside the "pie triangle"
+      else
+        return false if ang_ext <= 180.0
+        # point must be inside the "pie triangle"
+      end
+      
       # The point is inside the pie triangle iff it is on the same
       # side of the line connecting the ends of the arc as the center.
-      double angle = Math.toRadians(-getAngleStart());
-      double x1 = Math.cos(angle);
-      double y1 = Math.sin(angle);
-      angle += Math.toRadians(-getAngleExtent());
-      double x2 = Math.cos(angle);
-      double y2 = Math.sin(angle);
-      boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
-                        Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
-      return inarc ? !inside : inside;
+      angle = radians_to_degrees(-start);
+      x1 = Math.cos(angle)
+      y1 = Math.sin(angle)
+      angle += radians_to_degrees(-getAngleExtent())
+      x2 = Math.cos(angle)
+      y2 = Math.sin(angle)
+      inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
+                        Line.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0)
+      inarc ? !inside : inside;
     end
     
     def contain_angle?(angle)
-        ang_ext = self.extent
-        backwards = (ang_ext < 0.0)
-        ang_ext = -ang_ext if (backwards)
-        return true if (ang_ext >= 360.0)
-              # TODO
+      ang_ext = self.extent
+      backwards = ang_ext < 0.0
+      ang_ext = -ang_ext if backwards
+      return true if ang_ext >= 360.0
 
-        angle = normalizeDegrees(angle) - normalizeDegrees(getAngleStart());
-        if (backwards) {
-            angle = -angle;
-        }
-        if (angle < 0.0) {
-            angle += 360.0;
-        }
+      angle = normalize_degrees(angle) - normalize_degrees(getAngleStart())
+      angle = -angle if backwards
+      angle += 360.0 if angle < 0.0
 
-
-        return (angle >= 0.0) && (angle < ang_ext);
+      (angle >= 0.0) && (angle < ang_ext)
     end
     
-    def normalizeDegrees(double angle)
-      # TODO
-        if (angle > 180.0) {
-            if (angle <= (180.0 + 360.0)) {
-                angle = angle - 360.0;
-            } else {
-                angle = Math.IEEEremainder(angle, 360.0);
-                // IEEEremainder can return -180 here for some input values...
-                if (angle == -180.0) {
-                    angle = 180.0;
-                }
-            }
-        } else if (angle <= -180.0) {
-            if (angle > (-180.0 - 360.0)) {
-                angle = angle + 360.0;
-            } else {
-                angle = Math.IEEEremainder(angle, 360.0);
-                // IEEEremainder can return -180 here for some input values...
-                if (angle == -180.0) {
-                    angle = 180.0;
-                }
-            }
-        }
-        return angle;
+    def normalize_degrees(angle)
+      if angle > 180.0
+        if angle <= (180.0 + 360.0)
+          angle = angle - 360.0
+        else
+#           angle = Math.IEEEremainder(angle, 360.0); # TODO
+          angle = angle%360.0
+          # IEEEremainder can return -180 here for some input values...
+          angle = 180.0 if angle == -180.0
+        end
+      elsif angle <= -180.0
+        if angle > (-180.0 - 360.0)
+          angle = angle + 360.0
+        else
+#           angle = Math.IEEEremainder(angle, 360.0); # TODO
+          angle = angle%360.0
+          # IEEEremainder can return -180 here for some input values...
+          angle = 180.0 if angle == -180.0
+        end
+      end
+      angle
+    end
+    
+    def radians_to_degrees(radians)
+      (180/Math::PI)*radians
     end
   end
 end
