@@ -63,8 +63,8 @@ module PerfectShape
     def contain?(x_or_point, y = nil)
       x = x_or_point
       x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
-      x = BigDecimal(x)
-      y = BigDecimal(y)
+      x = BigDecimal(x.to_s)
+      y = BigDecimal(y.to_s)
       return unless x && y
       # Normalize the coordinates compared to the ellipse
       # having a center at 0,0 and a radius of 0.5.
