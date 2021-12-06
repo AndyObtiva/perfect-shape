@@ -78,7 +78,7 @@ module PerfectShape
       return false if (dist_sq >= 0.25)
       ang_ext = self.extent.abs
       return true if (ang_ext >= 360.0)
-      inarc = contain_angle?(-1*radians_to_degrees(Math.atan2(normy, normx)))
+      inarc = contain_angle?(-1*Math.radians_to_degrees(Math.atan2(normy, normx)))
       
       return inarc if type == :pie
       # CHORD and OPEN behave the same way
@@ -92,10 +92,10 @@ module PerfectShape
       
       # The point is inside the pie triangle iff it is on the same
       # side of the line connecting the ends of the arc as the center.
-      angle = radians_to_degrees(-start)
+      angle = Math.radians_to_degrees(-start)
       x1 = Math.cos(angle)
       y1 = Math.sin(angle)
-      angle += radians_to_degrees(-extent)
+      angle += Math.radians_to_degrees(-extent)
       x2 = Math.cos(angle)
       y2 = Math.sin(angle)
       inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
@@ -135,10 +135,6 @@ module PerfectShape
         end
       end
       angle
-    end
-    
-    def radians_to_degrees(radians)
-      (180/Math::PI)*radians
     end
   end
 end

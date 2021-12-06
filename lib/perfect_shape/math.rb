@@ -1,6 +1,13 @@
 module PerfectShape
+  # Perfect Shape Math utility methods
+  # Also includes standard Ruby ::Math utility methods
   module Math
     class << self
+      # converts angle from radians to degrees
+      def radians_to_degrees(radians)
+        (180/Math::PI)*radians
+      end
+
       # Computes the remainder operation on two arguments as prescribed by the IEEE 754 standard.
       # Algorithm: x – (round(x/y)*y).
       # The `round` part rounds to the nearest even number when it is a halfway between n & y (integer + 0.5 number)
