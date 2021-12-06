@@ -8,6 +8,11 @@ module PerfectShape
         (180/Math::PI)*radians
       end
 
+      # converts angle from degrees to radians
+      def degrees_to_radians(degrees)
+        (Math::PI/180)*degrees
+      end
+
       # Computes the remainder operation on two arguments as prescribed by the IEEE 754 standard.
       # Algorithm: x – (round(x/y)*y).
       # The `round` part rounds to the nearest even number when it is a halfway between n & y (integer + 0.5 number)

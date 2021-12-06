@@ -92,10 +92,10 @@ module PerfectShape
       
       # The point is inside the pie triangle iff it is on the same
       # side of the line connecting the ends of the arc as the center.
-      angle = Math.radians_to_degrees(-start)
+      angle = Math.degrees_to_radians(-start)
       x1 = Math.cos(angle)
       y1 = Math.sin(angle)
-      angle += Math.radians_to_degrees(-extent)
+      angle += Math.degrees_to_radians(-extent)
       x2 = Math.cos(angle)
       y2 = Math.sin(angle)
       inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
