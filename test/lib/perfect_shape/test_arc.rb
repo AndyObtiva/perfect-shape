@@ -56,6 +56,13 @@ describe PerfectShape do
       _(arc.contain?(point)).must_equal arc.contain?(*point)
     end
     
+    it 'does not contain point in center of chord type arc' do
+      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      
+      _(arc.contain?(point)).must_equal false
+    end
+    
     it 'does not contain point within bounding box with chord type circle' do
       arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]
@@ -78,6 +85,13 @@ describe PerfectShape do
       _(arc.contain?(point)).must_equal arc.contain?(*point)
     end
     
+    it 'does not contain point in center of open type arc' do
+      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      
+      _(arc.contain?(point)).must_equal false
+    end
+    
     it 'does not contain point within bounding box with open type circle' do
       arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]
@@ -94,6 +108,14 @@ describe PerfectShape do
     
     it 'contains point with pie type circle' do
       arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      
+      _(arc).must_be :contain?, point
+      _(arc.contain?(point)).must_equal arc.contain?(*point)
+    end
+    
+    it 'contains point in center of pie type arc' do
+      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
       point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
       
       _(arc).must_be :contain?, point
