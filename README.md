@@ -2,7 +2,7 @@
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
-`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.
+`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc, ellipse, circle, polygon, polyline, polybezier, and paths containing lines, bezier curves, and quadratic curves.
 
 Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
 
@@ -38,7 +38,7 @@ bundle
 
 ### `PerfectShape::Line`
 
-- `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point px,py lies with respect to the line segment from x1,y1 to x2,y2
+- `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 
 ### `PerfectShape::Arc`
 
@@ -49,7 +49,7 @@ bundle
 - `#height`: height of arc
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
-- `#contain?(x_or_point, y=0)`: checks if point is in arc
+- `#contain?(x_or_point, y=nil)`: checks if point is in arc
 
 ## TODO
 

@@ -23,29 +23,17 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line
     class << self
-      # Returns an indicator of where the specified point
-      # {@code (px,py)} lies with respect to the line segment from
-      # {@code (x1,y1)} to {@code (x2,y2)}.
-      # The return value can be either 1, -1, or 0 and indicates
-      # in which direction the specified line must pivot around its
-      # first end point, {@code (x1,y1)}, in order to point at the
-      # specified point {@code (px,py)}.
-      # <p>A return value of 1 indicates that the line segment must
-      # turn in the direction that takes the positive X axis towards
-      # the negative Y axis.  In the default coordinate system used by
-      # Java 2D, this direction is counterclockwise.
-      # <p>A return value of -1 indicates that the line segment must
-      # turn in the direction that takes the positive X axis towards
-      # the positive Y axis.  In the default coordinate system, this
-      # direction is clockwise.
-      # <p>A return value of 0 indicates that the point lies
-      # exactly on the line segment.  Note that an indicator value
-      # of 0 is rare and not useful for determining collinearity
-      # because of floating point rounding issues.
-      # <p>If the point is colinear with the line segment, but
-      # not between the end points, then the value will be -1 if the point
-      # lies "beyond {@code (x1,y1)}" or 1 if the point lies
-      # "beyond {@code (x2,y2)}".
+      # Returns an indicator of where the specified point (px,py) lies with respect to the line segment from
+      # (x1,y1) to (x2,y2).
+      #
+      # The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py).
+      # A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise.
+      #
+      # A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise.
+      #
+      # A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues.
+      #
+      # If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
       #
       # @param x1 the X coordinate of the start point of the
       #           specified line segment
@@ -62,7 +50,6 @@ module PerfectShape
       # @return an integer that indicates the position of the third specified
       #                  coordinates with respect to the line segment formed
       #                  by the first two specified coordinates.
-      # @since 1.2
       def relative_ccw(x1, y1, x2, y2, px, py)
         x2 -= x1;
         y2 -= y1;

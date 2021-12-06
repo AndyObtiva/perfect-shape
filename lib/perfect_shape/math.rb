@@ -1,6 +1,8 @@
 module PerfectShape
   # Perfect Shape Math utility methods
+  #
   # Mostly ported from java.lang.Math: https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html
+  #
   # Also includes standard Ruby ::Math utility methods
   module Math
     class << self
@@ -15,16 +17,20 @@ module PerfectShape
       end
 
       # Computes the remainder operation on two arguments as prescribed by the IEEE 754 standard.
-      # Algorithm: x – (round(x/y)*y).
+      #
+      # Algorithm is exactly: x – (round(x/y)*y)
+      #
       # The `round` part rounds to the nearest even number when it is a halfway between n & y (integer + 0.5 number)
+      #
       # The remainder value is mathematically equal to x - y × n, where n is the mathematical integer closest to the exact mathematical value of the quotient x/y, and if two mathematical integers are equally close to x/y, then n is the integer that is even. If the remainder is zero, its sign is the same as the sign of the first argument. Special cases:
+      #
       # If either argument is NaN, or the first argument is infinite, or the second argument is positive zero or negative zero, then the result is NaN.
+      #
       # If the first argument is finite and the second argument is infinite, then the result is the same as the first argument.
-      # Parameters:
-      # x - the dividend.
-      # y - the divisor.
-      # Returns:
-      # the remainder when x is divided by y.
+      #
+      # @param x the dividend.
+      # @param y the divisor.
+      # @return the remainder when x is divided by y.
       def ieee754_remainder(x, y)
         x = BigDecimal(x.to_s)
         y = BigDecimal(y.to_s)

@@ -14,13 +14,17 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - RoundRectangle
 - Point
 - Ellipse
+- Circle
+- Square
 - Polybezier
 - Polyline
 - Area: aggregate of multiple shapes
 - AffineTransform: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
+- Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 
 ## Miscellaneous
 
+- Extract normalize_degrees from Arc moving to Math class as class method
 - Include screenshots of the supported shapes in README
 
 ## Maybe

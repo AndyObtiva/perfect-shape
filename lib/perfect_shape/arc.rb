@@ -62,6 +62,13 @@ module PerfectShape
     end
     
     # Checks if arc contains point denoted by point (two-number Array or x, y args)
+    #
+    # @param x The X coordinate of the point to test.
+    # @param y The Y coordinate of the point to test.
+    #
+    # @return {@code true} if the point lies within the bound of
+    # the arc, {@code false} if the point lies outside of the
+    # arc's bounds.
     def contain?(x_or_point, y = nil)
       x = x_or_point
       x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
@@ -105,6 +112,8 @@ module PerfectShape
       inarc ? !inside : inside
     end
     
+    # Determines whether or not the specified angle is within the
+    # angular extents of the arc.
     def contain_angle?(angle)
       ang_ext = self.extent
       backwards = ang_ext < 0.0
@@ -118,6 +127,8 @@ module PerfectShape
       (angle >= 0.0) && (angle < ang_ext)
     end
     
+    # Normalizes the specified angle into the range -180 to 180.
+    # TODO refactor/extract to Math class
     def normalize_degrees(angle)
       if angle > 180.0
         if angle <= (180.0 + 360.0)
