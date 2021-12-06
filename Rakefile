@@ -17,7 +17,7 @@ Juwelier::Tasks.new do |gem|
   gem.homepage = "http://github.com/AndyObtiva/perfect-shape"
   gem.license = "MIT"
   gem.summary = %Q{Perfect Shape - Geometric Algorithms}
-  gem.description = %Q{Perfect Shape is a collection of geometric algorithms that are mostly useful for GUI manipulation like containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.}
+  gem.description = %Q{Perfect Shape is a collection of pure Ruby geometric algorithms that are mostly useful for GUI manipulation like checking containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves. Additionally, it contains some purely mathematical algorithms like IEEEremainder (also known as IEEE-754 remainder).}
   gem.email = "andy.am@gmail.com"
   gem.authors = ["Andy Maleh"]
 

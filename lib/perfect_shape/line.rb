@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module PerfectShape
+  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line
     class << self
       # Returns an indicator of where the specified point
@@ -62,7 +63,7 @@ module PerfectShape
       #                  coordinates with respect to the line segment formed
       #                  by the first two specified coordinates.
       # @since 1.2
-      def relativeCCW(x1, y1, x2, y2, px, py)
+      def relative_ccw(x1, y1, x2, y2, px, py)
         x2 -= x1;
         y2 -= y1;
         px -= x1;

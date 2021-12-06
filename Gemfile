@@ -10,4 +10,5 @@ group :development do
   gem "juwelier", "~> 2.1.0"
   gem 'minitest', '~> 5.14.4'
   gem 'puts_debuggerer', '~> 0.13.1'
+  gem 'rake-tui', '> 0'
 end

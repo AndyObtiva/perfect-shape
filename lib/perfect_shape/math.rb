@@ -1,5 +1,6 @@
 module PerfectShape
   # Perfect Shape Math utility methods
+  # Mostly ported from java.lang.Math: https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html
   # Also includes standard Ruby ::Math utility methods
   module Math
     class << self

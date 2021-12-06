@@ -22,6 +22,7 @@
 require_relative 'line'
 
 module PerfectShape
+  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Arc2D.html
   class Arc
     TYPES = [:open, :chord, :pie]
     attr_accessor :type, :x, :y, :width, :height, :start, :extent
@@ -60,6 +61,7 @@ module PerfectShape
       @extent = BigDecimal(value.to_s)
     end
     
+    # Checks if arc contains point denoted by point (two-number Array or x, y args)
     def contain?(x_or_point, y = nil)
       x = x_or_point
       x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
@@ -98,8 +100,8 @@ module PerfectShape
       angle += Math.degrees_to_radians(-extent)
       x2 = Math.cos(angle)
       y2 = Math.sin(angle)
-      inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
-                        Line.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0)
+      inside = (Line.relative_ccw(x1, y1, x2, y2, 2*normx, 2*normy) *
+                        Line.relative_ccw(x1, y1, x2, y2, 0, 0) >= 0)
       inarc ? !inside : inside
     end
     

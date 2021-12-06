@@ -21,6 +21,7 @@
 
 require 'bigdecimal'
 
+# Perfect Shape algorithms are mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 module PerfectShape
 end
 
