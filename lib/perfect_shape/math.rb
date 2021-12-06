@@ -29,6 +29,22 @@ module PerfectShape
         (x - (rounded_division * y))
       end
       alias ieee_remainder ieee754_remainder
+      
+      def respond_to?(method_name, include_private = false)
+        super || ::Math.respond_to?(method_name, include_private)
+      end
+      
+      def method_missing(method_name, *args, **kwargs, &block)
+        if ::Math.respond_to?(method_name, true)
+          ::Math.send(method_name, *args, **kwargs, &block)
+        else
+          super
+        end
+      end
+      
+      def const_missing(constant)
+        ::Math::const_get(constant)
+      end
     end
   end
 end

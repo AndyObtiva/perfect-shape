@@ -100,6 +100,21 @@ describe PerfectShape do
       _(arc.contain?(point)).must_equal arc.contain?(*point)
     end
     
+    it 'contains point with pie type arc' do
+      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [arc.x + arc.width / 2.0 + (arc.width / 4.0), arc.y + (arc.height / 2.0) - (arc.height / 4.0)]
+      
+      _(arc).must_be :contain?, point
+      _(arc.contain?(point)).must_equal arc.contain?(*point)
+    end
+    
+    it 'does not contain point within bounding box with pie type arc' do
+      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [arc.x + (arc.width / 2.0) - (arc.width / 4.0), arc.y + arc.height / 2.0]
+      
+      _(arc.contain?(point)).must_equal false
+    end
+    
     it 'does not contain point within bounding box with pie type circle' do
       arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]

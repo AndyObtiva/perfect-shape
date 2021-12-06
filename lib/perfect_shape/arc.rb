@@ -95,7 +95,7 @@ module PerfectShape
       angle = radians_to_degrees(-start)
       x1 = Math.cos(angle)
       y1 = Math.sin(angle)
-      angle += radians_to_degrees(-getAngleExtent())
+      angle += radians_to_degrees(-extent)
       x2 = Math.cos(angle)
       y2 = Math.sin(angle)
       inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
@@ -109,7 +109,7 @@ module PerfectShape
       ang_ext = -ang_ext if backwards
       return true if ang_ext >= 360.0
 
-      angle = normalize_degrees(angle) - normalize_degrees(getAngleStart())
+      angle = normalize_degrees(angle) - normalize_degrees(start)
       angle = -angle if backwards
       angle += 360.0 if angle < 0.0
 
