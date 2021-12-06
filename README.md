@@ -1,5 +1,6 @@
 # Perfect Shape 0.0.1
 ## Geometric Algorithms
+[![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
 `PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.
 
