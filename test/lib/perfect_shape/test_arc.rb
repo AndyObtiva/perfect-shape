@@ -1,10 +1,10 @@
 require 'puts_debuggerer'
 require 'minitest/autorun'
 
-require_relative '../../lib/perfect-shape'
+require_relative '../../../lib/perfect-shape'
 
 describe PerfectShape do
-  describe 'Arc' do
+  describe PerfectShape::Arc do
     it 'constructs with chord type and dimensions' do
       arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
       
@@ -17,7 +17,7 @@ describe PerfectShape do
       _(arc.extent).must_equal 90
     end
     
-    it 'constructs with chord type and defaults' do
+    it 'constructs with open type defaults' do
       arc = PerfectShape::Arc.new
 
       _(arc.type).must_equal :open
@@ -48,7 +48,7 @@ describe PerfectShape do
       _(arc.extent).must_equal 90
     end
     
-    it 'contains point' do
+    it 'contains point with chord type' do
       arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
       
