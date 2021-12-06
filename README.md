@@ -1,7 +1,11 @@
 # Perfect Shape
 ## Geometric Algorithms
 
-Perfect Shape is a collection of geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.
+`PerfectShape` is a collection of geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like containment of a point in popular geometric shapes such as rectangle, square, arc, circle, polygon, polyline, and paths containing lines, bezier curves, and quadratic curves.
+
+Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
+
+To ensure accuracy, this library does all its mathematical operations with `BigDecimal` numbers.
 
 ## Contributing to perfect-shape
 

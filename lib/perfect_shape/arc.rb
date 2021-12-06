@@ -28,17 +28,43 @@ module PerfectShape
     
     def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)
       @type = type
-      @x = x
-      @y = y
-      @width = width
-      @height = height
-      @start = start
-      @extent = extent
+      self.x = x
+      self.y = y
+      self.width = width
+      self.height = height
+      self.start = start
+      self.extent = extent
+    end
+    
+    def x=(value)
+      @x = BigDecimal(value)
+    end
+    
+    def y=(value)
+      @y = BigDecimal(value)
+    end
+    
+    def width=(value)
+      @width = BigDecimal(value)
+    end
+    
+    def height=(value)
+      @height = BigDecimal(value)
+    end
+    
+    def start=(value)
+      @start = BigDecimal(value)
+    end
+    
+    def extent=(value)
+      @extent = BigDecimal(value)
     end
     
     def contain?(x_or_point, y = nil)
       x = x_or_point
       x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
+      x = BigDecimal(x)
+      y = BigDecimal(y)
       return unless x && y
       # Normalize the coordinates compared to the ellipse
       # having a center at 0,0 and a radius of 0.5.
@@ -48,14 +74,14 @@ module PerfectShape
       ellh = height
       return false if (ellh <= 0.0)
       normy = (y - self.y) / ellh - 0.5
-      dist_sq = (normx * normx + normy * normy)
+      dist_sq = (normx * normx) + (normy * normy)
       return false if (dist_sq >= 0.25)
-      double ang_ext = self.extent.abs
+      ang_ext = self.extent.abs
       return true if (ang_ext >= 360.0)
       # TODO
-      inarc = contain_angle?(-1*radians_to_degrees(Math.atan2(normy, normx)));
+      inarc = contain_angle?(-1*radians_to_degrees(Math.atan2(normy, normx)))
       
-      return inarc if type == PIE
+      return inarc if type == :pie
       # CHORD and OPEN behave the same way
       if inarc
         return true if ang_ext >= 180.0
@@ -67,7 +93,7 @@ module PerfectShape
       
       # The point is inside the pie triangle iff it is on the same
       # side of the line connecting the ends of the arc as the center.
-      angle = radians_to_degrees(-start);
+      angle = radians_to_degrees(-start)
       x1 = Math.cos(angle)
       y1 = Math.sin(angle)
       angle += radians_to_degrees(-getAngleExtent())
@@ -75,7 +101,7 @@ module PerfectShape
       y2 = Math.sin(angle)
       inside = (Line.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
                         Line.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0)
-      inarc ? !inside : inside;
+      inarc ? !inside : inside
     end
     
     def contain_angle?(angle)
@@ -96,8 +122,7 @@ module PerfectShape
         if angle <= (180.0 + 360.0)
           angle = angle - 360.0
         else
-#           angle = Math.IEEEremainder(angle, 360.0); # TODO
-          angle = angle%360.0
+          angle = Math.ieee_remainder(angle, 360.0)
           # IEEEremainder can return -180 here for some input values...
           angle = 180.0 if angle == -180.0
         end
@@ -105,8 +130,7 @@ module PerfectShape
         if angle > (-180.0 - 360.0)
           angle = angle + 360.0
         else
-#           angle = Math.IEEEremainder(angle, 360.0); # TODO
-          angle = angle%360.0
+          angle = Math.ieee_remainder(angle, 360.0)
           # IEEEremainder can return -180 here for some input values...
           angle = 180.0 if angle == -180.0
         end
