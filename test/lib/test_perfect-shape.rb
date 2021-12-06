@@ -49,7 +49,7 @@ describe PerfectShape do
     end
     
     it 'contains point' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 0, extent: 360)
+      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [arc.x + arc.width / 2, arc.y + arc.height / 2]
       
       _(arc).must_be :contain?, point

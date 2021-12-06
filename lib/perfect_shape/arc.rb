@@ -37,27 +37,27 @@ module PerfectShape
     end
     
     def x=(value)
-      @x = BigDecimal(value)
+      @x = BigDecimal(value.to_s)
     end
     
     def y=(value)
-      @y = BigDecimal(value)
+      @y = BigDecimal(value.to_s)
     end
     
     def width=(value)
-      @width = BigDecimal(value)
+      @width = BigDecimal(value.to_s)
     end
     
     def height=(value)
-      @height = BigDecimal(value)
+      @height = BigDecimal(value.to_s)
     end
     
     def start=(value)
-      @start = BigDecimal(value)
+      @start = BigDecimal(value.to_s)
     end
     
     def extent=(value)
-      @extent = BigDecimal(value)
+      @extent = BigDecimal(value.to_s)
     end
     
     def contain?(x_or_point, y = nil)
@@ -78,7 +78,6 @@ module PerfectShape
       return false if (dist_sq >= 0.25)
       ang_ext = self.extent.abs
       return true if (ang_ext >= 360.0)
-      # TODO
       inarc = contain_angle?(-1*radians_to_degrees(Math.atan2(normy, normx)))
       
       return inarc if type == :pie

@@ -5,7 +5,7 @@
 
 Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
 
-To ensure accuracy, this library does all its mathematical operations with `BigDecimal` numbers.
+To ensure high accuracy, this library does all its mathematical operations with `BigDecimal` numbers.
 
 ## Contributing to perfect-shape
 
