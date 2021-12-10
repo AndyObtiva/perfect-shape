@@ -19,26 +19,39 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'perfect_shape/shape'
-require 'perfect_shape/rectangular_shape'
-
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html
-  class Rectangle < Shape
-    include RectangularShape
+  # Mixin Module for Rectangular Shapes (having x, y, width, height)
+  # Can only be mixed into a class extending Shape or another module
+  module RectangularShape
+    attr_reader :x, :y, :width, :height
     
-    # Checks if rectangle contains point denoted by point (two-number Array or x, y args)
-    #
-    # @param x The X coordinate of the point to test.
-    # @param y The Y coordinate of the point to test.
-    #
-    # @return {@code true} if the point lies within the bound of
-    # the rectangle, {@code false} if the point lies outside of the
-    # rectangle's bounds.
-    def contain?(x_or_point, y = nil)
-      x, y = normalize_point(x_or_point, y)
-      return unless x && y
-      x.between?(@x, @x + @width) && y.between?(@y, @y + @height)
+    # Calls super before setting x, y, width, height
+    def initialize(x: 0, y: 0, width: 1, height: 1)
+      super()
+      self.x = x
+      self.y = y
+      self.width = width
+      self.height = height
+    end
+    
+    # Sets x, normalizing to BigDecimal
+    def x=(value)
+      @x = BigDecimal(value.to_s)
+    end
+    
+    # Sets y, normalizing to BigDecimal
+    def y=(value)
+      @y = BigDecimal(value.to_s)
+    end
+    
+    # Sets width, normalizing to BigDecimal
+    def width=(value)
+      @width = BigDecimal(value.to_s)
+    end
+    
+    # Sets height, normalizing to BigDecimal
+    def height=(value)
+      @height = BigDecimal(value.to_s)
     end
   end
 end

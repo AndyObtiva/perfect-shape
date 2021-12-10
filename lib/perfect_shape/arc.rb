@@ -20,38 +20,23 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/rectangular_shape'
 require 'perfect_shape/line'
 
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Arc2D.html
   class Arc < Shape
+    include RectangularShape
+    
     TYPES = [:open, :chord, :pie]
-    attr_accessor :type, :x, :y, :width, :height, :start, :extent
+    attr_accessor :type
+    attr_reader :start, :extent
     
     def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)
+      super(x: x, y: y, width: width, height: height)
       @type = type
-      self.x = x
-      self.y = y
-      self.width = width
-      self.height = height
       self.start = start
       self.extent = extent
-    end
-    
-    def x=(value)
-      @x = BigDecimal(value.to_s)
-    end
-    
-    def y=(value)
-      @y = BigDecimal(value.to_s)
-    end
-    
-    def width=(value)
-      @width = BigDecimal(value.to_s)
-    end
-    
-    def height=(value)
-      @height = BigDecimal(value.to_s)
     end
     
     def start=(value)
