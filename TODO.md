@@ -1,5 +1,7 @@
 # TODO
 
+- Document Glimmer Process
+
 ## Geometry
 
 Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html

@@ -9,7 +9,7 @@ describe PerfectShape do
       arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
 
       _(arc.type).must_equal :chord
-      _(arc.y).must_equal 3
+      _(arc.x).must_equal 2
       _(arc.y).must_equal 3
       _(arc.width).must_equal 50
       _(arc.height).must_equal 60
@@ -40,7 +40,7 @@ describe PerfectShape do
       arc.extent = 90
 
       _(arc.type).must_equal :chord
-      _(arc.y).must_equal 3
+      _(arc.x).must_equal 2
       _(arc.y).must_equal 3
       _(arc.width).must_equal 50
       _(arc.height).must_equal 60
@@ -53,7 +53,7 @@ describe PerfectShape do
       point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
 
       _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(arc.contain?(*point)).must_equal arc.contain?(point)
     end
 
     it 'contains point with chord type arc' do
@@ -61,7 +61,7 @@ describe PerfectShape do
       point = [arc.x + arc.width*3/4.0, arc.y + (arc.height / 2.0)]
 
       _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(arc.contain?(*point)).must_equal arc.contain?(point)
     end
     
     it 'does not contain point within bounding box with chord type arc' do

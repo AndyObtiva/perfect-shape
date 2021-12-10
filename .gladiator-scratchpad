@@ -1,0 +1,89 @@
+require 'glimmer-dsl-swt'
+
+class StandardOutGUI
+  include Glimmer::UI::CustomShell
+  
+  before_body do
+    self.output = ''
+    
+    unless $stdout.respond_to?(:puts_without_glimmer)
+      $stdout.singleton_class.class_eval do
+        alias_method(:puts_without_glimmer, :puts)
+        attr_writer :output
+        def output
+          @output ||= []
+        end
+      end
+      
+      def $stdout.puts(value)
+        puts_without_glimmer(value)
+        self.output << value
+      end
+    end
+  end
+  
+  body {
+    shell {
+      grid_layout {
+        margin_width 0
+        margin_height 0
+      }
+      minimum_size 640, 480
+      maximum_size 640, 480
+      
+      composite {
+        row_layout
+        
+        button {
+          text 'Print Something'
+          
+          on_widget_selected do
+            puts ['Hello, World!', 'Howdy, Partner!', 'Aloha, Friend!'].sample
+          end
+        }
+      }
+      text(:multi, :wrap, :v_scroll, :read_only) {
+        layout_data :fill, :fill, true, true
+        text <=> [$stdout, :output, on_read: ->(val) {val.join}, on_write: ->(val) {val.split}]
+      }
+    }
+  }
+end
+
+StandardOutGUI.launch
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -51,6 +51,15 @@ bundle
 - `#extent`: extent angle in degrees
 - `#contain?(x_or_point, y=nil)`: checks if point is in arc
 
+## Process
+
+[Glimmer Process](https://github.com/AndyObtiva/glimmer/blob/master/PROCESS.md)
+
+## Resources
+
+- Rubydoc: https://www.rubydoc.info/gems/perfect-shape
+- AWT Geom JavaDoc: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
+
 ## TODO
 
 [TODO.md](TODO.md)
