@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+$LOAD_PATH.unshift File.expand_path('.', __dir__)
+
 require 'bigdecimal'
 
 # Perfect Shape algorithms are mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html

@@ -19,11 +19,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'line'
+require 'perfect_shape/shape'
+require 'perfect_shape/line'
 
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Arc2D.html
-  class Arc
+  class Arc < Shape
     TYPES = [:open, :chord, :pie]
     attr_accessor :type, :x, :y, :width, :height, :start, :extent
     
@@ -70,10 +71,7 @@ module PerfectShape
     # the arc, {@code false} if the point lies outside of the
     # arc's bounds.
     def contain?(x_or_point, y = nil)
-      x = x_or_point
-      x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
-      x = BigDecimal(x.to_s)
-      y = BigDecimal(y.to_s)
+      x, y = normalize_point(x_or_point, y)
       return unless x && y
       # Normalize the coordinates compared to the ellipse
       # having a center at 0,0 and a radius of 0.5.

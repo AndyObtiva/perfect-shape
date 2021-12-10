@@ -19,9 +19,11 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'perfect_shape/shape'
+
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
-  class Line
+  class Line < Shape
     class << self
       # Returns an indicator of where the specified point (px,py) lies with respect to the line segment from
       # (x1,y1) to (x2,y2).
