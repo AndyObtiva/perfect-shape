@@ -100,6 +100,14 @@ describe PerfectShape do
       _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
     end
     
+    it 'contains point inside rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 25, 3 + 30]
+      
+      _(rectangle).must_be :contain?, point
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
     it 'does not contain point to the top-left of the rectangle' do
       rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
       point = [1, 2]
