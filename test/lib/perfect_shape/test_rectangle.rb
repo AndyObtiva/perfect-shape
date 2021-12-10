@@ -110,7 +110,63 @@ describe PerfectShape do
     
     it 'does not contain point to the top-left of the rectangle' do
       rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
-      point = [1, 2]
+      point = [2 - 1, 3 - 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the top of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 25, 3 - 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the top-right of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 50 + 1, 3 - 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the right of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 50 + 1, 3 + 30]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the bottom-right of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 50 + 1, 3 + 30 + 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the bottom of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 + 25, 3 + 60 + 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the bottom-left of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 - 1, 3 + 60 + 1]
+      
+      _(rectangle.contain?(point)).must_equal false
+      _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
+    end
+    
+    it 'does not contain point to the left of the rectangle' do
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      point = [2 - 1, 3 + 30]
       
       _(rectangle.contain?(point)).must_equal false
       _(rectangle.contain?(*point)).must_equal rectangle.contain?(point)
