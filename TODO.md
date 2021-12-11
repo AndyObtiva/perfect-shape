@@ -23,6 +23,8 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Area: aggregate of multiple shapes
 - AffineTransform: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
+- `RectangularShape` support of `center_x`, `center_y`, `min_x`, `max_x`, `min_y`, `max_y`, `bounds`
+- Shape `intersect?(rectangle)` method
 
 ## Miscellaneous
 

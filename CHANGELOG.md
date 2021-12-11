@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.2
+
+- `PerfectShape::Rectangle`
+- `PerfectShape::Rectangle#contain?(x_or_point, y=nil)`
+
 ## 0.0.1
 
 - `PerfectShape::Math`
