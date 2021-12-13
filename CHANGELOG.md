@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.3
+
+- `PerfectShape::Square`
+
 ## 0.0.2
 
 - `PerfectShape::Rectangle`
