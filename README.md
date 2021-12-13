@@ -1,4 +1,4 @@
-# Perfect Shape 0.0.2
+# Perfect Shape 0.0.3
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.2
+gem install perfect-shape -v 0.0.3
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.2'
+gem 'perfect-shape', '~> 0.0.3'
 ```
 
 And, run:
@@ -47,7 +47,17 @@ bundle
 - `#y`: top-left y
 - `#width`: width
 - `#height`: height
-- `#contain?(x_or_point, y=nil)`: checks if point inside
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
+
+### `PerfectShape::Square`
+
+- `::new(x: 0, y: 0, length: 1)`: constructs a square
+- `#x`: top-left x
+- `#y`: top-left y
+- `#length`: length
+- `#width`: width (equal to length)
+- `#height`: height (equal to length)
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Arc`
 
@@ -58,7 +68,7 @@ bundle
 - `#height`: height of arc
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
-- `#contain?(x_or_point, y=nil)`: checks if point is in arc
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ## Process
 

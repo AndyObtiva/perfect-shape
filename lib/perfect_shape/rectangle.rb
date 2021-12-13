@@ -38,7 +38,7 @@ module PerfectShape
     def contain?(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      x.between?(@x, @x + @width) && y.between?(@y, @y + @height)
+      x.between?(self.x, self.x + self.width) && y.between?(self.y, self.y + self.height)
     end
   end
 end

@@ -3,6 +3,7 @@
 ## 0.0.3
 
 - `PerfectShape::Square`
+- `PerfectShape::Square#contain?(x_or_point, y=nil)`
 
 ## 0.0.2
 
