@@ -1,13 +1,22 @@
 # TODO
 
-- Document Glimmer Process
+## Next
+
+- `PerfectShape::Rectangle` support of `center_x`, `center_y`
+- `PerfectShape::Square` support of `center_x`, `center_y`
+- Have Arc support constructing alternatively with center_x, center_y, radius_x, radius_y
+- Extract normalize_degrees from Arc moving to Math class as class method
+- Include screenshots of the supported shapes in README
+
+## Soon
+
+- Ellipse < Arc
+- Circle < Ellipse
 
 ## Geometry
 
 Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 
-- Ellipse < Arc
-- Circle < Ellipse
 - Path: flexible shape which represents an arbitrary geometric path
 - QuadraticBezierCurve (1 control point)
 - CubicBezierCurve (2 control points)
@@ -17,7 +26,6 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Polybezier
 - Polyline
 - Area: aggregate of multiple shapes
-- `RectangularShape` support of `center_x`, `center_y`, `min_x`, `max_x`, `min_y`, `max_y`, `bounds`
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 - AffineTransform: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
 
@@ -27,8 +35,7 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 
 ## Miscellaneous
 
-- Extract normalize_degrees from Arc moving to Math class as class method
-- Include screenshots of the supported shapes in README
+None
 
 ## Maybe
 
@@ -36,3 +43,4 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Consider contributing IEEEremainder to Ruby
 - Contribute this type of expectation: _(arc).must_be :contain?, *point to Minitest Expectations
 - Maybe contribute xit to minitest expectations
+- `RectangularShape` support of `bounds`, `min_x`, `max_x`, `min_y`, `max_y`

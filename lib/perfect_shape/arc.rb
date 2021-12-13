@@ -32,8 +32,8 @@ module PerfectShape
     attr_accessor :type
     attr_reader :start, :extent
     
-    def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)
-      super(x: x, y: y, width: width, height: height)
+    def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)
+      super(x: x, y: y, width: width, height: height, center_x: center_x, center_y: center_y, radius_x: radius_x, radius_y: radius_y)
       @type = type
       self.start = start
       self.extent = extent

@@ -2,7 +2,7 @@
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
-`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc, ellipse, circle, polygon, polyline, polybezier, and paths containing lines, bezier curves, and quadratic curves.
+`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, polyline, polybezier, and paths containing lines, bezier curves, and quadratic curves.
 
 Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
 
@@ -42,6 +42,8 @@ bundle
 
 ### `PerfectShape::Rectangle`
 
+![rectangle](images/rectangle.png)
+
 - `::new(x: 0, y: 0, width: 1, height: 1)`: constructs a rectangle
 - `#x`: top-left x
 - `#y`: top-left y
@@ -50,6 +52,8 @@ bundle
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Square`
+
+![square](images/square.png)
 
 - `::new(x: 0, y: 0, length: 1)`: constructs a square
 - `#x`: top-left x
@@ -60,6 +64,12 @@ bundle
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Arc`
+
+Arcs can be of type `:open`, `:chord`, or `:pie`
+
+Open Arc | Chord Arc | Pie Arc
+---------|-----------|--------
+![arc-open](images/arc-open.png) | ![arc-chord](images/arc-chord.png) | ![arc-pie](images/arc-pie.png)
 
 - `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
 - `#x`: top-left x of arc
