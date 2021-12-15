@@ -3,6 +3,7 @@
 ## 0.0.4
 
 - `PerfectShape::Arc#center_x` / `PerfectShape::Arc#center_y` / `PerfectShape::Arc#radius_x` / `PerfectShape::Arc#radius_y`
+- `PerfectShape::Rectangle#center_x` / `PerfectShape::Arc#center_y`
 
 ## 0.0.3
 

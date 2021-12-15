@@ -8,19 +8,23 @@ describe PerfectShape do
     it 'constructs with dimensions' do
       rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
 
-      _(rectangle.y).must_equal 3
+      _(rectangle.x).must_equal 2
       _(rectangle.y).must_equal 3
       _(rectangle.width).must_equal 50
       _(rectangle.height).must_equal 60
+      _(rectangle.center_x).must_equal 2 + 25
+      _(rectangle.center_y).must_equal 3 + 30
     end
     
     it 'constructs with defaults' do
       rectangle = PerfectShape::Rectangle.new
 
-      _(rectangle.y).must_equal 0
+      _(rectangle.x).must_equal 0
       _(rectangle.y).must_equal 0
       _(rectangle.width).must_equal 1
       _(rectangle.height).must_equal 1
+      _(rectangle.center_x).must_equal 0.5
+      _(rectangle.center_y).must_equal 0.5
     end
     
     it 'updates attributes' do
@@ -34,6 +38,8 @@ describe PerfectShape do
       _(rectangle.y).must_equal 3
       _(rectangle.width).must_equal 50
       _(rectangle.height).must_equal 60
+      _(rectangle.center_x).must_equal 2 + 25
+      _(rectangle.center_y).must_equal 3 + 30
     end
     
     it 'contains point at the top-left corner' do

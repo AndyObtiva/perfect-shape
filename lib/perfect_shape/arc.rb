@@ -33,7 +33,14 @@ module PerfectShape
     attr_reader :start, :extent
     
     def initialize(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)
-      super(x: x, y: y, width: width, height: height, center_x: center_x, center_y: center_y, radius_x: radius_x, radius_y: radius_y)
+      if center_x && center_y && radius_x && radius_y
+        self.center_x = center_x
+        self.center_y = center_y
+        self.radius_x = radius_x
+        self.radius_y = radius_y
+      else
+        super(x: x, y: y, width: width, height: height)
+      end
       @type = type
       self.start = start
       self.extent = extent
@@ -45,6 +52,86 @@ module PerfectShape
     
     def extent=(value)
       @extent = BigDecimal(value.to_s)
+    end
+    
+    def x
+      @center_x && @radius_x ? @center_x - @radius_x : super
+    end
+    
+    def y
+      @center_y && @radius_y ? @center_y - @radius_y : super
+    end
+    
+    def width
+      @radius_x ? @radius_x * BigDecimal('2.0') : super
+    end
+    
+    def height
+      @radius_y ? @radius_y * BigDecimal('2.0') : super
+    end
+    
+    # Sets x, normalizing to BigDecimal
+    def x=(value)
+      super
+      @center_x = nil
+      self.width = width if @radius_x
+    end
+    
+    # Sets y, normalizing to BigDecimal
+    def y=(value)
+      super
+      @center_y = nil
+      self.height = height if @radius_y
+    end
+    
+    # Sets width, normalizing to BigDecimal
+    def width=(value)
+      super
+      @radius_x = nil
+    end
+    
+    # Sets height, normalizing to BigDecimal
+    def height=(value)
+      super
+      @radius_y = nil
+    end
+    
+    def center_x
+      super || @center_x
+    end
+    
+    def center_y
+      super || @center_y
+    end
+    
+    def radius_x
+      @width ? @width/BigDecimal('2.0') : @radius_x
+    end
+    
+    def radius_y
+      @height ? @height/BigDecimal('2.0') : @radius_y
+    end
+    
+    def center_x=(value)
+      @center_x = BigDecimal(value.to_s)
+      @x = nil
+      self.radius_x = radius_x if @width
+    end
+    
+    def center_y=(value)
+      @center_y = BigDecimal(value.to_s)
+      @y = nil
+      self.radius_y = radius_y if @height
+    end
+    
+    def radius_x=(value)
+      @radius_x = BigDecimal(value.to_s)
+      @width = nil
+    end
+    
+    def radius_y=(value)
+      @radius_y = BigDecimal(value.to_s)
+      @height = nil
     end
     
     # Checks if arc contains point denoted by point (two-number Array or x, y args)
