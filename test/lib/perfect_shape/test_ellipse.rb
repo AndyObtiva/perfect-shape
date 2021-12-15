@@ -100,137 +100,91 @@ describe PerfectShape do
       _(ellipse.radius_y).must_equal 30
     end
 
-#     it 'contains point with chord type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(*point)).must_equal ellipse.contain?(point)
-#     end
-#
-#     it 'contains point with chord type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
-#       point = [ellipse.x + ellipse.width*3/4.0, ellipse.y + (ellipse.height / 2.0)]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(*point)).must_equal ellipse.contain?(point)
-#     end
-#
-#     it 'does not contain point within bounding box with chord type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
-#       point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + (ellipse.height / 2.0)]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point in center of chord type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point within bounding box with chord type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [3.0, 4.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside bounding box with chord type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [1.0, 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'contains point with open type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
-#     end
-#
-#     it 'contains point with open type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
-#       point = [ellipse.x + ellipse.width*3/4.0, ellipse.y + (ellipse.height / 2.0)]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
-#     end
-#
-#     it 'does not contain point within bounding box with open type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
-#       point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + (ellipse.height / 2.0)]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point in center of open type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point within bounding box with open type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [3.0, 4.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside bounding box with open type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [1.0, 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'contains point with pie type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
-#     end
-#
-#     it 'contains point in center of pie type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-#       point = [ellipse.x + ellipse.width / 2.0, ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
-#     end
-#
-#     it 'contains point with pie type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-#       point = [ellipse.x + ellipse.width / 2.0 + (ellipse.width / 4.0), ellipse.y + (ellipse.height / 2.0) - (ellipse.height / 4.0)]
-#
-#       _(ellipse).must_be :contain?, point
-#       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
-#     end
-#
-#     it 'does not contain point within bounding box with pie type ellipse' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-#       point = [ellipse.x + (ellipse.width / 2.0) - (ellipse.width / 4.0), ellipse.y + ellipse.height / 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point within bounding box with pie type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [3.0, 4.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside bounding box with pie type circle' do
-#       ellipse = PerfectShape::Ellipse.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-#       point = [1.0, 2.0]
-#
-#       _(ellipse.contain?(point)).must_equal false
-#     end
+    it 'contains point in center' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.center_x, ellipse.center_y]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near left' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 1.0 / 4.0, ellipse.y + (ellipse.height * 2.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near right' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 3.0 / 4.0, ellipse.y + (ellipse.height * 2.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near top-right' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 3.0 / 4.0, ellipse.y + (ellipse.height * 1.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near top' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 2.0 / 4.0, ellipse.y + (ellipse.height * 1.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near top-left' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 1.0 / 4.0, ellipse.y + (ellipse.height * 1.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near bottom-right' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 3.0 / 4.0, ellipse.y + (ellipse.height * 3.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near bottom' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 2.0 / 4.0, ellipse.y + (ellipse.height * 3.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'contains point near bottom-left' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 60, height: 40)
+      point = [ellipse.x + ellipse.width * 1.0 / 4.0, ellipse.y + (ellipse.height * 3.0 / 4.0)]
+
+      _(ellipse).must_be :contain?, point
+      _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
+      point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + 0.1]
+
+      _(ellipse.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
+      point = [0, 0]
+
+      _(ellipse.contain?(point)).must_equal false
+    end
+
   end
 end
