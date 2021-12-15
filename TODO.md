@@ -2,11 +2,10 @@
 
 ## Next
 
-- Include screenshots of the supported shapes in README
+- Ellipse < Arc
 
 ## Soon
 
-- Ellipse < Arc
 - Circle < Ellipse
 
 ## Geometry
