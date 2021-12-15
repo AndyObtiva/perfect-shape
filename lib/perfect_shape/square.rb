@@ -37,22 +37,20 @@ module PerfectShape
     # Sets length, normalizing to BigDecimal
     def length=(value)
       @length = BigDecimal(value.to_s)
+      self.width = value unless width == value
+      self.height = value unless height == value
     end
     
     def width=(value)
-      self.length = value
+      super
+      self.length = value unless length == value
+      self.height = value unless height == value
     end
     
     def height=(value)
-      self.length = value
-    end
-    
-    def width
-      length
-    end
-    
-    def height
-      length
+      super
+      self.length = value unless length == value
+      self.width = value unless width == value
     end
   end
 end

@@ -8,35 +8,43 @@ describe PerfectShape do
     it 'constructs with dimensions' do
       square = PerfectShape::Square.new(x: 2, y: 3, length: 50)
 
-      _(square.y).must_equal 3
+      _(square.x).must_equal 2
       _(square.y).must_equal 3
       _(square.length).must_equal 50
       _(square.width).must_equal 50
       _(square.height).must_equal 50
+      _(square.center_x).must_equal 2 + 25
+      _(square.center_y).must_equal 3 + 25
       
       square = PerfectShape::Square.new(x: 2, y: 3, width: 50)
 
-      _(square.y).must_equal 3
+      _(square.x).must_equal 2
       _(square.y).must_equal 3
       _(square.length).must_equal 50
       _(square.width).must_equal 50
       _(square.height).must_equal 50
+      _(square.center_x).must_equal 2 + 25
+      _(square.center_y).must_equal 3 + 25
       
       square = PerfectShape::Square.new(x: 2, y: 3, height: 50)
 
-      _(square.y).must_equal 3
+      _(square.x).must_equal 2
       _(square.y).must_equal 3
       _(square.length).must_equal 50
       _(square.width).must_equal 50
       _(square.height).must_equal 50
+      _(square.center_x).must_equal 2 + 25
+      _(square.center_y).must_equal 3 + 25
       
       square = PerfectShape::Square.new(x: 2, y: 3, width: 50, height: 50)
 
-      _(square.y).must_equal 3
+      _(square.x).must_equal 2
       _(square.y).must_equal 3
       _(square.length).must_equal 50
       _(square.width).must_equal 50
       _(square.height).must_equal 50
+      _(square.center_x).must_equal 2 + 25
+      _(square.center_y).must_equal 3 + 25
     end
     
     it 'fails to construct with width, height, and length not equal' do
@@ -49,11 +57,13 @@ describe PerfectShape do
     it 'constructs with defaults' do
       square = PerfectShape::Square.new
 
-      _(square.y).must_equal 0
+      _(square.x).must_equal 0
       _(square.y).must_equal 0
       _(square.length).must_equal 1
       _(square.width).must_equal 1
       _(square.height).must_equal 1
+      _(square.center_x).must_equal 0.5
+      _(square.center_y).must_equal 0.5
     end
 
     it 'updates attributes' do
@@ -67,6 +77,8 @@ describe PerfectShape do
       _(square.length).must_equal 50
       _(square.width).must_equal 50
       _(square.height).must_equal 50
+      _(square.center_x).must_equal 2 + 25
+      _(square.center_y).must_equal 3 + 25
       
       square.width = 40
       
@@ -75,6 +87,8 @@ describe PerfectShape do
       _(square.length).must_equal 40
       _(square.width).must_equal 40
       _(square.height).must_equal 40
+      _(square.center_x).must_equal 2 + 20
+      _(square.center_y).must_equal 3 + 20
       
       square.height = 30
       _(square.x).must_equal 2
@@ -82,6 +96,8 @@ describe PerfectShape do
       _(square.length).must_equal 30
       _(square.width).must_equal 30
       _(square.height).must_equal 30
+      _(square.center_x).must_equal 2 + 15
+      _(square.center_y).must_equal 3 + 15
     end
 
     it 'contains point at the top-left corner' do

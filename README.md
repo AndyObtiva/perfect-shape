@@ -49,6 +49,8 @@ bundle
 - `#y`: top-left y
 - `#width`: width
 - `#height`: height
+- `#center_x`: center x
+- `#center_y`: center y
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Square`
@@ -61,6 +63,8 @@ bundle
 - `#length`: length
 - `#width`: width (equal to length)
 - `#height`: height (equal to length)
+- `#center_x`: center x
+- `#center_y`: center y
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Arc`
@@ -71,13 +75,17 @@ Open Arc | Chord Arc | Pie Arc
 ---------|-----------|--------
 ![arc-open](images/arc-open.png) | ![arc-chord](images/arc-chord.png) | ![arc-pie](images/arc-pie.png)
 
-- `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
+- `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
 - `#x`: top-left x of arc
 - `#y`: top-left y of arc
 - `#width`: width of arc
 - `#height`: height of arc
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
+- `#center_x`: center x
+- `#center_y`: center y
+- `#radius_x`: radius along the x-axis
+- `#radius_y`: radius along the y-axis
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ## Process

@@ -2,9 +2,6 @@
 
 ## Next
 
-- `PerfectShape::Rectangle` support of `center_x`, `center_y`
-- `PerfectShape::Square` support of `center_x`, `center_y`
-- Have Arc support constructing alternatively with center_x, center_y, radius_x, radius_y
 - Extract normalize_degrees from Arc moving to Math class as class method
 - Include screenshots of the supported shapes in README
 
