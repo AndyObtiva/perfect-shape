@@ -1,8 +1,8 @@
-# Perfect Shape 0.0.4
+# Perfect Shape 0.0.5
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
-`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, polyline, polybezier, and paths containing lines, bezier curves, and quadratic curves.
+`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, polyline, polyquad, polycubic, and paths containing lines, bezier curves, and quadratic curves.
 
 Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.4
+gem install perfect-shape -v 0.0.5
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.4'
+gem 'perfect-shape', '~> 0.0.5'
 ```
 
 And, run:
@@ -43,6 +43,8 @@ bundle
 
 ### `PerfectShape::Rectangle`
 
+Includes `PerfectShape::RectangularShape`
+
 ![rectangle](images/rectangle.png)
 
 - `::new(x: 0, y: 0, width: 1, height: 1)`: constructs a rectangle
@@ -55,6 +57,8 @@ bundle
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Square`
+
+Extends `PerfectShape::Rectangle`
 
 ![square](images/square.png)
 
@@ -70,6 +74,8 @@ bundle
 
 ### `PerfectShape::Arc`
 
+Includes `PerfectShape::RectangularShape`
+
 Arcs can be of type `:open`, `:chord`, or `:pie`
 
 Open Arc | Chord Arc | Pie Arc
@@ -77,6 +83,7 @@ Open Arc | Chord Arc | Pie Arc
 ![arc-open](images/arc-open.png) | ![arc-chord](images/arc-chord.png) | ![arc-pie](images/arc-pie.png)
 
 - `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
+- `#type`: `:open`, `:chord`, or `:pie`
 - `#x`: top-left x of arc
 - `#y`: top-left y of arc
 - `#width`: width of arc
@@ -87,6 +94,26 @@ Open Arc | Chord Arc | Pie Arc
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
 - `#radius_y`: radius along the y-axis
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
+
+### `PerfectShape::Ellipse`
+
+Extends `PerfectShape::Arc`
+
+![ellipse](images/ellipse.png)
+
+- `::new(x: 0, y: 0, width: 1, height: 1, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an ellipse
+- `#x`: top-left x of arc
+- `#y`: top-left y of arc
+- `#width`: width of arc
+- `#height`: height of arc
+- `#center_x`: center x
+- `#center_y`: center y
+- `#radius_x`: radius along the x-axis
+- `#radius_y`: radius along the y-axis
+- `#type`: always `:open`
+- `#start`: always `0`
+- `#extent`: always `360`
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ## Process

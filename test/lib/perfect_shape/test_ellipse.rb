@@ -172,9 +172,30 @@ describe PerfectShape do
       _(ellipse.contain?(point)).must_equal ellipse.contain?(*point)
     end
 
-    it 'does not contain point within bounding box' do
+    it 'does not contain point near top-right within bounding box' do
       ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
-      point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + 0.1]
+      point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + (ellipse.height * 1.0 / 4.0)]
+
+      _(ellipse.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point near bottom-right within bounding box' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
+      point = [ellipse.x + ellipse.width*(3.9/4.0), ellipse.y + (ellipse.height * 3.0 / 4.0)]
+
+      _(ellipse.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point near top-left within bounding box' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
+      point = [ellipse.x + ellipse.width*(0.1/4.0), ellipse.y + (ellipse.height * 1.0 / 4.0)]
+
+      _(ellipse.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point near bottom-left within bounding box' do
+      ellipse = PerfectShape::Ellipse.new(x: 2, y: 3, width: 67, height: 46)
+      point = [ellipse.x + ellipse.width*(0.1/4.0), ellipse.y + (ellipse.height * 3.0 / 4.0)]
 
       _(ellipse.contain?(point)).must_equal false
     end

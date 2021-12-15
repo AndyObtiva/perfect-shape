@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.5
+
+- `PerfectShape::Ellipse`
+- `PerfectShape::Ellipse#contain?`
+
 ## 0.0.4
 
 - `PerfectShape::Arc#center_x` / `PerfectShape::Arc#center_y` / `PerfectShape::Arc#radius_x` / `PerfectShape::Arc#radius_y`

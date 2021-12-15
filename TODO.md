@@ -2,11 +2,11 @@
 
 ## Next
 
-- Ellipse < Arc
+- Circle < Ellipse
 
 ## Soon
 
-- Circle < Ellipse
+- Polygon
 
 ## Geometry
 
@@ -17,8 +17,8 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - CubicBezierCurve (2 control points)
 - Line
 - GeneralPath: represents a geometric path constructed from straight lines, and quadratic and cubic (Bézier) curves. It can contain multiple subpaths.
-- Polygon
-- Polybezier
+- Polyquad
+- Polycubic
 - Polyline
 - Area: aggregate of multiple shapes
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)

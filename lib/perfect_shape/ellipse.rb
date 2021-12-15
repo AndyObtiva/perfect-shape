@@ -54,5 +54,25 @@ module PerfectShape
         super
       end
     end
+    
+    # Checks if ellipse contains point denoted by point (two-number Array or x, y args)
+    #
+    # @param x The X coordinate of the point to test.
+    # @param y The Y coordinate of the point to test.
+    #
+    # @return {@code true} if the point lies within the bound of
+    # the ellipse, {@code false} if the point lies outside of the
+    # ellipse's bounds.
+    def contain?(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      ellw = self.width
+      return false if ellw <= 0.0
+      normx = (x - self.x) / ellw - 0.5
+      ellh = self.height
+      return false if ellh <= 0.0
+      normy = (y - self.y) / ellh - 0.5
+      (normx * normx + normy * normy) < 0.25
+    end
   end
 end
