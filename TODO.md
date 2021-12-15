@@ -2,7 +2,6 @@
 
 ## Next
 
-- Extract normalize_degrees from Arc moving to Math class as class method
 - Include screenshots of the supported shapes in README
 
 ## Soon

@@ -190,34 +190,11 @@ module PerfectShape
       ang_ext = -ang_ext if backwards
       return true if ang_ext >= 360.0
 
-      angle = normalize_degrees(angle) - normalize_degrees(start)
+      angle = Math.normalize_degrees(angle) - Math.normalize_degrees(start)
       angle = -angle if backwards
       angle += 360.0 if angle < 0.0
 
       (angle >= 0.0) && (angle < ang_ext)
-    end
-    
-    # Normalizes the specified angle into the range -180 to 180.
-    # TODO refactor/extract to Math class
-    def normalize_degrees(angle)
-      if angle > 180.0
-        if angle <= (180.0 + 360.0)
-          angle = angle - 360.0
-        else
-          angle = Math.ieee_remainder(angle, 360.0)
-          # IEEEremainder can return -180 here for some input values...
-          angle = 180.0 if angle == -180.0
-        end
-      elsif angle <= -180.0
-        if angle > (-180.0 - 360.0)
-          angle = angle + 360.0
-        else
-          angle = Math.ieee_remainder(angle, 360.0)
-          # IEEEremainder can return -180 here for some input values...
-          angle = 180.0 if angle == -180.0
-        end
-      end
-      angle
     end
   end
 end

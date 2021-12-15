@@ -6,7 +6,7 @@
 - `PerfectShape::Rectangle#center_x` / `PerfectShape::Arc#center_y`
 - `PerfectShape::Square#center_x` / `PerfectShape::Square#center_y`
 - `PerfectShape::Arc#initialize(center_x: , center_y: , radius_x: , radius_y: )`
-
+- `PerfectShape::Math::normalize_degrees(degrees)` extracted from `PerfectShape::Arc`
 
 ## 0.0.3
 
