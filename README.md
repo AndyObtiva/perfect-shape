@@ -1,4 +1,4 @@
-# Perfect Shape 0.0.5
+# Perfect Shape 0.0.6
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.5
+gem install perfect-shape -v 0.0.6
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.5'
+gem 'perfect-shape', '~> 0.0.6'
 ```
 
 And, run:
@@ -45,13 +45,6 @@ Class
 
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
 
-### `PerfectShape::Line`
-
-Class
-Extends `PerfectShape::Shape`
-
-- `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
-
 ### `PerfectShape::RectangularShape`
 
 Module
@@ -63,6 +56,13 @@ Module
 - `#height`: height
 - `#center_x`: center x
 - `#center_y`: center y
+
+### `PerfectShape::Line`
+
+Class
+Extends `PerfectShape::Shape`
+
+- `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 
 ### `PerfectShape::Rectangle`
 
