@@ -1,9 +1,14 @@
 # Change Log
 
+## 0.0.6
+
+- `PerfectShape::Circle`
+- `PerfectShape::Circle#contain?(x_or_point, y=nil)`
+
 ## 0.0.5
 
 - `PerfectShape::Ellipse`
-- `PerfectShape::Ellipse#contain?`
+- `PerfectShape::Ellipse#contain?(x_or_point, y=nil)`
 
 ## 0.0.4
 

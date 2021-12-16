@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module PerfectShape
+  # Superclass of all shapes
   class Shape
     # Normalizes point args whether two-number Array or x, y args returning
     # normalized point array of two BigDecimal's

@@ -32,17 +32,42 @@ bundle
 
 ### `PerfectShape::Math`
 
+Module
+
 - `::degrees_to_radians(angle)`: converts degrees to radians
 - `::radians_to_degrees(angle)`: converts radians to degrees
 - `::normalize_degrees(angle)`: normalizes the specified angle into the range -180 to 180.
 - `::ieee_remainder(x, y)` (alias: `ieee754_remainder`): [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985) (different from standard % modulo operator as it operates on floats and could return a negative result)
 
+### `PerfectShape::Shape`
+
+Class
+
+- `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
+
 ### `PerfectShape::Line`
+
+Class
+Extends `PerfectShape::Shape`
 
 - `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 
+### `PerfectShape::RectangularShape`
+
+Module
+
+- `#initialize(x: 0, y: 0, width: 1, height: 1)`: initializes a rectangular shape
+- `#x`: top-left x
+- `#y`: top-left y
+- `#width`: width
+- `#height`: height
+- `#center_x`: center x
+- `#center_y`: center y
+
 ### `PerfectShape::Rectangle`
 
+Class
+Extends `PerfectShape::Shape`
 Includes `PerfectShape::RectangularShape`
 
 ![rectangle](images/rectangle.png)
@@ -58,6 +83,7 @@ Includes `PerfectShape::RectangularShape`
 
 ### `PerfectShape::Square`
 
+Class
 Extends `PerfectShape::Rectangle`
 
 ![square](images/square.png)
@@ -74,6 +100,8 @@ Extends `PerfectShape::Rectangle`
 
 ### `PerfectShape::Arc`
 
+Class
+Extends `PerfectShape::Shape`
 Includes `PerfectShape::RectangularShape`
 
 Arcs can be of type `:open`, `:chord`, or `:pie`
@@ -84,10 +112,10 @@ Open Arc | Chord Arc | Pie Arc
 
 - `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
 - `#type`: `:open`, `:chord`, or `:pie`
-- `#x`: top-left x of arc
-- `#y`: top-left y of arc
-- `#width`: width of arc
-- `#height`: height of arc
+- `#x`: top-left x
+- `#y`: top-left y
+- `#width`: width
+- `#height`: height
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
 - `#center_x`: center x
@@ -98,19 +126,43 @@ Open Arc | Chord Arc | Pie Arc
 
 ### `PerfectShape::Ellipse`
 
+Class
 Extends `PerfectShape::Arc`
 
 ![ellipse](images/ellipse.png)
 
 - `::new(x: 0, y: 0, width: 1, height: 1, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an ellipse
-- `#x`: top-left x of arc
-- `#y`: top-left y of arc
-- `#width`: width of arc
-- `#height`: height of arc
+- `#x`: top-left x
+- `#y`: top-left y
+- `#width`: width
+- `#height`: height
 - `#center_x`: center x
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
 - `#radius_y`: radius along the y-axis
+- `#type`: always `:open`
+- `#start`: always `0`
+- `#extent`: always `360`
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
+
+### `PerfectShape::Circle`
+
+Class
+Extends `PerfectShape::Ellipse`
+
+![circle](images/circle.png)
+
+- `::new(x: 0, y: 0, diameter: 1, width: 1, height: 1, center_x: nil, center_y: nil, radius: nil, radius_x: nil, radius_y: nil)`: constructs a circle
+- `#x`: top-left x
+- `#y`: top-left y
+- `#diameter`: diameter
+- `#width`: width (equal to diameter)
+- `#height`: height (equal to diameter)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#radius`: radius
+- `#radius_x`: radius along the x-axis (equal to radius)
+- `#radius_y`: radius along the y-axis (equal to radius)
 - `#type`: always `:open`
 - `#start`: always `0`
 - `#extent`: always `360`
@@ -133,7 +185,7 @@ Extends `PerfectShape::Arc`
 
 [CHANGELOG.md](CHANGELOG.md)
 
-## Contributing to perfect-shape
+## Contributing
 
 -   Check out the latest master to make sure the feature hasn't been
     implemented or the bug hasn't been fixed yet.
