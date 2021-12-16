@@ -36,23 +36,25 @@ describe PerfectShape do
       proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_y: 50) }.must_raise StandardError
       proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50, radius_y: 50) }.must_raise StandardError
     end
-#
-#     it 'constructs with alternate dimensions (center_x, center_y, radius)' do
-#       shape = PerfectShape::Circle.new(center_x: 2 + 25, center_y: 3 + 30, radius: 30)
-#
-#       _(shape.type).must_equal :open
-#       _(shape.start).must_equal 0
-#       _(shape.extent).must_equal 360
-#       _(shape.x).must_equal 2
-#       _(shape.y).must_equal 3
-#       _(shape.width).must_equal 50
-#       _(shape.height).must_equal 60
-#       _(shape.center_x).must_equal 2 + 25
-#       _(shape.center_y).must_equal 3 + 30
-#       _(shape.radius_x).must_equal 25
-#       _(shape.radius_y).must_equal 30
-#     end
-#
+
+    it 'constructs with alternate dimensions (center_x, center_y, radius)' do
+      shape = PerfectShape::Circle.new(center_x: 2 + 30, center_y: 3 + 30, radius: 30)
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter).must_equal 60
+      _(shape.width).must_equal 60
+      _(shape.height).must_equal 60
+      _(shape.center_x).must_equal 2 + 30
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius).must_equal 30
+      _(shape.radius_x).must_equal 30
+      _(shape.radius_y).must_equal 30
+    end
+
 #     it 'constructs with defaults' do
 #       shape = PerfectShape::Circle.new
 #
