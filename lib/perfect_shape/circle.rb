@@ -23,7 +23,12 @@ require 'perfect_shape/ellipse'
 
 module PerfectShape
   class Circle < Ellipse
+    MESSAGE_WIDTH_AND_HEIGHT_AND_DIAMETER_NOT_EQUAL = 'Circle width, height, and diameter must all be equal if more than one is specified; or otherwise keep only one of them in arguments!'
+    MESSAGE_RADIUS_X_AND_RADIUS_Y_AND_RADIUS_NOT_EQUAL = 'Circle radius_x, radius_y, and radius must all be equal if more than one is specified; or otherwise keep only one of them in arguments!'
+    
     def initialize(x: 0, y: 0, width: nil, height: nil, diameter: nil, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil, radius: nil)
+      raise MESSAGE_WIDTH_AND_HEIGHT_AND_DIAMETER_NOT_EQUAL if (diameter && width && diameter != width) || (diameter && height && diameter != height) || (width && height && width != height)
+      raise MESSAGE_RADIUS_X_AND_RADIUS_Y_AND_RADIUS_NOT_EQUAL if (radius && radius_x && radius != radius_x) || (radius && radius_y && radius != radius_y) || (radius_x && radius_y && radius_x != radius_y)
       if center_x && center_y && (radius || radius_x || radius_y)
         radius ||= radius_x || radius_y
         self.radius = radius
