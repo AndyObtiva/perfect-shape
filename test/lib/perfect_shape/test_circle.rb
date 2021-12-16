@@ -22,14 +22,14 @@ describe PerfectShape do
       _(shape.radius_x).must_equal 30
       _(shape.radius_y).must_equal 30
     end
-    
+
     it 'fails to construct with width, height, and diameter not equal' do
       proc { PerfectShape::Circle.new(x: 2, y: 3, width: 30, height: 50) }.must_raise StandardError
       proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50) }.must_raise StandardError
       proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, height: 50) }.must_raise StandardError
       proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50, height: 50) }.must_raise StandardError
     end
-    
+
     it 'fails to construct with radiux_x, radiux_y, and radius not equal' do
       proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius_x: 30, radius_y: 50) }.must_raise StandardError
       proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50) }.must_raise StandardError
@@ -73,51 +73,117 @@ describe PerfectShape do
       _(shape.radius_y).must_equal 0.5
     end
 
-#     it 'updates attributes with standard dimensions (x,y,width,height)' do
-#       shape = PerfectShape::Circle.new
-#       shape.x = 2
-#       shape.y = 3
-#       shape.width = 50
-#       shape.height = 60
-#
-#       _(shape.type).must_equal :open
-#       _(shape.start).must_equal 0
-#       _(shape.extent).must_equal 360
-#       _(shape.x).must_equal 2
-#       _(shape.y).must_equal 3
-#       _(shape.width).must_equal 50
-#       _(shape.height).must_equal 60
-#       _(shape.center_x).must_equal 2 + 25
-#       _(shape.center_y).must_equal 3 + 30
-#       _(shape.radius_x).must_equal 25
-#       _(shape.radius_y).must_equal 30
-#     end
-#
+    it 'updates attributes with standard dimensions (x,y,diameter, width,height)' do
+      shape = PerfectShape::Circle.new
+      shape.x = 2
+      shape.y = 3
+      shape.width = 60
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter).must_equal 60
+      _(shape.width).must_equal 60
+      _(shape.height).must_equal 60
+      _(shape.center_x).must_equal 2 + 30
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius).must_equal 30
+      _(shape.radius_x).must_equal 30
+      _(shape.radius_y).must_equal 30
+
+      shape.width = 50
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter).must_equal 50
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 50
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 25
+      _(shape.radius).must_equal 25
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 25
+
+      shape.diameter = 40
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter).must_equal 40
+      _(shape.width).must_equal 40
+      _(shape.height).must_equal 40
+      _(shape.center_x).must_equal 2 + 20
+      _(shape.center_y).must_equal 3 + 20
+      _(shape.radius).must_equal 20
+      _(shape.radius_x).must_equal 20
+      _(shape.radius_y).must_equal 20
+    end
+    
+    it 'updates attributes with alternate dimensions (center_x,center_y,radius,radius_x,radius_y)' do
+      shape = PerfectShape::Circle.new
+      shape.center_x = 2 + 30
+      shape.center_y = 3 + 30
+      shape.radius_x = 30
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter).must_equal 60
+      _(shape.width).must_equal 60
+      _(shape.height).must_equal 60
+      _(shape.center_x).must_equal 2 + 30
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius).must_equal 30
+      _(shape.radius_x).must_equal 30
+      _(shape.radius_y).must_equal 30
+      
+      shape.radius_y = 25
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2 + 5
+      _(shape.y).must_equal 3 + 5
+      _(shape.diameter).must_equal 50
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 50
+      _(shape.center_x).must_equal 2 + 30
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius).must_equal 25
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 25
+      
+      shape.radius = 20
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2 + 10
+      _(shape.y).must_equal 3 + 10
+      _(shape.diameter).must_equal 40
+      _(shape.width).must_equal 40
+      _(shape.height).must_equal 40
+      _(shape.center_x).must_equal 2 + 30
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius).must_equal 20
+      _(shape.radius_x).must_equal 20
+      _(shape.radius_y).must_equal 20
+    end
+
 #     it 'raises error for attempting to update type, start, or extent' do
 #       shape = PerfectShape::Circle.new
 #       proc { shape.type = :chord }.must_raise StandardError
 #       proc { shape.start = 30 }.must_raise StandardError
 #       proc { shape.extent = 45 }.must_raise StandardError
-#     end
-#
-#     it 'updates attributes with alternate dimensions (center_x,center_y,radius_x,radius_y)' do
-#       shape = PerfectShape::Circle.new
-#       shape.center_x = 2 + 25
-#       shape.center_y = 3 + 30
-#       shape.radius_x = 25
-#       shape.radius_y = 30
-#
-#       _(shape.type).must_equal :open
-#       _(shape.start).must_equal 0
-#       _(shape.extent).must_equal 360
-#       _(shape.x).must_equal 2
-#       _(shape.y).must_equal 3
-#       _(shape.width).must_equal 50
-#       _(shape.height).must_equal 60
-#       _(shape.center_x).must_equal 2 + 25
-#       _(shape.center_y).must_equal 3 + 30
-#       _(shape.radius_x).must_equal 25
-#       _(shape.radius_y).must_equal 30
 #     end
 #
 #     it 'contains point in center' do

@@ -63,5 +63,29 @@ module PerfectShape
       self.radius_x = value unless width == value
       self.radius_y = value unless height == value
     end
+    
+    def width=(value)
+      super
+      self.diameter = value unless diameter == value
+      self.height = value unless height == value
+    end
+    
+    def height=(value)
+      super
+      self.diameter = value unless diameter == value
+      self.width = value unless width == value
+    end
+    
+    def radius_x=(value)
+      super
+      self.radius = value unless radius == value
+      self.radius_y = value unless radius_y == value
+    end
+    
+    def radius_y=(value)
+      super
+      self.radius = value unless radius == value
+      self.radius_x = value unless radius_x == value
+    end
   end
 end
