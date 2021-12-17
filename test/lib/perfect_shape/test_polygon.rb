@@ -92,111 +92,42 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-#     it 'contains point in center' do
-#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       center = [shape.center_x, shape.center_y]
-#
-#       _(shape).must_be :contain?, center
-#       _(shape.contain?(center)).must_equal shape.contain?(*center)
-#     end
-#
-#     it 'contains point near left' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 1.0 / 4.0, shape.y + (shape.height * 2.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near right' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 3.0 / 4.0, shape.y + (shape.height * 2.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near top-right' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 3.0 / 4.0, shape.y + (shape.height * 1.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near top' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 2.0 / 4.0, shape.y + (shape.height * 1.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near top-left' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 1.0 / 4.0, shape.y + (shape.height * 1.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near bottom-right' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 3.0 / 4.0, shape.y + (shape.height * 3.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near bottom' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 2.0 / 4.0, shape.y + (shape.height * 3.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near bottom-left' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width * 1.0 / 4.0, shape.y + (shape.height * 3.0 / 4.0)]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'does not contain point near top-right within bounding box' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width*(3.9/4.0), shape.y + (shape.height * 1.0 / 4.0)]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point near bottom-right within bounding box' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width*(3.9/4.0), shape.y + (shape.height * 3.0 / 4.0)]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point near top-left within bounding box' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width*(0.1/4.0), shape.y + (shape.height * 1.0 / 4.0)]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point near bottom-left within bounding box' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.x + shape.width*(0.1/4.0), shape.y + (shape.height * 3.0 / 4.0)]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside of bounding box' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [0, 0]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
+    it 'contains point in center' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near edge' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [235, 161]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near corner' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [269, 170]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+    
+    it 'does not contain point within bounding box' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [235, 159]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
   end
 end

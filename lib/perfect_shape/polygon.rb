@@ -64,7 +64,8 @@ module PerfectShape
       max_y - min_y if min_y && max_y
     end
     
-    # Checks if polygon contains point denoted by point (two-number Array or x, y args) using the ray casting algorithm (aka odd-even rule)
+    # Checks if polygon contains point denoted by point (two-number Array or x, y args)
+    # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
@@ -72,72 +73,79 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the polygon, {@code false} if the point lies outside of the
     # polygon's bounds.
-#     def contain?(x_or_point, y = nil)
-#       x, y = normalize_point(x_or_point, y)
-#       return unless x && y
-#       npoints = points.count
-#       xpoints = points.map(&:first)
-#       ypoints = points.map(&:last)
-#       if npoints <= 2 || !getBoundingBox().contains(x, y)) {
-#           return false;
-#       }
-#       int hits = 0;
-#
-#       int lastx = xpoints[npoints - 1];
-#       int lasty = ypoints[npoints - 1];
-#       int curx, cury;
-#
-#       // Walk the edges of the polygon
-#       for (int i = 0; i < npoints; lastx = curx, lasty = cury, i++) {
-#           curx = xpoints[i];
-#           cury = ypoints[i];
-#
-#           if (cury == lasty) {
-#               continue;
-#           }
-#
-#           int leftx;
-#           if (curx < lastx) {
-#               if (x >= lastx) {
-#                   continue;
-#               }
-#               leftx = curx;
-#           } else {
-#               if (x >= curx) {
-#                   continue;
-#               }
-#               leftx = lastx;
-#           }
-#
-#           double test1, test2;
-#           if (cury < lasty) {
-#               if (y < cury || y >= lasty) {
-#                   continue;
-#               }
-#               if (x < leftx) {
-#                   hits++;
-#                   continue;
-#               }
-#               test1 = x - curx;
-#               test2 = y - cury;
-#           } else {
-#               if (y < lasty || y >= cury) {
-#                   continue;
-#               }
-#               if (x < leftx) {
-#                   hits++;
-#                   continue;
-#               }
-#               test1 = x - lastx;
-#               test2 = y - lasty;
-#           }
-#
-#           if (test1 < (test2 / (lasty - cury) * (lastx - curx))) {
-#               hits++;
-#           }
-#       }
-#
-#       return ((hits & 1) != 0);
-#     end
+    def contain?(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      npoints = points.count
+      xpoints = points.map(&:first)
+      ypoints = points.map(&:last)
+      return false if npoints <= 2 || !bounding_box.contain?(x, y)
+      hits = 0
+
+      lastx = xpoints[npoints - 1]
+      lasty = ypoints[npoints - 1]
+
+      # Walk the edges of the polygon
+      npoints.times do |i|
+        curx = xpoints[i]
+        cury = ypoints[i]
+
+        if cury == lasty
+          lastx = curx
+          lasty = cury
+          next
+        end
+
+        if curx < lastx
+          if x >= lastx
+            lastx = curx
+            lasty = cury
+            next
+          end
+          leftx = curx
+        else
+          if x >= curx
+            lastx = curx
+            lasty = cury
+            next
+          end
+          leftx = lastx
+        end
+
+        if cury < lasty
+          if y < cury || y >= lasty
+            lastx = curx
+            lasty = cury
+            next
+          end
+          if x < leftx
+            hits += 1
+            lastx = curx
+            lasty = cury
+            next
+          end
+          test1 = x - curx
+          test2 = y - cury
+        else
+          if y < lasty || y >= cury
+            lastx = curx
+            lasty = cury
+            next
+          end
+          if x < leftx
+            hits += 1
+            lastx = curx
+            lasty = cury
+            next
+          end
+          test1 = x - lastx
+          test2 = y - lasty
+        end
+
+        hits += 1 if (test1 < (test2 / (lasty - cury) * (lastx - curx)))
+      end
+
+      (hits & 1) != 0
+    end
   end
 end

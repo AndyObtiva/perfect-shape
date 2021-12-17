@@ -1,4 +1,4 @@
-# Perfect Shape 0.0.6
+# Perfect Shape 0.0.7
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.6
+gem install perfect-shape -v 0.0.7
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.6'
+gem 'perfect-shape', '~> 0.0.7'
 ```
 
 And, run:
@@ -51,7 +51,7 @@ Class
 - `#height`: height
 - `#center_x`: center x
 - `#center_y`: center y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height just as those of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
 
 ### `PerfectShape::RectangularShape`
@@ -69,7 +69,7 @@ Module
 - `#max_y`: max y
 - `#center_x`: center x
 - `#center_y`: center y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 
 ### `PerfectShape::Line`
 
@@ -97,7 +97,7 @@ Includes `PerfectShape::RectangularShape`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Square`
@@ -119,7 +119,7 @@ Extends `PerfectShape::Rectangle`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Arc`
@@ -150,7 +150,7 @@ Open Arc | Chord Arc | Pie Arc
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Ellipse`
@@ -176,7 +176,7 @@ Extends `PerfectShape::Arc`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Circle`
@@ -204,8 +204,27 @@ Extends `PerfectShape::Ellipse`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+
+### `PerfectShape::Polygon`
+
+Class
+Extends `PerfectShape::Shape`
+
+![polygon](images/polygon.png)
+
+- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y coordinates
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width (from min x to max x)
+- `#height`: height (from min y to max y)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#contain?(x_or_point, y=nil)`: checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule))
 
 ## Process
 
