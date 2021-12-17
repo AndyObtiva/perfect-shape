@@ -30,13 +30,14 @@ module PerfectShape
       self.points = points || []
     end
     
+    # Sets points, normalizing to an Array of Arrays of (x,y) pairs as BigDecimal
     def points=(the_points)
       unless the_points.first.is_a?(Array)
         xs = the_points.each_with_index.select {|n, i| i.even?}.map(&:first)
         ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
         the_points = xs.zip(ys)
       end
-      @points = the_points
+      @points = the_points.map {|pair| [BigDecimal(pair.first.to_s), BigDecimal(pair.last.to_s)]}
     end
     
     def min_x
@@ -61,6 +62,14 @@ module PerfectShape
     
     def height
       max_y - min_y if min_y && max_y
+    end
+    
+    def center_x
+      min_x + width/BigDecimal('2.0') if min_x && width
+    end
+    
+    def center_y
+      min_y + height/BigDecimal('2.0') if min_y && height
     end
     
     # Checks if polygon contains point denoted by point (two-number Array or x, y args) using the ray casting algorithm (aka odd-even rule)
