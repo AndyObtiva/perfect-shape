@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.7
+
+- `PerfectShape::Shape#min_x`/`PerfectShape::Shape#min_y`/`PerfectShape::Shape#max_x`/`PerfectShape::Shape#max_y`/`PerfectShape::Shape#center_x`/`PerfectShape::Shape#center_y`/`PerfectShape::Shape#bounding_box`
+
 ## 0.0.6
 
 - `PerfectShape::Circle`

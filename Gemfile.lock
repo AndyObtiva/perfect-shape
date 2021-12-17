@@ -7,6 +7,7 @@ GEM
     builder (3.2.4)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    equalizer (0.0.11)
     faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -92,6 +93,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
+  equalizer (= 0.0.11)
   juwelier (~> 2.1.0)
   minitest (~> 5.14.4)
   puts_debuggerer (~> 0.13.1)

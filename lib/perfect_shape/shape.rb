@@ -22,6 +22,48 @@
 module PerfectShape
   # Superclass of all shapes
   class Shape
+    # Subclasses must implement
+    def min_x
+    end
+    
+    # Subclasses must implement
+    def min_y
+    end
+    
+    # Subclasses must implement
+    def max_x
+    end
+    
+    # Subclasses must implement
+    def max_y
+    end
+    
+    # Subclasses must implement
+    def width
+    end
+    
+    # Subclasses must implement
+    def height
+    end
+    
+    # center_x is min_x + width/2.0 by default
+    # Returns nil if min_x or width are nil
+    def center_x
+      min_x + width / BigDecimal('2.0') if min_x && width
+    end
+    
+    # center_y is min_y + height/2.0 by default
+    # Returns nil if min_y or height are nil
+    def center_y
+      min_y + height / BigDecimal('2.0') if min_y && height
+    end
+    
+    # Rectangle with x = self.min_x, y = self.min_y, width = self.width, height = self.height
+    def bounding_box
+      require 'perfect_shape/rectangle'
+      Rectangle.new(x: min_x, y: min_y, width: width, height: height)
+    end
+  
     # Normalizes point args whether two-number Array or x, y args returning
     # normalized point array of two BigDecimal's
     #

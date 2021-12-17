@@ -2,21 +2,19 @@
 
 ## Next
 
-- Circle < Ellipse
+- Polygon
 
 ## Soon
 
-- Polygon
+- Path: represents a geometric path constructed from straight lines, and quadratic and cubic (Bézier) curves. It can contain multiple subpaths.
 
 ## Geometry
 
 Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 
-- Path: flexible shape which represents an arbitrary geometric path
 - QuadraticBezierCurve (1 control point)
 - CubicBezierCurve (2 control points)
 - Line
-- GeneralPath: represents a geometric path constructed from straight lines, and quadratic and cubic (Bézier) curves. It can contain multiple subpaths.
 - Polyquad
 - Polycubic
 - Polyline

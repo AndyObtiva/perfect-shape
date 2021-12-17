@@ -21,6 +21,11 @@ describe PerfectShape do
       _(shape.radius).must_equal 30
       _(shape.radius_x).must_equal 30
       _(shape.radius_y).must_equal 30
+      _(shape.min_x).must_equal 2
+      _(shape.min_y).must_equal 3
+      _(shape.max_x).must_equal 2 + 60
+      _(shape.max_y).must_equal 3 + 60
+      _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
     end
 
     it 'fails to construct with width, height, and diameter not equal' do

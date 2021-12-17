@@ -27,6 +27,7 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Arc2D.html
   class Arc < Shape
     include RectangularShape
+    include Equalizer.new(:type, :x, :y, :width, :height, :start, :extent)
     
     TYPES = [:open, :chord, :pie]
     attr_accessor :type

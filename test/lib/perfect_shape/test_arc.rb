@@ -6,230 +6,235 @@ require_relative '../../../lib/perfect-shape'
 describe PerfectShape do
   describe PerfectShape::Arc do
     it 'constructs with chord type and dimensions (x,y,width,height)' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
 
-      _(arc.type).must_equal :chord
-      _(arc.x).must_equal 2
-      _(arc.y).must_equal 3
-      _(arc.width).must_equal 50
-      _(arc.height).must_equal 60
-      _(arc.start).must_equal 30
-      _(arc.extent).must_equal 90
-      _(arc.center_x).must_equal 2 + 25
-      _(arc.center_y).must_equal 3 + 30
-      _(arc.radius_x).must_equal 25
-      _(arc.radius_y).must_equal 30
+      _(shape.type).must_equal :chord
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 60
+      _(shape.start).must_equal 30
+      _(shape.extent).must_equal 90
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 30
+      _(shape.min_x).must_equal 2
+      _(shape.min_y).must_equal 3
+      _(shape.max_x).must_equal 2 + 50
+      _(shape.max_y).must_equal 3 + 60
+      _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
     end
 
     it 'constructs with chord type and alternate dimensions (center_x, center_y, radius_x, radius_y)' do
-      arc = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+      shape = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
 
-      _(arc.type).must_equal :chord
-      _(arc.x).must_equal 2
-      _(arc.y).must_equal 3
-      _(arc.width).must_equal 50
-      _(arc.height).must_equal 60
-      _(arc.start).must_equal 30
-      _(arc.extent).must_equal 90
-      _(arc.center_x).must_equal 2 + 25
-      _(arc.center_y).must_equal 3 + 30
-      _(arc.radius_x).must_equal 25
-      _(arc.radius_y).must_equal 30
+      _(shape.type).must_equal :chord
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 60
+      _(shape.start).must_equal 30
+      _(shape.extent).must_equal 90
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 30
     end
 
     it 'constructs with open type defaults' do
-      arc = PerfectShape::Arc.new
+      shape = PerfectShape::Arc.new
 
-      _(arc.type).must_equal :open
-      _(arc.x).must_equal 0
-      _(arc.y).must_equal 0
-      _(arc.width).must_equal 1
-      _(arc.height).must_equal 1
-      _(arc.start).must_equal 0
-      _(arc.extent).must_equal 360
-      _(arc.center_x).must_equal 0.5
-      _(arc.center_y).must_equal 0.5
-      _(arc.radius_x).must_equal 0.5
-      _(arc.radius_y).must_equal 0.5
+      _(shape.type).must_equal :open
+      _(shape.x).must_equal 0
+      _(shape.y).must_equal 0
+      _(shape.width).must_equal 1
+      _(shape.height).must_equal 1
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.center_x).must_equal 0.5
+      _(shape.center_y).must_equal 0.5
+      _(shape.radius_x).must_equal 0.5
+      _(shape.radius_y).must_equal 0.5
     end
 
     it 'updates attributes with standard dimensions (x,y,width,height)' do
-      arc = PerfectShape::Arc.new
-      arc.type = :chord
-      arc.x = 2
-      arc.y = 3
-      arc.width = 50
-      arc.height = 60
-      arc.start = 30
-      arc.extent = 90
+      shape = PerfectShape::Arc.new
+      shape.type = :chord
+      shape.x = 2
+      shape.y = 3
+      shape.width = 50
+      shape.height = 60
+      shape.start = 30
+      shape.extent = 90
 
-      _(arc.type).must_equal :chord
-      _(arc.x).must_equal 2
-      _(arc.y).must_equal 3
-      _(arc.width).must_equal 50
-      _(arc.height).must_equal 60
-      _(arc.start).must_equal 30
-      _(arc.extent).must_equal 90
-      _(arc.center_x).must_equal 2 + 25
-      _(arc.center_y).must_equal 3 + 30
-      _(arc.radius_x).must_equal 25
-      _(arc.radius_y).must_equal 30
+      _(shape.type).must_equal :chord
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 60
+      _(shape.start).must_equal 30
+      _(shape.extent).must_equal 90
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 30
     end
 
     it 'updates attributes with alternate dimensions (center_x,center_y,radius_x,radius_y)' do
-      arc = PerfectShape::Arc.new
-      arc.type = :chord
-      arc.center_x = 2 + 25
-      arc.center_y = 3 + 30
-      arc.radius_x = 25
-      arc.radius_y = 30
-      arc.start = 30
-      arc.extent = 90
+      shape = PerfectShape::Arc.new
+      shape.type = :chord
+      shape.center_x = 2 + 25
+      shape.center_y = 3 + 30
+      shape.radius_x = 25
+      shape.radius_y = 30
+      shape.start = 30
+      shape.extent = 90
 
-      _(arc.type).must_equal :chord
-      _(arc.x).must_equal 2
-      _(arc.y).must_equal 3
-      _(arc.width).must_equal 50
-      _(arc.height).must_equal 60
-      _(arc.start).must_equal 30
-      _(arc.extent).must_equal 90
-      _(arc.center_x).must_equal 2 + 25
-      _(arc.center_y).must_equal 3 + 30
-      _(arc.radius_x).must_equal 25
-      _(arc.radius_y).must_equal 30
+      _(shape.type).must_equal :chord
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 60
+      _(shape.start).must_equal 30
+      _(shape.extent).must_equal 90
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 30
+      _(shape.radius_x).must_equal 25
+      _(shape.radius_y).must_equal 30
     end
 
     it 'contains point with chord type circle' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(*point)).must_equal arc.contain?(point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
-    it 'contains point with chord type arc' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
-      point = [arc.x + arc.width*3/4.0, arc.y + (arc.height / 2.0)]
+    it 'contains point with chord type shape' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
+      point = [shape.x + shape.width*3/4.0, shape.y + (shape.height / 2.0)]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(*point)).must_equal arc.contain?(point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
     
-    it 'does not contain point within bounding box with chord type arc' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
-      point = [arc.x + arc.width*(3.9/4.0), arc.y + (arc.height / 2.0)]
+    it 'does not contain point within bounding box with chord type shape' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
+      point = [shape.x + shape.width*(3.9/4.0), shape.y + (shape.height / 2.0)]
       
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
     
-    it 'does not contain point in center of chord type arc' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+    it 'does not contain point in center of chord type shape' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point within bounding box with chord type circle' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point outside bounding box with chord type circle' do
-      arc = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [1.0, 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'contains point with open type circle' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-    it 'contains point with open type arc' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
-      point = [arc.x + arc.width*3/4.0, arc.y + (arc.height / 2.0)]
+    it 'contains point with open type shape' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
+      point = [shape.x + shape.width*3/4.0, shape.y + (shape.height / 2.0)]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-    it 'does not contain point within bounding box with open type arc' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
-      point = [arc.x + arc.width*(3.9/4.0), arc.y + (arc.height / 2.0)]
+    it 'does not contain point within bounding box with open type shape' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 67, height: 46, start: 45, extent: 270)
+      point = [shape.x + shape.width*(3.9/4.0), shape.y + (shape.height / 2.0)]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
-    it 'does not contain point in center of open type arc' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+    it 'does not contain point in center of open type shape' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point within bounding box with open type circle' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point outside bounding box with open type circle' do
-      arc = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [1.0, 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'contains point with pie type circle' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-    it 'contains point in center of pie type arc' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-      point = [arc.x + arc.width / 2.0, arc.y + arc.height / 2.0]
+    it 'contains point in center of pie type shape' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [shape.x + shape.width / 2.0, shape.y + shape.height / 2.0]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-    it 'contains point with pie type arc' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-      point = [arc.x + arc.width / 2.0 + (arc.width / 4.0), arc.y + (arc.height / 2.0) - (arc.height / 4.0)]
+    it 'contains point with pie type shape' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [shape.x + shape.width / 2.0 + (shape.width / 4.0), shape.y + (shape.height / 2.0) - (shape.height / 4.0)]
 
-      _(arc).must_be :contain?, point
-      _(arc.contain?(point)).must_equal arc.contain?(*point)
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-    it 'does not contain point within bounding box with pie type arc' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
-      point = [arc.x + (arc.width / 2.0) - (arc.width / 4.0), arc.y + arc.height / 2.0]
+    it 'does not contain point within bounding box with pie type shape' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      point = [shape.x + (shape.width / 2.0) - (shape.width / 4.0), shape.y + shape.height / 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point within bounding box with pie type circle' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [3.0, 4.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
 
     it 'does not contain point outside bounding box with pie type circle' do
-      arc = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)
       point = [1.0, 2.0]
 
-      _(arc.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal false
     end
   end
 end

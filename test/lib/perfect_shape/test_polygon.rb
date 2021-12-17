@@ -93,11 +93,11 @@ describe PerfectShape do
     end
 
 #     it 'contains point in center' do
-#       shape = PerfectShape::Polygon.new(x: 2, y: 3, diameter: 60)
-#       point = [shape.center_x, shape.center_y]
+#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+#       center = [shape.center_x, shape.center_y]
 #
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
+#       _(shape).must_be :contain?, center
+#       _(shape.contain?(center)).must_equal shape.contain?(*center)
 #     end
 #
 #     it 'contains point near left' do

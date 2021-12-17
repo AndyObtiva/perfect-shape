@@ -54,12 +54,20 @@ module PerfectShape
       @height = BigDecimal(value.to_s)
     end
     
-    def center_x
-      @x + (@width/BigDecimal('2.0')) if @x && @width
+    def min_x
+      @x
     end
     
-    def center_y
-      @y + (@height/BigDecimal('2.0')) if @y && @height
+    def min_y
+      @y
+    end
+    
+    def max_x
+      @x + width if @x && width
+    end
+    
+    def max_y
+      @y + height if @y && height
     end
   end
 end

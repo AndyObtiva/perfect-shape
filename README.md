@@ -43,6 +43,15 @@ Module
 
 Class
 
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width
+- `#height`: height
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height just as those of shape
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
 
 ### `PerfectShape::RectangularShape`
@@ -54,8 +63,13 @@ Module
 - `#y`: top-left y
 - `#width`: width
 - `#height`: height
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
 - `#center_x`: center x
 - `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 
 ### `PerfectShape::Line`
 
@@ -79,6 +93,11 @@ Includes `PerfectShape::RectangularShape`
 - `#height`: height
 - `#center_x`: center x
 - `#center_y`: center y
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Square`
@@ -96,6 +115,11 @@ Extends `PerfectShape::Rectangle`
 - `#height`: height (equal to length)
 - `#center_x`: center x
 - `#center_y`: center y
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Arc`
@@ -122,6 +146,11 @@ Open Arc | Chord Arc | Pie Arc
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
 - `#radius_y`: radius along the y-axis
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Ellipse`
@@ -143,6 +172,11 @@ Extends `PerfectShape::Arc`
 - `#type`: always `:open`
 - `#start`: always `0`
 - `#extent`: always `360`
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ### `PerfectShape::Circle`
@@ -166,6 +200,11 @@ Extends `PerfectShape::Ellipse`
 - `#type`: always `:open`
 - `#start`: always `0`
 - `#extent`: always `360`
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#bounding_box`: bounding box is a rectangle with x/y = min_x/min_y and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 ## Process

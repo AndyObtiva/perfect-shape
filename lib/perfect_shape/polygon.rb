@@ -64,14 +64,6 @@ module PerfectShape
       max_y - min_y if min_y && max_y
     end
     
-    def center_x
-      min_x + width/BigDecimal('2.0') if min_x && width
-    end
-    
-    def center_y
-      min_y + height/BigDecimal('2.0') if min_y && height
-    end
-    
     # Checks if polygon contains point denoted by point (two-number Array or x, y args) using the ray casting algorithm (aka odd-even rule)
     #
     # @param x The X coordinate of the point to test.
@@ -81,10 +73,71 @@ module PerfectShape
     # the polygon, {@code false} if the point lies outside of the
     # polygon's bounds.
 #     def contain?(x_or_point, y = nil)
-      # TODO
 #       x, y = normalize_point(x_or_point, y)
 #       return unless x && y
-#       x.between?(self.x, self.x + self.width) && y.between?(self.y, self.y + self.height)
+#       npoints = points.count
+#       xpoints = points.map(&:first)
+#       ypoints = points.map(&:last)
+#       if npoints <= 2 || !getBoundingBox().contains(x, y)) {
+#           return false;
+#       }
+#       int hits = 0;
+#
+#       int lastx = xpoints[npoints - 1];
+#       int lasty = ypoints[npoints - 1];
+#       int curx, cury;
+#
+#       // Walk the edges of the polygon
+#       for (int i = 0; i < npoints; lastx = curx, lasty = cury, i++) {
+#           curx = xpoints[i];
+#           cury = ypoints[i];
+#
+#           if (cury == lasty) {
+#               continue;
+#           }
+#
+#           int leftx;
+#           if (curx < lastx) {
+#               if (x >= lastx) {
+#                   continue;
+#               }
+#               leftx = curx;
+#           } else {
+#               if (x >= curx) {
+#                   continue;
+#               }
+#               leftx = lastx;
+#           }
+#
+#           double test1, test2;
+#           if (cury < lasty) {
+#               if (y < cury || y >= lasty) {
+#                   continue;
+#               }
+#               if (x < leftx) {
+#                   hits++;
+#                   continue;
+#               }
+#               test1 = x - curx;
+#               test2 = y - cury;
+#           } else {
+#               if (y < lasty || y >= cury) {
+#                   continue;
+#               }
+#               if (x < leftx) {
+#                   hits++;
+#                   continue;
+#               }
+#               test1 = x - lastx;
+#               test2 = y - lasty;
+#           }
+#
+#           if (test1 < (test2 / (lasty - cury) * (lastx - curx))) {
+#               hits++;
+#           }
+#       }
+#
+#       return ((hits & 1) != 0);
 #     end
   end
 end

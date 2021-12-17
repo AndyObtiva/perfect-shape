@@ -26,7 +26,8 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html
   class Rectangle < Shape
     include RectangularShape
-    
+    include Equalizer.new(:x, :y, :width, :height)
+        
     # Checks if rectangle contains point denoted by point (two-number Array or x, y args)
     #
     # @param x The X coordinate of the point to test.
