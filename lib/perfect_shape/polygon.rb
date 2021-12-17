@@ -27,7 +27,7 @@ module PerfectShape
     attr_reader :points
     
     def initialize(points: nil)
-      self.points = points
+      self.points = points || []
     end
     
     def points=(the_points)
