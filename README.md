@@ -2,7 +2,7 @@
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
-`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, polyline, polyquad, polycubic, and paths containing lines, bezier curves, and quadratic curves.
+`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon (ray casting algorithm/even-odd rule), polyline, polyquad, polycubic, and paths containing lines, bezier curves, and quadratic curves.
 
 Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
 
