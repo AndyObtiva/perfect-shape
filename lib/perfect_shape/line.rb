@@ -20,10 +20,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/multi_point'
 
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line < Shape
+    # TODO provide instance method version of relative_ccw(px, py)
+    # TODO implement ptSegDist
+    # TODO implement contain?(point)
+    # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
     class << self
       # Returns an indicator of where the specified point (px,py) lies with respect to the line segment from
       # (x1,y1) to (x2,y2).
@@ -83,5 +88,8 @@ module PerfectShape
         (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
       end
     end
+    
+    include MultiPoint
+    
   end
 end

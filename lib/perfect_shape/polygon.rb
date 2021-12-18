@@ -20,49 +20,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/multi_point'
 
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/Polygon.html
   class Polygon < Shape
-    attr_reader :points
-    
-    def initialize(points: nil)
-      self.points = points || []
-    end
-    
-    # Sets points, normalizing to an Array of Arrays of (x,y) pairs as BigDecimal
-    def points=(the_points)
-      unless the_points.first.is_a?(Array)
-        xs = the_points.each_with_index.select {|n, i| i.even?}.map(&:first)
-        ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
-        the_points = xs.zip(ys)
-      end
-      @points = the_points.map {|pair| [BigDecimal(pair.first.to_s), BigDecimal(pair.last.to_s)]}
-    end
-    
-    def min_x
-      points.map(&:first).min
-    end
-    
-    def min_y
-      points.map(&:last).min
-    end
-    
-    def max_x
-      points.map(&:first).max
-    end
-    
-    def max_y
-      points.map(&:last).max
-    end
-    
-    def width
-      max_x - min_x if min_x && max_x
-    end
-    
-    def height
-      max_y - min_y if min_y && max_y
-    end
+    include MultiPoint
     
     # Checks if polygon contains point denoted by point (two-number Array or x, y args)
     # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon

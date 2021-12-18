@@ -76,7 +76,19 @@ Module
 Class
 Extends `PerfectShape::Shape`
 
+![line](images/line.png)
+
 - `::relative_ccw(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
+- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y values
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width (from min x to max x)
+- `#height`: height (from min y to max y)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 
 ### `PerfectShape::Rectangle`
 
@@ -214,7 +226,7 @@ Extends `PerfectShape::Shape`
 
 ![polygon](images/polygon.png)
 
-- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y coordinates
+- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y values
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -233,7 +245,7 @@ Extends `PerfectShape::Shape`
 ## Resources
 
 - Rubydoc: https://www.rubydoc.info/gems/perfect-shape
-- AWT Geom JavaDoc: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
+- AWT Geom JavaDoc (inspiration): https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 
 ## TODO
 
