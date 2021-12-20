@@ -6,6 +6,7 @@
 - `PerfectShape::Line#contain?`
 - `PerfectShape::Line#relative_counterclockwise`
 - `PerfectShape::Line#point_segment_distance`
+- Update `PerfectShape::Math::radians_to_degrees`, `PerfectShape::Math::degrees_to_radians`, and `PerfectShape::Math::normalize_degrees` to normalize numbers to `BigDecimal`
 
 ## 0.0.7
 
