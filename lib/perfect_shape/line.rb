@@ -204,5 +204,11 @@ module PerfectShape
       return unless x && y
       Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) == 0
     end
+    
+    def point_segment_distance(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+    end
   end
 end

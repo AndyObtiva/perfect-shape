@@ -86,19 +86,21 @@ describe PerfectShape do
       _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
-#     it 'does not contain point within bounding box' do
-#       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 159]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside of bounding box' do
-#       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [0, 0]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
+    it 'does not contain point' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
+      point = [50, 50.01]
+
+      _(shape.contain?(point)).must_equal false
+    end
+    
+    it 'returns point segment distance' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 0]])
+      point = [0, 1]
+
+      _(shape.point_segment_distance(point)).must_equal 1
+      _(shape.point_segment_distance(point)).must_equal shape.point_segment_distance(*point)
+    end
+    
     # TODO test point_segment_distance, point_segment_distance_square, and relative_counter_clock_wise
   end
 end
