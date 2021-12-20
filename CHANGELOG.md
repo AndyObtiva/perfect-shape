@@ -1,9 +1,13 @@
 # Change Log
 
+## 0.0.9
+
+- `PerfectShape::Line#contain?(x_or_point, y=nil, distance: 0)` (add a distance tolerance fuzz factor option)
+
 ## 0.0.8
 
 - `PerfectShape::Line`
-- `PerfectShape::Line#contain?`
+- `PerfectShape::Line#contain?(x_or_point, y=nil)`
 - `PerfectShape::Line#relative_counterclockwise`
 - `PerfectShape::Line#point_segment_distance`
 - Update `PerfectShape::Math::radians_to_degrees`, `PerfectShape::Math::degrees_to_radians`, and `PerfectShape::Math::normalize_degrees` to normalize numbers to `BigDecimal`

@@ -195,11 +195,12 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the polygon, {@code false} if the point lies outside of the
     # polygon's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, distance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
+      distance = BigDecimal(distance.to_s)
       # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
-      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) == 0
+      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) <= distance
     end
     
     def point_segment_distance(x_or_point, y = nil)
