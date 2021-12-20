@@ -67,10 +67,24 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150
     end
 
-#     it 'returns distance between two points' do
-#       distance = PerfectShape::Point.distance([0, 0], [100, 0])
-#
-#       _(distance).must_equal 100
-#     end
+    it 'returns distance from other point' do
+      shape = PerfectShape::Point.new(200, 0)
+      point = [200, 1]
+
+      _(shape.point_distance(point)).must_equal 1
+      _(shape.point_distance(point)).must_equal shape.point_distance(*point)
+      
+      point = [200, 2]
+
+      _(shape.point_distance(point)).must_equal 2
+      
+      point = [202, 0]
+
+      _(shape.point_distance(point)).must_equal 2
+      
+      point = [200, 0]
+
+      _(shape.point_distance(point)).must_equal 0
+    end
   end
 end

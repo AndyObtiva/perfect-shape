@@ -24,6 +24,13 @@ require 'perfect_shape/shape'
 module PerfectShape
   class Point < Shape
     class << self
+      def point_distance(x, y, px, py)
+        x = BigDecimal(x.to_s)
+        y = BigDecimal(y.to_s)
+        px = BigDecimal(px.to_s)
+        py = BigDecimal(py.to_s)
+        BigDecimal(Math.sqrt((px - x)**2 + (py - y)**2).to_s)
+      end
     end
     
     attr_reader :x, :y
@@ -75,6 +82,12 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance = BigDecimal(distance.to_s)
+    end
+    
+    def point_distance(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      Point.point_distance(self.x, self.y, x, y)
     end
   end
 end
