@@ -28,9 +28,13 @@ module PerfectShape
     
     attr_reader :x, :y
     
-    def initialize(x, y)
-      self.x = x
-      self.y = y
+    def initialize(x_or_point = 0, y = 0)
+      if x_or_point.is_a?(Array)
+        self.x, self.y = x_or_point
+      else
+        self.x = x_or_point
+        self.y = y
+      end
     end
     
     # Sets x, normalizing to BigDecimal
