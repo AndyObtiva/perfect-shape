@@ -199,7 +199,7 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance = BigDecimal(distance.to_s)
-      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) <= distance
+      point_segment_distance(x, y) <= distance
     end
     
     def point_segment_distance(x_or_point, y = nil)

@@ -1,4 +1,4 @@
-# Perfect Shape 0.0.9
+# Perfect Shape 0.0.10
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.9
+gem install perfect-shape -v 0.0.10
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.9'
+gem 'perfect-shape', '~> 0.0.10'
 ```
 
 And, run:
@@ -79,6 +79,9 @@ Extends `PerfectShape::Shape`
 
 ![point](images/point.png)
 
+Points are simply represented by an `Array` of (x,y) coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
+
+- `::point_distance(x, y, px, py)`: Returns the distance from a point to another point
 - `::new(x_or_point=0, y=0)`: constructs a point with (x,y) pair
 - `#min_x`: min x (always x)
 - `#min_y`: min y (always y)
@@ -89,6 +92,8 @@ Extends `PerfectShape::Shape`
 - `#center_x`: center x (always x)
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#contain?(x_or_point, y=nil, distance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape in a GUI more successfully.
+- `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 
 ### `PerfectShape::Line`
 

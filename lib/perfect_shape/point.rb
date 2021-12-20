@@ -82,6 +82,7 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance = BigDecimal(distance.to_s)
+      point_distance(x, y) <= distance
     end
     
     def point_distance(x_or_point, y = nil)

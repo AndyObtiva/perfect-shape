@@ -86,5 +86,43 @@ describe PerfectShape do
 
       _(shape.point_distance(point)).must_equal 0
     end
+    
+    it 'contains point' do
+      shape = PerfectShape::Point.new(200, 100)
+      
+      point = [200, 100]
+      
+      _(shape.contain?(point)).must_equal true
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+    
+    it 'does not contain point' do
+      shape = PerfectShape::Point.new(200, 100)
+      
+      point = [201, 100]
+      
+      _(shape.contain?(point)).must_equal false
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+      
+      point = [200, 101]
+      
+      _(shape.contain?(point)).must_equal false
+      
+      point = [201, 101]
+      
+      _(shape.contain?(point)).must_equal false
+    end
+    
+    it 'contains point within distance' do
+      shape = PerfectShape::Point.new(200, 100)
+      
+      point = [200, 101]
+      
+      _(shape.contain?(point)).must_equal false
+      _(shape.contain?(point, distance: 0.5)).must_equal false
+      _(shape.contain?(point, distance: 1)).must_equal true
+      _(shape.contain?(point, distance: 2)).must_equal true
+      _(shape.contain?(point, distance: 1)).must_equal shape.contain?(*point, distance: 1)
+    end
   end
 end
