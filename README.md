@@ -1,25 +1,25 @@
-# Perfect Shape 0.0.11
+# Perfect Shape 0.1.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
-`PerfectShape` is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon (ray casting algorithm/even-odd rule), polyline, polyquad, polycubic, and paths containing lines, bezier curves, and quadratic curves.
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), polyline, polyquad, polycubic, and [paths](#perfectshapepath) containing [lines](#perfectshapeline), quadratic bézier curves, and cubic bézier curves (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
-Additionally, `PerfectShape::Math` contains some purely mathematical algorithms.
+Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
-To ensure high accuracy, this library does all its mathematical operations with `BigDecimal` numbers.
+To ensure high accuracy, this library does all its mathematical operations with [`BigDecimal`](https://ruby-doc.org/stdlib-3.0.2/libdoc/bigdecimal/rdoc/BigDecimal.html) numbers.
 
 ## Setup
 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.11
+gem install perfect-shape -v 0.1.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.11'
+gem 'perfect-shape', '~> 0.1.0'
 ```
 
 And, run:
@@ -54,7 +54,7 @@ This is a base class for all shapes. It is not meant to be used directly. Subcla
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
-- `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
+- `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of `[x,y]` coordinates
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::PointLocation`
@@ -96,7 +96,7 @@ Includes `PerfectShape::PointLocation`
 
 ![point](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/point.png)
 
-Points are simply represented by an `Array` of (x,y) coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
+Points are simply represented by an `Array` of `[x,y]` coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
 
 - `::point_distance(x, y, px, py)`: Returns the distance from a point to another point
 - `::new(x_or_point=nil, y_arg=nil, x: nil, y: nil)`: constructs a point with (x,y) pair (default: 0,0) whether specified as `Array` of (x,y) pair, flat `x,y` args, or `x:, y:` kwargs.
@@ -119,12 +119,14 @@ Class
 
 Extends `PerfectShape::Shape`
 
+Includes `PerfectShape::MultiPoint`
+
 ![line](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/line.png)
 
 - `::relative_counterclockwise(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `::point_segment_distance_square(x1, y1, x2, y2, px, py)`: Returns the square of distance from a point to a line segment.
 - `::point_segment_distance(x1, y1, x2, y2, px, py)`: Returns the distance from a point to a line segment.
-- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y values
+- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -286,9 +288,11 @@ Class
 
 Extends `PerfectShape::Shape`
 
+Includes `PerfectShape::MultiPoint`
+
 ![polygon](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/polygon.png)
 
-- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y values
+- `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -299,6 +303,32 @@ Extends `PerfectShape::Shape`
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule))
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+### `PerfectShape::Path`
+
+Class
+
+Extends `PerfectShape::Shape`
+
+Includes `PerfectShape::MultiPoint`
+
+![path](/images/path.png)
+
+- `::new(shapes: nil, closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `#shapes`: the shapes that the path is composed of
+- `#closed?`: returns `true` if closed and `false` otherwise
+- `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width (from min x to max x)
+- `#height`: height (from min y to max y)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#contain?(x_or_point, y=nil)`: checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm))
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ## Process

@@ -19,36 +19,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'perfect_shape/shape'
+require 'perfect_shape/multi_point'
+
 module PerfectShape
-  # Point location usually represents the top-left point in a shape
-  module PointLocation
-    attr_reader :x, :y
-    
-    # Calls super before setting x,y (default: 0,0)
-    def initialize(x: 0, y: 0)
-      super()
-      self.x = x
-      self.y = y
-    end
-    
-    # Sets x, normalizing to BigDecimal
-    def x=(value)
-      @x = BigDecimal(value.to_s)
-    end
-    
-    # Sets y, normalizing to BigDecimal
-    def y=(value)
-      @y = BigDecimal(value.to_s)
-    end
-    
-    # Returns x by default. Subclasses may override.
-    def min_x
-      x
-    end
-    
-    # Returns y by default. Subclasses may override.
-    def min_y
-      y
-    end
+  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Path2D.html
+  class Path < Shape
+    include MultiPoint
   end
 end

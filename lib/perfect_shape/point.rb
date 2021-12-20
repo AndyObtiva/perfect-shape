@@ -23,6 +23,7 @@ require 'perfect_shape/shape'
 require 'perfect_shape/point_location'
 
 module PerfectShape
+  # Point class includes point-specific operations like `#==`, `point_distance` and a fuzzy `contain?` matcher
   class Point < Shape
     class << self
       def point_distance(x, y, px, py)
