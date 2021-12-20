@@ -55,13 +55,5 @@ module PerfectShape
     def max_y
       points.map(&:last).max
     end
-    
-    def width
-      max_x - min_x if min_x && max_x
-    end
-    
-    def height
-      max_y - min_y if min_y && max_y
-    end
   end
 end

@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.10
+
+- `PerfectShape::Point`
+- `PerfectShape::Point#point_distance`
+- `PerfectShape::Point#contain?(x_or_point, y=nil, distance: 0)`
+
 ## 0.0.9
 
 - `PerfectShape::Line#contain?(x_or_point, y=nil, distance: 0)` (add a distance tolerance fuzz factor option)
