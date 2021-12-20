@@ -87,9 +87,82 @@ module PerfectShape
         end
         (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
       end
+      
+      def point_segment_distance_square(x1, y1,
+                                       x2, y2,
+                                       px, py)
+        x1 = BigDecimal(x1.to_s)
+        y1 = BigDecimal(y1.to_s)
+        x2 = BigDecimal(x2.to_s)
+        y2 = BigDecimal(y2.to_s)
+        px = BigDecimal(px.to_s)
+        py = BigDecimal(py.to_s)
+        # Adjust vectors relative to x1,y1
+        # x2,y2 becomes relative vector from x1,y1 to end of segment
+        x2 -= x1
+        y2 -= y1
+        # px,py becomes relative vector from x1,y1 to test point
+        px -= x1
+        py -= y1
+        dot_product = px * x2 + py * y2;
+        if dot_product <= 0.0
+          # px,py is on the side of x1,y1 away from x2,y2
+          # distance to segment is length of px,py vector
+          # "length of its (clipped) projection" is now 0.0
+          projected_length_square = BigDecimal('0.0');
+        else
+          # switch to backwards vectors relative to x2,y2
+          # x2,y2 are already the negative of x1,y1=>x2,y2
+          # to get px,py to be the negative of px,py=>x2,y2
+          # the dot product of two negated vectors is the same
+          # as the dot product of the two normal vectors
+          px = x2 - px
+          py = y2 - py
+          dot_product = px * x2 + py * y2
+          if dot_product <= 0.0
+            # px,py is on the side of x2,y2 away from x1,y1
+            # distance to segment is length of (backwards) px,py vector
+            # "length of its (clipped) projection" is now 0.0
+            projected_length_square = BigDecimal('0.0')
+          else
+            # px,py is between x1,y1 and x2,y2
+            # dot_product is the length of the px,py vector
+            # projected on the x2,y2=>x1,y1 vector times the
+            # length of the x2,y2=>x1,y1 vector
+            projected_length_square = dot_product * dot_product / (x2 * x2 + y2 * y2)
+          end
+        end
+        # Distance to line is now the length of the relative point
+        # vector minus the length of its projection onto the line
+        # (which is zero if the projection falls outside the range
+        #  of the line segment).
+        length_square = px * px + py * py - projected_length_square
+        length_square = BigDecimal('0.0') if length_square < 0
+        length_square
+      end
+      
+      def point_segment_distance(x1, y1,
+                                 x2, y2,
+                                 px, py)
+        BigDecimal(::Math.sqrt(point_segment_distance_square(x1, y1, x2, y2, px, py)).to_s)
+      end
     end
     
     include MultiPoint
     
+    # Checks if polygon contains point denoted by point (two-number Array or x, y args)
+    # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon
+    #
+    # @param x The X coordinate of the point to test.
+    # @param y The Y coordinate of the point to test.
+    #
+    # @return {@code true} if the point lies within the bound of
+    # the polygon, {@code false} if the point lies outside of the
+    # polygon's bounds.
+    def contain?(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) == 0
+    end
   end
 end

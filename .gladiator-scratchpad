@@ -1,89 +1,81 @@
 require 'glimmer-dsl-swt'
 
-class StandardOutGUI
-  include Glimmer::UI::CustomShell
-  
-  before_body do
-    self.output = ''
+include Glimmer
+
+class Person
+  class << self
+    def default_greeting=(greeting)
+      @@default_greeting = greeting
+    end
     
-    unless $stdout.respond_to?(:puts_without_glimmer)
-      $stdout.singleton_class.class_eval do
-        alias_method(:puts_without_glimmer, :puts)
-        attr_writer :output
-        def output
-          @output ||= []
-        end
-      end
-      
-      def $stdout.puts(value)
-        puts_without_glimmer(value)
-        self.output << value
-      end
+    def default_greeting
+      @@default_greeting
     end
   end
   
-  body {
-    shell {
-      grid_layout {
-        margin_width 0
-        margin_height 0
-      }
-      minimum_size 640, 480
-      maximum_size 640, 480
-      
-      composite {
-        row_layout
-        
-        button {
-          text 'Print Something'
-          
-          on_widget_selected do
-            puts ['Hello, World!', 'Howdy, Partner!', 'Aloha, Friend!'].sample
-          end
-        }
-      }
-      text(:multi, :wrap, :v_scroll, :read_only) {
-        layout_data :fill, :fill, true, true
-        text <=> [$stdout, :output, on_read: ->(val) {val.join}, on_write: ->(val) {val.split}]
-      }
-    }
-  }
+  def initialize(last_name)
+    @last_name = last_name
+  end
+
+  def last_name
+    @last_name
+  end
 end
 
-StandardOutGUI.launch
+people = []
 
+shell { |window|
+  text "Glimmer"
+  row_layout(:vertical) {
+    fill true
+  }
 
+  label {
+    text "What is the default greeting?"
+  }
 
+  @default_greeting_combo = combo(:read_only) {
+    items ['Hello', 'Hi', 'Howdy', 'Aloha', "What's Up"]
+    text 'Hello'
+    
+    on_widget_selected do
+      Person.default_greeting = @default_greeting_combo.text
+    end
+  }
 
+  label {
+    text "What is your last name?"
+  }
 
+  @last_name_text = text {
+  }
 
+  button {
+    text 'Add'
 
+    on_widget_selected do
+      people << Person.new(@last_name_text.text)
+      @last_names_label.text = "#{@last_names_label.text}\n#{@last_name_text.text}"
+      @last_name_text.text = ''
+      window.pack # resize window to fit new content
+    end
+  }
 
+  @last_names_label = label {
+  }
 
+  button {
+    text 'Greet'
 
+    on_widget_selected do
+      @greeting_label.text = people.map do |person|
+        "#{Person.default_greeting}, #{person.last_name}!"
+      end.join("\n")
+      
+      window.pack
+    end
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @greeting_label = label {
+  }
+}.open

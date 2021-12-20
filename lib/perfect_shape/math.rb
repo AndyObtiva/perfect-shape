@@ -6,33 +6,34 @@ module PerfectShape
   # Also includes standard Ruby ::Math utility methods
   module Math
     class << self
-      # converts angle from radians to degrees
+      # converts angle from radians to degrees (normalizing to BigDecimal)
       def radians_to_degrees(radians)
-        (180/Math::PI)*radians
+        (BigDecimal('180')/Math::PI)*BigDecimal(radians.to_s)
       end
 
-      # converts angle from degrees to radians
+      # converts angle from degrees to radians (normalizing to BigDecimal)
       def degrees_to_radians(degrees)
-        (Math::PI/180)*degrees
+        (Math::PI/BigDecimal('180'))*BigDecimal(degrees.to_s)
       end
         
       # Normalizes the specified angle into the range -180 to 180.
       def normalize_degrees(angle)
+        angle = BigDecimal(angle.to_s)
         if angle > 180.0
           if angle <= (180.0 + 360.0)
-            angle = angle - 360.0
+            angle = angle - BigDecimal('360.0')
           else
             angle = Math.ieee_remainder(angle, 360.0)
             # IEEEremainder can return -180 here for some input values...
-            angle = 180.0 if angle == -180.0
+            angle = BigDecimal('180.0') if angle == -180.0
           end
         elsif angle <= -180.0
           if angle > (-180.0 - 360.0)
-            angle = angle + 360.0
+            angle = angle + BigDecimal('360.0')
           else
             angle = Math.ieee_remainder(angle, 360.0)
             # IEEEremainder can return -180 here for some input values...
-            angle = 180.0 if angle == -180.0
+            angle = BigDecimal('180.0') if angle == -180.0
           end
         end
         angle

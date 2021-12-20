@@ -47,10 +47,6 @@ describe PerfectShape do
       _(shape.center_y).must_equal nil
     end
     
-    it 'raises an error if constructed with one point only' do
-      # TODO
-    end
-
     it 'updates attributes' do
       shape = PerfectShape::Line.new
       shape.points = [[200, 150], [270, 170]]
@@ -66,13 +62,13 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 10
     end
 
-#     it 'contains point in center' do
-#       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [shape.center_x, shape.center_y]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
+    it 'contains point in center' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
 #
 #     it 'contains point near edge' do
 #       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
