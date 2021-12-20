@@ -2,9 +2,8 @@
 
 ## Next
 
-- Refactoring - `PerfectShape::Line#relative_counter_clock_wise` renamed from relative_ccw
 - `PerfectShape::Line#point_segment_distance`
-- `PerfectShape::Point`
+- Document latest changes
 
 ## Soon
 

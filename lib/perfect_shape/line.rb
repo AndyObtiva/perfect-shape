@@ -25,7 +25,7 @@ require 'perfect_shape/multi_point'
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line < Shape
-    # TODO provide instance method version of relative_ccw(px, py)
+    # TODO provide instance method version of relative_counter_clock_wise(px, py)
     # TODO implement ptSegDist
     # TODO implement contain?(point)
     # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
@@ -57,7 +57,7 @@ module PerfectShape
       # @return an integer that indicates the position of the third specified
       #                  coordinates with respect to the line segment formed
       #                  by the first two specified coordinates.
-      def relative_ccw(x1, y1, x2, y2, px, py)
+      def relative_counter_clock_wise(x1, y1, x2, y2, px, py)
         x2 -= x1;
         y2 -= y1;
         px -= x1;
@@ -88,6 +88,26 @@ module PerfectShape
         (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
       end
       
+      # Returns the square of the distance from a point to a line segment.
+      # The distance measured is the distance between the specified
+      # point and the closest point between the specified end points.
+      # If the specified point intersects the line segment in between the
+      # end points, this method returns 0.0.
+      #
+      # @param x1 the X coordinate of the start point of the
+      #           specified line segment
+      # @param y1 the Y coordinate of the start point of the
+      #           specified line segment
+      # @param x2 the X coordinate of the end point of the
+      #           specified line segment
+      # @param y2 the Y coordinate of the end point of the
+      #           specified line segment
+      # @param px the X coordinate of the specified point being
+      #           measured against the specified line segment
+      # @param py the Y coordinate of the specified point being
+      #           measured against the specified line segment
+      # @return a double value that is the square of the distance from the
+      #                  specified point to the specified line segment.
       def point_segment_distance_square(x1, y1,
                                        x2, y2,
                                        px, py)
@@ -141,6 +161,26 @@ module PerfectShape
         length_square
       end
       
+      # Returns the distance from a point to a line segment.
+      # The distance measured is the distance between the specified
+      # point and the closest point between the specified end points.
+      # If the specified point intersects the line segment in between the
+      # end points, this method returns 0.0.
+      #
+      # @param x1 the X coordinate of the start point of the
+      #           specified line segment
+      # @param y1 the Y coordinate of the start point of the
+      #           specified line segment
+      # @param x2 the X coordinate of the end point of the
+      #           specified line segment
+      # @param y2 the Y coordinate of the end point of the
+      #           specified line segment
+      # @param px the X coordinate of the specified point being
+      #           measured against the specified line segment
+      # @param py the Y coordinate of the specified point being
+      #           measured against the specified line segment
+      # @return a double value that is the distance from the specified point
+      #                          to the specified line segment.
       def point_segment_distance(x1, y1,
                                  x2, y2,
                                  px, py)

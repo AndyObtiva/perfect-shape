@@ -69,23 +69,23 @@ describe PerfectShape do
       _(shape).must_be :contain?, point
       _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
-#
-#     it 'contains point near edge' do
-#       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 161]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near corner' do
-#       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [269, 170]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
+
+    it 'contains point at end' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
+      point = [0, 0]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point at other end' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
+      point = [100, 100]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
 #     it 'does not contain point within bounding box' do
 #       shape = PerfectShape::Line.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
 #       point = [235, 159]
@@ -99,5 +99,6 @@ describe PerfectShape do
 #
 #       _(shape.contain?(point)).must_equal false
 #     end
+    # TODO test point_segment_distance, point_segment_distance_square, and relative_counter_clock_wise
   end
 end
