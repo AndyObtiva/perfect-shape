@@ -27,7 +27,7 @@ module PerfectShape
   class Polygon < Shape
     include MultiPoint
     
-    # Checks if polygon contains point denoted by point (two-number Array or x, y args)
+    # Checks if polygon contains point (two-number Array or x, y args)
     # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon
     #
     # @param x The X coordinate of the point to test.

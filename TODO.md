@@ -2,7 +2,12 @@
 
 ## Next
 
-- `PerfectShape::Line#contain?` with a fuzz factor to enable imperfectly selecting a line in a GUI application
+- `PerfectShape::Point`
+- `PerfectShape::Point#point_distance`
+- `PerfectShape::Point#contain?`
+- `PerfectShape::Point#contain?` with a fuzz factor to enable imperfectly selecting a line in a GUI application
+- Refactor to utilize PointLocation in Point and RectangularShape
+- Refactor to utilize default Shape#width and Shape#height implementations
 
 ## Soon
 

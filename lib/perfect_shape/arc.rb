@@ -135,7 +135,7 @@ module PerfectShape
       @height = nil
     end
     
-    # Checks if arc contains point denoted by point (two-number Array or x, y args)
+    # Checks if arc contains point (two-number Array or x, y args)
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.

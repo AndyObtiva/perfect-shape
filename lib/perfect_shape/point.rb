@@ -20,26 +20,57 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
-require 'perfect_shape/rectangular_shape'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html
-  class Rectangle < Shape
-    include RectangularShape
-    include Equalizer.new(:x, :y, :width, :height)
-        
-    # Checks if rectangle contains point (two-number Array or x, y args)
+  class Point < Shape
+    class << self
+    end
+    
+    attr_reader :x, :y
+    
+    def initialize(x, y)
+      self.x = x
+      self.y = y
+    end
+    
+    # Sets x, normalizing to BigDecimal
+    def x=(value)
+      @x = BigDecimal(value.to_s)
+    end
+    
+    # Sets y, normalizing to BigDecimal
+    def y=(value)
+      @y = BigDecimal(value.to_s)
+    end
+    
+    def min_x
+      x
+    end
+    
+    def min_y
+      y
+    end
+    
+    def max_x
+      x
+    end
+    
+    def max_y
+      y
+    end
+    
+    # Checks if points match, with distance tolerance (0 by default)
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
+    # @param distance The distance from point to tolerate (0 by default)
     #
-    # @return {@code true} if the point lies within the bound of
-    # the rectangle, {@code false} if the point lies outside of the
-    # rectangle's bounds.
-    def contain?(x_or_point, y = nil)
+    # @return {@code true} if the point is close enough within distance tolerance,
+    # {@code false} if the point is too far.
+    def contain?(x_or_point, y = nil, distance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      x.between?(self.x, self.x + self.width) && y.between?(self.y, self.y + self.height)
+      distance = BigDecimal(distance.to_s)
     end
   end
 end

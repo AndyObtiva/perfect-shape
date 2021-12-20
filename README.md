@@ -71,6 +71,25 @@ Module
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 
+### `PerfectShape::Point`
+
+Class
+
+Extends `PerfectShape::Shape`
+
+![point](images/point.png)
+
+- `::new(x_or_point=0, y=0)`: constructs a point with (x,y) pair
+- `#min_x`: min x (always x)
+- `#min_y`: min y (always y)
+- `#max_x`: max x (always x + 1)
+- `#max_y`: max y (always y + 1)
+- `#width`: width (always 1)
+- `#height`: height (always 1)
+- `#center_x`: center x (always x)
+- `#center_y`: center y (always y)
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+
 ### `PerfectShape::Line`
 
 Class

@@ -55,7 +55,7 @@ module PerfectShape
       end
     end
     
-    # Checks if ellipse contains point denoted by point (two-number Array or x, y args)
+    # Checks if ellipse contains point (two-number Array or x, y args)
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.

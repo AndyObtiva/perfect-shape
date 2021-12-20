@@ -38,12 +38,16 @@ module PerfectShape
     def max_y
     end
     
-    # Subclasses must implement
+    # Default implementation is max_x - min_x
+    # Subclasses can override
     def width
+      max_x - min_x if max_x && min_x
     end
     
-    # Subclasses must implement
+    # Default implementation is max_y - min_y
+    # Subclasses can override
     def height
+      max_y - min_y if max_y && min_y
     end
     
     # center_x is min_x + width/2.0 by default

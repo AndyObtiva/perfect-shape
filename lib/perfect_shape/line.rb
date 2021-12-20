@@ -186,20 +186,19 @@ module PerfectShape
     
     include MultiPoint
     
-    # Checks if polygon contains point denoted by point (two-number Array or x, y args)
-    # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon
+    # Checks if line contains point (two-number Array or x, y args), with distance tolerance (0 by default)
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
+    # @param distance The distance from line to tolerate (0 by default)
     #
     # @return {@code true} if the point lies within the bound of
-    # the polygon, {@code false} if the point lies outside of the
-    # polygon's bounds.
+    # the line, {@code false} if the point lies outside of the
+    # line's bounds.
     def contain?(x_or_point, y = nil, distance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance = BigDecimal(distance.to_s)
-      # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
       Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) <= distance
     end
     
