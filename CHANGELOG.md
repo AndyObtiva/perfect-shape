@@ -5,6 +5,7 @@
 - `PerfectShape::Point`
 - `PerfectShape::Point#point_distance`
 - `PerfectShape::Point#contain?(x_or_point, y=nil, distance: 0)`
+- Refactor `PerfectShape::Point`,`PerfectShape::RectangularShape` to include shared `PerfectShape::PointLocation`
 
 ## 0.0.9
 

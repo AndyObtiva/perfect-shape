@@ -19,39 +19,35 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'perfect_shape/point_location'
-
 module PerfectShape
-  # Mixin Module for Rectangular Shapes (having x, y, width, height)
-  # Can only be mixed into a class extending Shape or another module
-  module RectangularShape
-    include PointLocation
+  module PointLocation
+    attr_reader :x, :y
     
-    attr_reader :width, :height
-    
-    # Calls super before setting x, y, width, height
-    def initialize(x: 0, y: 0, width: 1, height: 1)
-      super(x: x, y: y)
-      self.width = width
-      self.height = height
+    # Calls super before setting x,y (default: 0,0)
+    def initialize(x: 0, y: 0)
+      super()
+      self.x = x
+      self.y = y
     end
     
-    # Sets width, normalizing to BigDecimal
-    def width=(value)
-      @width = BigDecimal(value.to_s)
+    # Sets x, normalizing to BigDecimal
+    def x=(value)
+      @x = BigDecimal(value.to_s)
     end
     
-    # Sets height, normalizing to BigDecimal
-    def height=(value)
-      @height = BigDecimal(value.to_s)
+    # Sets y, normalizing to BigDecimal
+    def y=(value)
+      @y = BigDecimal(value.to_s)
     end
     
-    def max_x
-      @x + width if @x && width
+    # Returns x by default. Subclasses may override.
+    def min_x
+      x
     end
     
-    def max_y
-      @y + height if @y && height
+    # Returns y by default. Subclasses may override.
+    def min_y
+      y
     end
   end
 end

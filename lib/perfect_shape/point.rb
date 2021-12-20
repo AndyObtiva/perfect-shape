@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/point_location'
 
 module PerfectShape
   class Point < Shape
@@ -33,33 +34,19 @@ module PerfectShape
       end
     end
     
-    attr_reader :x, :y
+    include PointLocation
     
-    def initialize(x_or_point = 0, y = 0)
+    def initialize(x_or_point = nil, y_arg = nil, x: nil, y: nil)
       if x_or_point.is_a?(Array)
-        self.x, self.y = x_or_point
+        x, y = x_or_point
+        super(x: x, y: y)
+      elsif x_or_point && y_arg
+        super(x: x_or_point, y: y_arg)
       else
-        self.x = x_or_point
-        self.y = y
+        x ||= 0
+        y ||= 0
+        super(x: x, y: y)
       end
-    end
-    
-    # Sets x, normalizing to BigDecimal
-    def x=(value)
-      @x = BigDecimal(value.to_s)
-    end
-    
-    # Sets y, normalizing to BigDecimal
-    def y=(value)
-      @y = BigDecimal(value.to_s)
-    end
-    
-    def min_x
-      x
-    end
-    
-    def min_y
-      y
     end
     
     def max_x

@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/perfect_shape/math.rb",
     "lib/perfect_shape/multi_point.rb",
     "lib/perfect_shape/point.rb",
+    "lib/perfect_shape/point_location.rb",
     "lib/perfect_shape/polygon.rb",
     "lib/perfect_shape/rectangle.rb",
     "lib/perfect_shape/rectangular_shape.rb",

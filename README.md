@@ -54,6 +54,16 @@ Class
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
 
+### `PerfectShape::PointLocation`
+
+Module
+
+- `#initialize(x: 0, y: 0)`: initializes a point location, usually representing the top-left point in a shape
+- `#x`: top-left x
+- `#y`: top-left y
+- `#min_x`: min x (x by default)
+- `#min_y`: min y (y by default)
+
 ### `PerfectShape::RectangularShape`
 
 Module
@@ -82,7 +92,7 @@ Extends `PerfectShape::Shape`
 Points are simply represented by an `Array` of (x,y) coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
 
 - `::point_distance(x, y, px, py)`: Returns the distance from a point to another point
-- `::new(x_or_point=0, y=0)`: constructs a point with (x,y) pair
+- `::new(x_or_point=0, y=0, x: nil, y: nil)`: constructs a point with (x,y) pair whether specified as `Array` of (x,y) pair, flat `x,y` args, or `x:, y:` kwargs.
 - `#min_x`: min x (always x)
 - `#min_y`: min y (always y)
 - `#max_x`: max x (always x)

@@ -2,11 +2,10 @@
 
 ## Next
 
-- Refactor to utilize PointLocation in Point and RectangularShape
+- `PerfectShape::Path`: represents a geometric path constructed from straight lines and cubic (Bézier) curves.
 
 ## Soon
 
-- `PerfectShape::Path`: represents a geometric path constructed from straight lines and cubic (Bézier) curves.
 - `PerfectShape::Path#Contain?`
 - Embed absolute paths for images so that they show up in Ruby docs
 - `PerfectShape::CubicBezierCurve` (2 control points)
