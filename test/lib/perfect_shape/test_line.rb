@@ -99,8 +99,29 @@ describe PerfectShape do
 
       _(shape.point_segment_distance(point)).must_equal 1
       _(shape.point_segment_distance(point)).must_equal shape.point_segment_distance(*point)
+      
+      point = [0, 2]
+
+      _(shape.point_segment_distance(point)).must_equal 2
+      _(shape.point_segment_distance(point)).must_equal shape.point_segment_distance(*point)
     end
     
-    # TODO test point_segment_distance, point_segment_distance_square, and relative_counter_clock_wise
+    it 'returns relative counter clockwise value of point' do
+      shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
+      point = [50, 50]
+
+      _(shape.relative_counterclockwise(point)).must_equal 0
+      _(shape.relative_counterclockwise(point)).must_equal shape.relative_counterclockwise(*point)
+      
+      point = [55, 50]
+
+      _(shape.relative_counterclockwise(point)).must_equal 1
+      _(shape.relative_counterclockwise(point)).must_equal shape.relative_counterclockwise(*point)
+      
+      point = [45, 50]
+
+      _(shape.relative_counterclockwise(point)).must_equal -1
+      _(shape.relative_counterclockwise(point)).must_equal shape.relative_counterclockwise(*point)
+    end
   end
 end

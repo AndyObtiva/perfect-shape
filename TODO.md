@@ -2,8 +2,7 @@
 
 ## Next
 
-- `PerfectShape::Line#point_segment_distance`
-- Document latest changes
+- `PerfectShape::Line#contain?` with a fuzz factor to enable imperfectly selecting a line in a GUI application
 
 ## Soon
 

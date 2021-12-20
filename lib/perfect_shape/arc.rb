@@ -178,8 +178,8 @@ module PerfectShape
       angle += Math.degrees_to_radians(-extent)
       x2 = Math.cos(angle)
       y2 = Math.sin(angle)
-      inside = (Line.relative_counter_clock_wise(x1, y1, x2, y2, 2*normx, 2*normy) *
-                        Line.relative_counter_clock_wise(x1, y1, x2, y2, 0, 0) >= 0)
+      inside = (Line.relative_counterclockwise(x1, y1, x2, y2, 2*normx, 2*normy) *
+                        Line.relative_counterclockwise(x1, y1, x2, y2, 0, 0) >= 0)
       inarc ? !inside : inside
     end
     

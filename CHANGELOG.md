@@ -3,6 +3,9 @@
 ## 0.0.8
 
 - `PerfectShape::Line`
+- `PerfectShape::Line#contain?`
+- `PerfectShape::Line#relative_counterclockwise`
+- `PerfectShape::Line#point_segment_distance`
 
 ## 0.0.7
 

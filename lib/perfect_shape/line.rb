@@ -25,10 +25,6 @@ require 'perfect_shape/multi_point'
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line < Shape
-    # TODO provide instance method version of relative_counter_clock_wise(px, py)
-    # TODO implement ptSegDist
-    # TODO implement contain?(point)
-    # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
     class << self
       # Returns an indicator of where the specified point (px,py) lies with respect to the line segment from
       # (x1,y1) to (x2,y2).
@@ -57,7 +53,7 @@ module PerfectShape
       # @return an integer that indicates the position of the third specified
       #                  coordinates with respect to the line segment formed
       #                  by the first two specified coordinates.
-      def relative_counter_clock_wise(x1, y1, x2, y2, px, py)
+      def relative_counterclockwise(x1, y1, x2, y2, px, py)
         x2 -= x1;
         y2 -= y1;
         px -= x1;
@@ -202,6 +198,7 @@ module PerfectShape
     def contain?(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
+      # TODO implement contain?(point) with a fuzz factor to enable successfully selecting a line in a GUI application
       Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y) == 0
     end
     
@@ -209,6 +206,12 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+    end
+    
+    def relative_counterclockwise(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      Line.relative_counterclockwise(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end
   end
 end
