@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.11
+
+- `PerfectShape::Polygon#==`
+- `PerfectShape::Line#==`
+- `PerfectShape::Point#==`
+
 ## 0.0.10
 
 - `PerfectShape::Point`

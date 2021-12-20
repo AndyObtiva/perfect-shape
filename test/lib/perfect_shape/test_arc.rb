@@ -103,6 +103,24 @@ describe PerfectShape do
       _(shape.radius_x).must_equal 25
       _(shape.radius_y).must_equal 30
     end
+    
+    it 'equals another arc' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+      shape2 = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different arc' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+      shape2 = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+
+      _(shape).wont_equal shape2
+      
+      shape3 = PerfectShape::Arc.new(type: :chord, x: 3, y: 3, width: 50, height: 60, start: 30, extent: 90)
+      
+      _(shape).wont_equal shape3
+    end
 
     it 'contains point with chord type circle' do
       shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 360)

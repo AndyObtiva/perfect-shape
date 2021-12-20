@@ -61,7 +61,25 @@ describe PerfectShape do
       _(shape.center_x).must_equal 200 + 35
       _(shape.center_y).must_equal 150 + 10
     end
+    
+    it 'equals another line' do
+      shape = PerfectShape::Line.new(points: [[200, 150], [270, 170]])
+      shape2 = PerfectShape::Line.new(points: [[200, 150], [270, 170]])
 
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different line' do
+      shape = PerfectShape::Line.new(points: [[200, 150], [270, 170]])
+      shape2 = PerfectShape::Line.new(points: [[201, 150], [270, 170]])
+
+      _(shape).wont_equal shape2
+      
+      shape3 = PerfectShape::Line.new(points: [[200, 151], [270, 170]])
+
+      _(shape).wont_equal shape3
+    end
+    
     it 'contains point in center' do
       shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]])
       point = [shape.center_x, shape.center_y]

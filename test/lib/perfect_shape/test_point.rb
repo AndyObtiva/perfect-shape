@@ -102,6 +102,24 @@ describe PerfectShape do
       _(shape.point_distance(point)).must_equal 0
     end
     
+    it 'equals another point' do
+      shape = PerfectShape::Point.new(200, 150)
+      shape2 = PerfectShape::Point.new(200, 150)
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different point' do
+      shape = PerfectShape::Point.new(200, 150)
+      shape2 = PerfectShape::Point.new(201, 150)
+
+      _(shape).wont_equal shape2
+      
+      shape3 = PerfectShape::Point.new(200, 151)
+
+      _(shape).wont_equal shape3
+    end
+    
     it 'contains point' do
       shape = PerfectShape::Point.new(200, 100)
       

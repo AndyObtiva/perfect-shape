@@ -35,6 +35,7 @@ module PerfectShape
     end
     
     include PointLocation
+    include Equalizer.new(:x, :y)
     
     def initialize(x_or_point = nil, y_arg = nil, x: nil, y: nil)
       if x_or_point.is_a?(Array)

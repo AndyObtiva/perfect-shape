@@ -1,4 +1,4 @@
-# Perfect Shape 0.0.10
+# Perfect Shape 0.0.11
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 
@@ -13,13 +13,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.0.10
+gem install perfect-shape -v 0.0.11
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.0.10'
+gem 'perfect-shape', '~> 0.0.11'
 ```
 
 And, run:
@@ -43,6 +43,8 @@ Module
 
 Class
 
+This is a base class for all shapes. It is not meant to be used directly. Subclasses implement/override its methods as needed.
+
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -53,6 +55,7 @@ Class
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of (x,y) coordinates
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::PointLocation`
 
@@ -108,6 +111,7 @@ Points are simply represented by an `Array` of (x,y) coordinates when used withi
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil, distance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape in a GUI more successfully.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Line`
 
@@ -133,6 +137,7 @@ Extends `PerfectShape::Shape`
 - `#contain?(x_or_point, y=nil, distance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape in a GUI more successfully.
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Rectangle`
 
@@ -157,6 +162,7 @@ Includes `PerfectShape::RectangularShape`
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Square`
 
@@ -180,6 +186,7 @@ Extends `PerfectShape::Rectangle`
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Arc`
 
@@ -213,6 +220,7 @@ Open Arc | Chord Arc | Pie Arc
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Ellipse`
 
@@ -240,6 +248,7 @@ Extends `PerfectShape::Arc`
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Circle`
 
@@ -269,6 +278,7 @@ Extends `PerfectShape::Ellipse`
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::Polygon`
 
@@ -289,6 +299,7 @@ Extends `PerfectShape::Shape`
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule))
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ## Process
 

@@ -185,6 +185,7 @@ module PerfectShape
     end
     
     include MultiPoint
+    include Equalizer.new(:points)
     
     # Checks if line contains point (two-number Array or x, y args), with distance tolerance (0 by default)
     #

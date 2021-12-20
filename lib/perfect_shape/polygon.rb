@@ -26,6 +26,7 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/Polygon.html
   class Polygon < Shape
     include MultiPoint
+    include Equalizer.new(:points)
     
     # Checks if polygon contains point (two-number Array or x, y args)
     # using the Ray Casting Algorithm (aka Even-Odd Rule): https://en.wikipedia.org/wiki/Point_in_polygon

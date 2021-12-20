@@ -92,6 +92,20 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
+    it 'equals another polygon' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      shape2 = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different polygon' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      shape2 = PerfectShape::Polygon.new(points: [[201, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+
+      _(shape).wont_equal shape2
+    end
+
     it 'contains point in center' do
       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
       point = [shape.center_x, shape.center_y]

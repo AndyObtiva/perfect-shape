@@ -47,6 +47,20 @@ describe PerfectShape do
       _(shape.center_y).must_equal 3 + 30
     end
     
+    it 'equals another rectangle' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      shape2 = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different rectangle' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      shape2 = PerfectShape::Rectangle.new(x: 3, y: 3, width: 50, height: 60)
+
+      _(shape).wont_equal shape2
+    end
+    
     it 'contains point at the top-left corner' do
       shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
       point = [2, 3]

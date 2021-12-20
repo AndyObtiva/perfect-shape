@@ -20,7 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module PerfectShape
-  # Superclass of all shapes
+  # Superclass of all shapes. Not meant to be used directly.
+  # Subclasses must implement/override methods as needed.
   class Shape
     # Subclasses must implement
     def min_x
@@ -81,6 +82,10 @@ module PerfectShape
       x = BigDecimal(x.to_s)
       y = BigDecimal(y.to_s)
       [x, y]
+    end
+    
+    # Subclasses must implement
+    def ==(other)
     end
   end
 end
