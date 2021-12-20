@@ -68,6 +68,8 @@ Module
 
 Module
 
+Includes `PerfectShape::PointLocation`
+
 - `#initialize(x: 0, y: 0, width: 1, height: 1)`: initializes a rectangular shape
 - `#x`: top-left x
 - `#y`: top-left y
@@ -87,12 +89,14 @@ Class
 
 Extends `PerfectShape::Shape`
 
-![point](images/point.png)
+Includes `PerfectShape::PointLocation`
+
+![point](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/point.png)
 
 Points are simply represented by an `Array` of (x,y) coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
 
 - `::point_distance(x, y, px, py)`: Returns the distance from a point to another point
-- `::new(x_or_point=0, y=0, x: nil, y: nil)`: constructs a point with (x,y) pair whether specified as `Array` of (x,y) pair, flat `x,y` args, or `x:, y:` kwargs.
+- `::new(x_or_point=nil, y_arg=nil, x: nil, y: nil)`: constructs a point with (x,y) pair (default: 0,0) whether specified as `Array` of (x,y) pair, flat `x,y` args, or `x:, y:` kwargs.
 - `#min_x`: min x (always x)
 - `#min_y`: min y (always y)
 - `#max_x`: max x (always x)
@@ -111,7 +115,7 @@ Class
 
 Extends `PerfectShape::Shape`
 
-![line](images/line.png)
+![line](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/line.png)
 
 - `::relative_counterclockwise(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `::point_segment_distance_square(x1, y1, x2, y2, px, py)`: Returns the square of distance from a point to a line segment.
@@ -138,7 +142,7 @@ Extends `PerfectShape::Shape`
 
 Includes `PerfectShape::RectangularShape`
 
-![rectangle](images/rectangle.png)
+![rectangle](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/rectangle.png)
 
 - `::new(x: 0, y: 0, width: 1, height: 1)`: constructs a rectangle
 - `#x`: top-left x
@@ -160,7 +164,7 @@ Class
 
 Extends `PerfectShape::Rectangle`
 
-![square](images/square.png)
+![square](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/square.png)
 
 - `::new(x: 0, y: 0, length: 1)`: constructs a square
 - `#x`: top-left x
@@ -189,7 +193,7 @@ Arcs can be of type `:open`, `:chord`, or `:pie`
 
 Open Arc | Chord Arc | Pie Arc
 ---------|-----------|--------
-![arc-open](images/arc-open.png) | ![arc-chord](images/arc-chord.png) | ![arc-pie](images/arc-pie.png)
+![arc-open](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/arc-open.png) | ![arc-chord](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/arc-chord.png) | ![arc-pie](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/arc-pie.png)
 
 - `::new(type: :open, x: 0, y: 0, width: 1, height: 1, start: 0, extent: 360, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an arc of type  `:open` (default), `:chord`, or `:pie`
 - `#type`: `:open`, `:chord`, or `:pie`
@@ -216,7 +220,7 @@ Class
 
 Extends `PerfectShape::Arc`
 
-![ellipse](images/ellipse.png)
+![ellipse](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/ellipse.png)
 
 - `::new(x: 0, y: 0, width: 1, height: 1, center_x: nil, center_y: nil, radius_x: nil, radius_y: nil)`: constructs an ellipse
 - `#x`: top-left x
@@ -243,7 +247,7 @@ Class
 
 Extends `PerfectShape::Ellipse`
 
-![circle](images/circle.png)
+![circle](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/circle.png)
 
 - `::new(x: 0, y: 0, diameter: 1, width: 1, height: 1, center_x: nil, center_y: nil, radius: nil, radius_x: nil, radius_y: nil)`: constructs a circle
 - `#x`: top-left x
@@ -272,7 +276,7 @@ Class
 
 Extends `PerfectShape::Shape`
 
-![polygon](images/polygon.png)
+![polygon](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/polygon.png)
 
 - `::new(points: nil)`: constructs a polygon with `points` as `Array` of `Array`s of (x,y) pairs or flattened `Array` of alternating x and y values
 - `#min_x`: min x

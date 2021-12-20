@@ -20,6 +20,7 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Polyline
 - Polycubic
 - AffineTransform: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
+- Declare as version 1.0.0
 
 - RoundRectangle
 - Shape `intersect?(rectangle)` method
