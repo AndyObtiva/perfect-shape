@@ -27,6 +27,8 @@
 
 ## 0.0.7
 
+- `PerfectShape::Polygon`
+- `PerfectShape::Polygon#contain?(x_or_point, y)` (Ray Casting Algorithm, aka Even-Odd Rule)
 - `PerfectShape::Shape#min_x`/`PerfectShape::Shape#min_y`/`PerfectShape::Shape#max_x`/`PerfectShape::Shape#max_y`/`PerfectShape::Shape#center_x`/`PerfectShape::Shape#center_y`/`PerfectShape::Shape#bounding_box`
 
 ## 0.0.6
