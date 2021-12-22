@@ -5,7 +5,7 @@ require_relative '../../../lib/perfect-shape'
 
 describe PerfectShape do
   describe PerfectShape::Path do
-    it 'constructs with shapes consisting of lines having single (end) point only' do
+    it 'constructs as closed with :wind_non_zero winding rule and shapes consisting of lines having single (end) point only' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
       path_shapes << PerfectShape::Line.new(points: [270, 170])
@@ -32,34 +32,52 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-#     it 'constructs with points' do
-#       shape = PerfectShape::Path.new(points: [200, 150, 270, 170, 250, 220, 220, 190, 200, 200, 180, 170])
-#
-#       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
-#       _(shape.min_x).must_equal 180
-#       _(shape.min_y).must_equal 150
-#       _(shape.max_x).must_equal 270
-#       _(shape.max_y).must_equal 220
-#       _(shape.width).must_equal 90
-#       _(shape.height).must_equal 70
-#       _(shape.center_x).must_equal 180 + 45
-#       _(shape.center_y).must_equal 150 + 35
-#     end
-#
-#     it 'constructs with defaults' do
-#       shape = PerfectShape::Path.new
-#
-#       _(shape.points).must_equal []
-#       _(shape.min_x).must_equal nil
-#       _(shape.min_y).must_equal nil
-#       _(shape.max_x).must_equal nil
-#       _(shape.max_y).must_equal nil
-#       _(shape.width).must_equal nil
-#       _(shape.height).must_equal nil
-#       _(shape.center_x).must_equal nil
-#       _(shape.center_y).must_equal nil
-#     end
-#
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of lines having single (end) point only' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+
+      _(shape.shapes).must_equal path_shapes
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
+      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to]
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs with defaults' do
+      shape = PerfectShape::Path.new
+
+      _(shape.shapes).must_equal []
+      _(shape.points).must_equal []
+      _(shape.drawing_types).must_equal []
+      _(shape.winding_rule).must_equal :wind_non_zero
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal nil
+      _(shape.min_y).must_equal nil
+      _(shape.max_x).must_equal nil
+      _(shape.max_y).must_equal nil
+      _(shape.width).must_equal nil
+      _(shape.height).must_equal nil
+      _(shape.center_x).must_equal nil
+      _(shape.center_y).must_equal nil
+    end
+
 #     it 'updates attributes' do
 #       shape = PerfectShape::Path.new
 #       shape.points = [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
@@ -105,6 +123,8 @@ describe PerfectShape do
 #       _(shape.center_y).must_equal 150 + 35
 #     end
 #
+#     TODO validate winding rule
+#     TODO validate cannot assign points=
 #     it 'contains point in center' do
 #       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
 #       point = [shape.center_x, shape.center_y]

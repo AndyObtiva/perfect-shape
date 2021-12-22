@@ -32,29 +32,26 @@ module PerfectShape
     attr_accessor :shapes, :closed, :winding_rule
     alias closed? closed
     
-    def initialize(shapes: [], points: nil, closed: false, winding_rule: :wind_non_zero)
+    def initialize(shapes: [], closed: false, winding_rule: :wind_non_zero)
       self.closed = closed
       self.winding_rule = winding_rule
       self.shapes = shapes
     end
     
     def points
-      if @shapes&.any?
-        the_points = @shapes.map do |shape|
-          case shape
-          when Point
-            shape.to_a
-          when Array
-            shape
-          when Line
-            shape.points.last.to_a
-  #         when QuadraticBezierCurve # TODO
-  #         when CubicBezierCurve # TODO
-          end
+      @shapes.map do |shape|
+        case shape
+        when Point
+          shape.to_a
+        when Array
+          shape
+        when Line
+          shape.points.last.to_a
+#         when QuadraticBezierCurve # TODO
+#         when CubicBezierCurve # TODO
         end
+      end.tap do |the_points|
         the_points << @shapes.first.to_a if closed?
-      else
-        super
       end
     end
     
