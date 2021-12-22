@@ -43,12 +43,12 @@ module PerfectShape
         end
         # double precision only has 52 bits of mantissa
         return PerfectShape::Line.point_crossings(x1, y1, x2, y2, px, py) if (level > 52)
-        x1c = (x1 + xc) / BigDecimal('2')
-        y1c = (y1 + yc) / BigDecimal('2')
-        xc1 = (xc + x2) / BigDecimal('2')
-        yc1 = (yc + y2) / BigDecimal('2')
-        xc = (x1c + xc1) / BigDecimal('2')
-        yc = (y1c + yc1) / BigDecimal('2')
+        x1c = BigDecimal((x1 + xc).to_s) / BigDecimal('2')
+        y1c = BigDecimal((y1 + yc).to_s) / BigDecimal('2')
+        xc1 = BigDecimal((xc + x2).to_s) / BigDecimal('2')
+        yc1 = BigDecimal((yc + y2).to_s) / BigDecimal('2')
+        xc = BigDecimal((x1c + xc1).to_s) / BigDecimal('2')
+        yc = BigDecimal((y1c + yc1).to_s) / BigDecimal('2')
         # [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
         # [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
         # These values are also NaN if opposing infinities are added

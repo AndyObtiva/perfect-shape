@@ -98,6 +98,7 @@ GEM
 
 PLATFORMS
   universal-java-11
+  universal-java-17
   x86_64-darwin-19
   x86_64-linux
 
@@ -110,4 +111,4 @@ DEPENDENCIES
   rdoc (~> 3.12)
 
 BUNDLED WITH
-   2.2.31
+   2.2.33

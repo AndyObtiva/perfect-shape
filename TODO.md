@@ -39,3 +39,4 @@ None
 - Contribute this type of expectation: `_(arc).must_be :contain?, *point` to Minitest Expectations
 - Maybe contribute xit to minitest expectations
 - Support non-kwargs as alternative in all shapes' constructors
+- Report weird issue with tests taking too long in jruby due to BigDecimal use in `QuadraticBezierCurve::point_crossings` in commit `b48d66313e429fb60339c87c7d6b1b165ff4e7d8`
