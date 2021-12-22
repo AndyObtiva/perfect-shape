@@ -46,52 +46,46 @@ describe PerfectShape do
       _(shape.center_x).must_equal nil
       _(shape.center_y).must_equal nil
     end
-#
-#     it 'updates attributes' do
-#       shape = PerfectShape::QuadraticBezierCurve.new
-#       shape.points = [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
-#
-#       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
-#       _(shape.min_x).must_equal 180
-#       _(shape.min_y).must_equal 150
-#       _(shape.max_x).must_equal 270
-#       _(shape.max_y).must_equal 220
-#       _(shape.width).must_equal 90
-#       _(shape.height).must_equal 70
-#       _(shape.center_x).must_equal 180 + 45
-#       _(shape.center_y).must_equal 150 + 35
-#
-#       shape.points = [200, 150]
-#
-#       _(shape.points).must_equal [[200, 150]]
-#       _(shape.min_x).must_equal 200
-#       _(shape.min_y).must_equal 150
-#       _(shape.max_x).must_equal 200
-#       _(shape.max_y).must_equal 150
-#       _(shape.width).must_equal 0
-#       _(shape.height).must_equal 0
-#       _(shape.center_x).must_equal 200
-#       _(shape.center_y).must_equal 150
-#
-#       shape.points << [270, 170]
-#       shape.points << [250, 220]
-#       shape.points << [220, 190]
-#       shape.points << [200, 200]
-#       shape.points << [180, 170]
-#       shape.points.delete [180, 170]
-#       shape.points << [180, 170]
-#
-#       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
-#       _(shape.min_x).must_equal 180
-#       _(shape.min_y).must_equal 150
-#       _(shape.max_x).must_equal 270
-#       _(shape.max_y).must_equal 220
-#       _(shape.width).must_equal 90
-#       _(shape.height).must_equal 70
-#       _(shape.center_x).must_equal 180 + 45
-#       _(shape.center_y).must_equal 150 + 35
-#     end
-#
+
+    it 'updates attributes' do
+      shape = PerfectShape::QuadraticBezierCurve.new
+      shape.points = [[200, 150], [270, 220], [180, 170]]
+
+      _(shape.points).must_equal [[200, 150], [270, 220], [180, 170]]
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+
+      shape.points = [[201, 152], [270, 220], [180, 170]]
+
+      _(shape.points).must_equal [[201, 152], [270, 220], [180, 170]]
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 152
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 68
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 152 + 34
+
+      shape.points << shape.points.pop
+
+      _(shape.points).must_equal [[201, 152], [270, 220], [180, 170]]
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 152
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 68
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 152 + 34
+    end
+
 #     it 'equals another polygon' do
 #       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
 #       shape2 = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
