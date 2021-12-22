@@ -86,20 +86,20 @@ describe PerfectShape do
       _(shape.center_y).must_equal 152 + 34
     end
 
-#     it 'equals another polygon' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       shape2 = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#
-#       _(shape).must_equal shape2
-#     end
-#
-#     it 'does not equal a different polygon' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       shape2 = PerfectShape::QuadraticBezierCurve.new(points: [[201, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#
-#       _(shape).wont_equal shape2
-#     end
-#
+    it 'equals another quadratic bezier curve' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
+      shape2 = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different quadratic bezier curve' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
+      shape2 = PerfectShape::QuadraticBezierCurve.new(points: [201, 151, 271, 221, 181, 171])
+
+      _(shape).wont_equal shape2
+    end
+
 #     it 'contains point in center' do
 #       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
 #       point = [shape.center_x, shape.center_y]
