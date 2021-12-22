@@ -19,19 +19,19 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-#     it 'constructs with flattened points' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 170, 250, 220, 220, 190, 200, 200, 180, 170])
-#
-#       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
-#       _(shape.min_x).must_equal 180
-#       _(shape.min_y).must_equal 150
-#       _(shape.max_x).must_equal 270
-#       _(shape.max_y).must_equal 220
-#       _(shape.width).must_equal 90
-#       _(shape.height).must_equal 70
-#       _(shape.center_x).must_equal 180 + 45
-#       _(shape.center_y).must_equal 150 + 35
-#     end
+    it 'constructs with flattened points' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
+
+      _(shape.points).must_equal [[200, 150], [270, 220], [180, 170]]
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
 #
 #     it 'constructs with defaults' do
 #       shape = PerfectShape::QuadraticBezierCurve.new

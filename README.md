@@ -161,7 +161,7 @@ Includes `PerfectShape::MultiPoint`
 - `#height`: height (from min y to max y)
 - `#center_x`: center x
 - `#center_y`: center y
-- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
@@ -354,7 +354,7 @@ Includes `PerfectShape::MultiPoint`
 - `#height`: height (from min y to max y)
 - `#center_x`: center x
 - `#center_y`: center y
-- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#contain?(x_or_point, y=nil)`: checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm))
 - `#point_crossings(x_or_point, y=nil)`: calculates the number of times the given path crosses the ray extending to the right from (x,y)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
