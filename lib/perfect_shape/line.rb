@@ -182,6 +182,22 @@ module PerfectShape
                                  px, py)
         BigDecimal(::Math.sqrt(point_segment_distance_square(x1, y1, x2, y2, px, py)).to_s)
       end
+      
+      # Calculates the number of times the line from (x1,y1) to (x2,y2)
+      # crosses the ray extending to the right from (px,py).
+      # If the point lies on the line, then no crossings are recorded.
+      # +1 is returned for a crossing where the Y coordinate is increasing
+      # -1 is returned for a crossing where the Y coordinate is decreasing
+      def point_crossings(x1, y1, x2, y2, px, py)
+        return 0 if (py <  y1 && py <  y2)
+        return 0 if (py >= y1 && py >= y2)
+        # assert(y1 != y2);
+        return 0 if (px >= x1 && px >= x2)
+        return ((y1 < y2) ? 1 : -1) if (px <  x1 && px <  x2)
+        xintercept = x1 + (py - y1) * (x2 - x1) / (y2 - y1);
+        return 0 if (px >= xintercept)
+        (y1 < y2) ? 1 : -1
+      end
     end
     
     include MultiPoint
@@ -213,6 +229,17 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       Line.relative_counterclockwise(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+    end
+    
+    # Calculates the number of times the line
+    # crosses the ray extending to the right from (px,py).
+    # If the point lies on the line, then no crossings are recorded.
+    # +1 is returned for a crossing where the Y coordinate is increasing
+    # -1 is returned for a crossing where the Y coordinate is decreasing
+    def point_crossings(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      Line.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end
   end
 end

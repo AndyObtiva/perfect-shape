@@ -118,42 +118,82 @@ describe PerfectShape do
       proc { shape.points = [[1, 2]] }.must_raise StandardError
     end
 
-#     it 'contains point in center' do
-#       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [shape.center_x, shape.center_y]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near edge' do
-#       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 161]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near corner' do
-#       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [269, 170]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'does not contain point within bounding box' do
-#       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 159]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside of bounding box' do
-#       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [0, 0]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
+    it 'contains point in center as closed using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near edge as closed using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [235, 161]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near corner as closed using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [269, 170]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box as closed using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [235, 159]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box as closed using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
   end
 end
