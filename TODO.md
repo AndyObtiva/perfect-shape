@@ -48,3 +48,4 @@ None
 - Consider contributing IEEEremainder to Ruby
 - Contribute this type of expectation: `_(arc).must_be :contain?, *point` to Minitest Expectations
 - Maybe contribute xit to minitest expectations
+- Support non-kwargs as alternative in all shapes' constructors

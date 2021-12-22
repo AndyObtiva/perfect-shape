@@ -107,6 +107,13 @@ describe PerfectShape do
     end
 
 #     TODO validate winding rule
+
+    it 'does not set invalid winding rule' do
+      shape = PerfectShape::Path.new
+      
+      proc { shape.winding_rule = :invalid }.must_raise StandardError
+    end
+
 #     TODO validate cannot assign points=
 #     it 'contains point in center' do
 #       shape = PerfectShape::Path.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])

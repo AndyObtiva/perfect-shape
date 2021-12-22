@@ -20,6 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/point'
+require 'perfect_shape/line'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
@@ -27,9 +29,11 @@ module PerfectShape
   class Path < Shape
     include MultiPoint
     
+    SHAPE_TYPES = [Array, Point, Line]
     WINDING_RULES = [:wind_non_zero, :wind_even_odd]
     
-    attr_accessor :shapes, :closed, :winding_rule
+    attr_reader :winding_rule
+    attr_accessor :shapes, :closed
     alias closed? closed
     
     def initialize(shapes: [], closed: false, winding_rule: :wind_non_zero)
@@ -70,6 +74,11 @@ module PerfectShape
       end
       the_drawing_shapes << :close if closed?
       the_drawing_shapes
+    end
+    
+    def winding_rule=(value)
+      raise "Invalid winding rule: #{value}" unless WINDING_RULES.include?(value.to_s.to_sym)
+      @winding_rule = value
     end
   end
 end
