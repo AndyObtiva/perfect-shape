@@ -4,6 +4,7 @@
 
 - `PerfectShape::CubicBezierCurve` (2 control points)
 - `PerfectShape::Path` support cubic bezier curves
+- Add https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/ to image path for cubic bezier curve in README when committing to master
 
 ## Version 0.2.0
 

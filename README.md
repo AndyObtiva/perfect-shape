@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
 
-[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and cubic bézier curves (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bézier curves](#perfectshapecubicbeziercurve) (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
@@ -133,7 +133,7 @@ Includes `PerfectShape::MultiPoint`
 - `::relative_counterclockwise(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `::point_segment_distance_square(x1, y1, x2, y2, px, py)`: Returns the square of distance from a point to a line segment.
 - `::point_segment_distance(x1, y1, x2, y2, px, py)`: Returns the distance from a point to a line segment.
-- `::new(points: [])`: constructs a line with two `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
+- `::new(points: [])`: constructs a line with two `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -164,7 +164,8 @@ Includes `PerfectShape::MultiPoint`
 
 ![quadratic_bezier_curve](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/quadratic_bezier_curve.png)
 
-- `::new(points: [])`: constructs a quadratic bézier curve with three `points` (two end points and one control point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
+- `::new(points: [])`: constructs a quadratic bézier curve with three `points` (start point, control point, and end point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
+- `#points`: points (start point, control point, and end point)
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -181,6 +182,36 @@ Example:
 
 ```ruby
 shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 220], [180, 170]]) # start point, control point, and end point
+```
+
+### `PerfectShape::CubicBezierCurve`
+
+Class
+
+Extends `PerfectShape::Shape`
+
+Includes `PerfectShape::MultiPoint`
+
+![cubic_bezier_curve](images/cubic_bezier_curve.png)
+
+- `::new(points: [])`: constructs a cubic bézier curve with four `points` (start point, two control points, and end point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
+- `#points`: points (start point, two control points, and end point)
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width (from min x to max x)
+- `#height`: height (from min y to max y)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+Example:
+
+```ruby
+shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 50], [270, 220], [180, 170]]) # start point, control point, and end point
 ```
 
 ### `PerfectShape::Rectangle`
@@ -369,7 +400,7 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 
 ![polygon](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/polygon.png)
 
-- `::new(points: [])`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
+- `::new(points: [])`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -398,7 +429,7 @@ Includes `PerfectShape::MultiPoint`
 
 ![path](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/path.png)
 
-- `::new(shapes: [], closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, or `PerfectShape::QuadraticBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `::new(shapes: [], closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
 - `#shapes`: the shapes that the path is composed of (must always start with `PerfectShape::Point` or Array of [x,y] coordinates representing start point)
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
@@ -423,6 +454,7 @@ path_shapes = []
 path_shapes << PerfectShape::Point.new(x: 200, y: 150)
 path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
 path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
 
 shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
 ```
