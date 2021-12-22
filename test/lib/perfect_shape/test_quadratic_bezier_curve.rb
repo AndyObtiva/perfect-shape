@@ -32,20 +32,20 @@ describe PerfectShape do
       _(shape.center_x).must_equal 180 + 45
       _(shape.center_y).must_equal 150 + 35
     end
-#
-#     it 'constructs with defaults' do
-#       shape = PerfectShape::QuadraticBezierCurve.new
-#
-#       _(shape.points).must_equal []
-#       _(shape.min_x).must_equal nil
-#       _(shape.min_y).must_equal nil
-#       _(shape.max_x).must_equal nil
-#       _(shape.max_y).must_equal nil
-#       _(shape.width).must_equal nil
-#       _(shape.height).must_equal nil
-#       _(shape.center_x).must_equal nil
-#       _(shape.center_y).must_equal nil
-#     end
+
+    it 'constructs with defaults' do
+      shape = PerfectShape::QuadraticBezierCurve.new
+
+      _(shape.points).must_equal []
+      _(shape.min_x).must_equal nil
+      _(shape.min_y).must_equal nil
+      _(shape.max_x).must_equal nil
+      _(shape.max_y).must_equal nil
+      _(shape.width).must_equal nil
+      _(shape.height).must_equal nil
+      _(shape.center_x).must_equal nil
+      _(shape.center_y).must_equal nil
+    end
 #
 #     it 'updates attributes' do
 #       shape = PerfectShape::QuadraticBezierCurve.new
