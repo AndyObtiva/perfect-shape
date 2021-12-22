@@ -38,6 +38,8 @@ module PerfectShape
     alias closed? closed
     
     # Constructs Path with winding rule, closed status, and shapes (must always start with PerfectShape::Point or Array of [x,y] coordinates)
+    # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, or PerfectShape::Line
+    # winding_rule can be any of WINDING_RULES: :wind_non_zero (default) or :wind_even_odd
     def initialize(shapes: [], closed: false, winding_rule: :wind_non_zero)
       self.closed = closed
       self.winding_rule = winding_rule

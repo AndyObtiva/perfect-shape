@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2021-12-21"
+  s.date = "2021-12-22"
   s.description = "Perfect Shape is a collection of pure Ruby geometric algorithms that are mostly useful for GUI manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, polyline, polyquad, polycubic, and paths containing lines, quadratic b\u00E9zier curves, and cubic b\u00E9zier curves (including both Ray Casting Algorithm, aka Even-odd Rule, and Winding Number Algorithm, aka Nonzero Rule). Additionally, it contains some purely mathematical algorithms like IEEEremainder (also known as IEEE-754 remainder).".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [

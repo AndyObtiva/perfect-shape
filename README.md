@@ -314,12 +314,13 @@ Extends `PerfectShape::Shape`
 
 Includes `PerfectShape::MultiPoint`
 
-![path](/images/path.png)
+![path](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/path.png)
 
-- `::new(shapes: nil, closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `::new(shapes: nil, closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), or `PerfectShape::Line`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
 - `#shapes`: the shapes that the path is composed of
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
+- `#points`: path points calculated (derived) from shapes
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -330,6 +331,7 @@ Includes `PerfectShape::MultiPoint`
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm))
+- `#point_crossings(x_or_point, y=nil)`: calculates the number of times the given path crosses the ray extending to the right from (x,y)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ## Process

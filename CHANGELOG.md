@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.1.0
+
+- `PerfectShape::Path` (having points or lines)
+- `PerfectShape::Path#contain?(x_or_point, y=nil, distance: 0)`
+- `PerfectShape::Path#point_crossings(x_or_point, y=nil)`
+- `PerfectShape::Path#==`
+
 ## 0.0.11
 
 - `PerfectShape::Polygon#==`
