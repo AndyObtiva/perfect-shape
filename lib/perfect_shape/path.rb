@@ -23,6 +23,7 @@ require 'perfect_shape/shape'
 require 'perfect_shape/point'
 require 'perfect_shape/line'
 require 'perfect_shape/quadratic_bezier_curve'
+require 'perfect_shape/cubic_bezier_curve'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
@@ -31,7 +32,10 @@ module PerfectShape
     include MultiPoint
     include Equalizer.new(:shapes, :closed, :winding_rule)
     
-    SHAPE_TYPES = [Array, Point, Line]
+    # Available class types for path shapes
+    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve]
+    
+    # Available winding rules
     WINDING_RULES = [:wind_non_zero, :wind_even_odd]
     
     attr_reader :winding_rule
@@ -145,38 +149,38 @@ module PerfectShape
       crossings = BigDecimal('0')
       ci = BigDecimal('2')
       1.upto(shapes.count - 1).each do |i|
-          case drawing_types[i]
-          when :move_to
-            if cury != movy
-              line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])
-              crossings += line.point_crossings(x, y)
-            end
-            movx = curx = coords[ci]
-            ci += 1
-            movy = cury = coords[ci]
-            ci += 1
-          when :line_to
-            endx = coords[ci]
-            ci += 1
-            endy = coords[ci]
-            ci += 1
-            line = PerfectShape::Line.new(points: [[curx, cury], [endx, endy]])
+        case drawing_types[i]
+        when :move_to
+          if cury != movy
+            line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])
             crossings += line.point_crossings(x, y)
-            curx = endx;
-            cury = endy;
-          when :quad_to
-            quad_ctrlx = coords[ci]
-            ci += 1
-            quad_ctrly = coords[ci]
-            ci += 1
-            endx = coords[ci]
-            ci += 1
-            endy = coords[ci]
-            ci += 1
-            quad = PerfectShape::QuadraticBezierCurve.new(points: [[curx, cury], [quad_ctrlx, quad_ctrly], [endx, endy]])
-            crossings += quad.point_crossings(x, y, 0)
-            curx = endx;
-            cury = endy;
+          end
+          movx = curx = coords[ci]
+          ci += 1
+          movy = cury = coords[ci]
+          ci += 1
+        when :line_to
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          line = PerfectShape::Line.new(points: [[curx, cury], [endx, endy]])
+          crossings += line.point_crossings(x, y)
+          curx = endx;
+          cury = endy;
+        when :quad_to
+          quad_ctrlx = coords[ci]
+          ci += 1
+          quad_ctrly = coords[ci]
+          ci += 1
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          quad = PerfectShape::QuadraticBezierCurve.new(points: [[curx, cury], [quad_ctrlx, quad_ctrly], [endx, endy]])
+          crossings += quad.point_crossings(x, y, 0)
+          curx = endx;
+          cury = endy;
 #           when :cubic_to # TODO
 #             crossings +=
 #                 Curve.point_crossings_for_cubic(x, y,
@@ -190,14 +194,14 @@ module PerfectShape
 #                                              0);
 #             curx = endx;
 #             cury = endy;
-          when :close
-            if cury != movy
-              line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])
-              crossings += line.point_crossings(x, y)
-            end
-            curx = movx
-            cury = movy
+        when :close
+          if cury != movy
+            line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])
+            crossings += line.point_crossings(x, y)
           end
+          curx = movx
+          cury = movy
+        end
       end
       if cury != movy
         line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])

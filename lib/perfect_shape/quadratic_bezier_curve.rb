@@ -26,6 +26,14 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/QuadCurve2D.html
   class QuadraticBezierCurve < Shape
     class << self
+      # Calculates the number of times the quadratic bézier curve from (x1,y1) to (x2,y2)
+      # crosses the ray extending to the right from (x,y).
+      # If the point lies on a part of the curve,
+      # then no crossings are counted for that intersection.
+      # the level parameter should be 0 at the top-level call and will count
+      # up for each recursion level to prevent infinite recursion
+      # +1 is added for each crossing where the Y coordinate is increasing
+      # -1 is added for each crossing where the Y coordinate is decreasing
       def point_crossings(x1, y1, xc, yc, x2, y2, px, py, level = 0)
         return BigDecimal('0') if (py <  y1 && py <  yc && py <  y2)
         return BigDecimal('0') if (py >= y1 && py >= yc && py >= y2)
@@ -69,7 +77,7 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the quadratic bézier curve, {@code false} if the point lies outside of the
     # quadratic bézier curve's bounds.
-    def contain?(x_or_point, y = nil, distance: 0)
+    def contain?(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
 
