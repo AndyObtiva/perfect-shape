@@ -26,5 +26,53 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Path2D.html
   class Path < Shape
     include MultiPoint
+    
+    WINDING_RULES = [:wind_non_zero, :wind_even_odd]
+    
+    attr_accessor :shapes, :closed, :winding_rule
+    alias closed? closed
+    
+    def initialize(shapes: [], points: nil, closed: false, winding_rule: :wind_non_zero)
+      self.closed = closed
+      self.winding_rule = winding_rule
+      self.shapes = shapes
+    end
+    
+    def points
+      if @shapes&.any?
+        the_points = @shapes.map do |shape|
+          case shape
+          when Point
+            shape.to_a
+          when Array
+            shape
+          when Line
+            shape.points.last.to_a
+  #         when QuadraticBezierCurve # TODO
+  #         when CubicBezierCurve # TODO
+          end
+        end
+        the_points << @shapes.first.to_a if closed?
+      else
+        super
+      end
+    end
+    
+    def drawing_types
+      the_drawing_shapes = @shapes.map do |shape|
+        case shape
+        when Point
+          :move_to
+        when Array
+          :move_to
+        when Line
+          :line_to
+#         when QuadraticBezierCurve # TODO
+#         when CubicBezierCurve # TODO
+        end
+      end
+      the_drawing_shapes << :close if closed?
+      the_drawing_shapes
+    end
   end
 end

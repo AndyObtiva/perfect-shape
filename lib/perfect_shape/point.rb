@@ -79,5 +79,10 @@ module PerfectShape
       return unless x && y
       Point.point_distance(self.x, self.y, x, y)
     end
+    
+    # Convert to pair Array of x,y coordinates
+    def to_a
+      [self.x, self.y]
+    end
   end
 end
