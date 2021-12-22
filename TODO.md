@@ -4,6 +4,7 @@
 
 - `PerfectShape::QuadraticBezierCurve` (1 control point)
 - `PerfectShape::Path` add quadratic bezier curves
+- Add https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master to image paths in README
 
 ## Soon (Version 0.1.x)
 
