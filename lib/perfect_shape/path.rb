@@ -43,8 +43,9 @@ module PerfectShape
     alias closed? closed
     
     # Constructs Path with winding rule, closed status, and shapes (must always start with PerfectShape::Point or Array of [x,y] coordinates)
-    # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, or PerfectShape::Line
+    # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, or PerfectShape::CubicBezierCurve
     # winding_rule can be any of WINDING_RULES: :wind_non_zero (default) or :wind_even_odd
+    # closed can be true or false
     def initialize(shapes: [], closed: false, winding_rule: :wind_non_zero)
       self.closed = closed
       self.winding_rule = winding_rule
@@ -110,8 +111,8 @@ module PerfectShape
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
     #
-    # @return {@code true} if the point lies within the bound of
-    # the path, {@code false} if the point lies outside of the
+    # @return true if the point lies within the bound of
+    # the path or false if the point lies outside of the
     # path's bounds.
     def contain?(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)

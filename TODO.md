@@ -7,6 +7,8 @@
 ## Version 0.3.0
 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
+For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing
+and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 
 ## Version 0.4.0
 

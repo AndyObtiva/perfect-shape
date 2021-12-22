@@ -36,7 +36,7 @@ describe PerfectShape do
 
     it 'constructs as open with :wind_even_odd winding rule and shapes consisting of lines having single (end) point only' do
       path_shapes = []
-      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << [200, 150]
       path_shapes << PerfectShape::Line.new(points: [270, 170])
       path_shapes << PerfectShape::Line.new(points: [250, 220])
       path_shapes << PerfectShape::Line.new(points: [220, 190])
