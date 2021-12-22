@@ -26,7 +26,36 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/QuadCurve2D.html
   class QuadraticBezierCurve < Shape
     class << self
-      # TODO
+      def point_crossings(x1, y1, xc, yc, x2, y2, px, py, level = 0)
+        return BigDecimal('0') if (py <  y1 && py <  yc && py <  y2)
+        return BigDecimal('0') if (py >= y1 && py >= yc && py >= y2)
+        # Note y1 could equal y2...
+        return BigDecimal('0') if (px >= x1 && px >= xc && px >= x2)
+        if (px <  x1 && px <  xc && px <  x2)
+          if (py >= y1)
+            return BigDecimal('1') if (py < y2)
+          else
+            # py < y1
+            return BigDecimal('-1') if (py >= y2)
+          end
+          # py outside of y11 range, and/or y1==y2
+          return BigDecimal('0')
+        end
+        # double precision only has 52 bits of mantissa
+        return PerfectShape::Line.point_crossings(x1, y1, x2, y2, px, py) if (level > 52)
+        x1c = (x1 + xc) / BigDecimal('2')
+        y1c = (y1 + yc) / BigDecimal('2')
+        xc1 = (xc + x2) / BigDecimal('2')
+        yc1 = (yc + y2) / BigDecimal('2')
+        xc = (x1c + xc1) / BigDecimal('2')
+        yc = (y1c + yc1) / BigDecimal('2')
+        # [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
+        # [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
+        # These values are also NaN if opposing infinities are added
+        return BigDecimal('0') if (xc.nan? || yc.nan?)
+        point_crossings(x1, y1, x1c, y1c, xc, yc, px, py, level+1) +
+          point_crossings(xc, yc, xc1, yc1, x2, y2, px, py, level+1);
+      end
     end
     
     include MultiPoint
@@ -136,11 +165,18 @@ module PerfectShape
         (y >= yl && y < yb)
     end
     
-    # TODO
-    def point_crossings(x_or_point, y = nil)
+    # Calculates the number of times the quad
+    # crosses the ray extending to the right from (x,y).
+    # If the point lies on a part of the curve,
+    # then no crossings are counted for that intersection.
+    # the level parameter should be 0 at the top-level call and will count
+    # up for each recursion level to prevent infinite recursion
+    # +1 is added for each crossing where the Y coordinate is increasing
+    # -1 is added for each crossing where the Y coordinate is decreasing
+    def point_crossings(x_or_point, y = nil, level = 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      # TODO
+      QuadraticBezierCurve.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], x, y, level)
     end
   end
 end

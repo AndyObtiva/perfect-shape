@@ -164,17 +164,19 @@ module PerfectShape
             crossings += line.point_crossings(x, y)
             curx = endx;
             cury = endy;
-#           when :quad_to # TODO
-#             crossings +=
-#                 Curve.point_crossings_for_quad(x, y,
-#                                             curx, cury,
-#                                             coords[ci++],
-#                                             coords[ci++],
-#                                             endx = coords[ci++],
-#                                             endy = coords[ci++],
-#                                             0);
-#             curx = endx;
-#             cury = endy;
+          when :quad_to
+            quad_ctrlx = coords[ci]
+            ci += 1
+            quad_ctrly = coords[ci]
+            ci += 1
+            endx = coords[ci]
+            ci += 1
+            endy = coords[ci]
+            ci += 1
+            quad = PerfectShape::QuadraticBezierCurve.new(points: [[curx, cury], [quad_ctrlx, quad_ctrly], [endx, endy]])
+            crossings += quad.point_crossings(x, y, 0)
+            curx = endx;
+            cury = endy;
 #           when :cubic_to # TODO
 #             crossings +=
 #                 Curve.point_crossings_for_cubic(x, y,
