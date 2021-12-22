@@ -65,7 +65,10 @@ module PerfectShape
           shape.points.each do |point|
             the_points << point.to_a
           end
-#         when CubicBezierCurve # TODO
+        when CubicBezierCurve
+          shape.points.each do |point|
+            the_points << point.to_a
+          end
         end
       end
       the_points << @shapes.first.to_a if closed?
@@ -87,7 +90,8 @@ module PerfectShape
           :line_to
         when QuadraticBezierCurve
           :quad_to
-#         when CubicBezierCurve # TODO
+        when CubicBezierCurve
+          :cubic_to
         end
       end
       the_drawing_shapes << :close if closed?
@@ -181,19 +185,23 @@ module PerfectShape
           crossings += quad.point_crossings(x, y)
           curx = endx;
           cury = endy;
-#           when :cubic_to # TODO
-#             crossings +=
-#                 Curve.point_crossings_for_cubic(x, y,
-#                                              curx, cury,
-#                                              coords[ci++],
-#                                              coords[ci++],
-#                                              coords[ci++],
-#                                              coords[ci++],
-#                                              endx = coords[ci++],
-#                                              endy = coords[ci++],
-#                                              0);
-#             curx = endx;
-#             cury = endy;
+        when :cubic_to
+          cubic_ctrl1x = coords[ci]
+          ci += 1
+          cubic_ctrl1y = coords[ci]
+          ci += 1
+          cubic_ctrl2x = coords[ci]
+          ci += 1
+          cubic_ctrl2y = coords[ci]
+          ci += 1
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          cubic = PerfectShape::CubicBezierCurve.new(points: [[curx, cury], [cubic_ctrl1x, cubic_ctrl1y], [cubic_ctrl2x, cubic_ctrl2y], [endx, endy]])
+          crossings += cubic.point_crossings(x, y)
+          curx = endx;
+          cury = endy;
         when :close
           if cury != movy
             line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])

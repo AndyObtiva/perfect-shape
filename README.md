@@ -1,4 +1,4 @@
-# Perfect Shape 0.1.1
+# Perfect Shape 0.1.2
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.1.1
+gem install perfect-shape -v 0.1.2
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.1.1'
+gem 'perfect-shape', '~> 0.1.2'
 ```
 
 And, run:
@@ -192,7 +192,7 @@ Extends `PerfectShape::Shape`
 
 Includes `PerfectShape::MultiPoint`
 
-![cubic_bezier_curve](images/cubic_bezier_curve.png)
+![cubic_bezier_curve](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/cubic_bezier_curve.png)
 
 - `::new(points: [])`: constructs a cubic bézier curve with four `points` (start point, two control points, and end point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
 - `#points`: points (start point, two control points, and end point)
@@ -211,7 +211,7 @@ Includes `PerfectShape::MultiPoint`
 Example:
 
 ```ruby
-shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 50], [270, 220], [180, 170]]) # start point, control point, and end point
+shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 50], [270, 220], [180, 170]]) # start point, two control points, and end point
 ```
 
 ### `PerfectShape::Rectangle`

@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.1.2
+
+- `PerfectShape::CubicBezierCurve` (two end points and two control points)
+- `PerfectShape::CubicBezierCurve#contain?(x_or_point, y=nil)`
+- `PerfectShape::CubicBezierCurve#==`
+- `PerfectShape::Path` having cubic bezier curves in addition to points, lines, and quadratic bezier curves
+
 ## 0.1.1
 
 - `PerfectShape::QuadraticBezierCurve` (two end points and one control point)

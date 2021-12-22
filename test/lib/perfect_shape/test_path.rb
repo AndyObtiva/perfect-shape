@@ -14,12 +14,13 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
 
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
 
       _(shape.shapes).must_equal path_shapes
-      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150]]
-      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :close]
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150], [230, 160], [270, 220], [180, 170], [200, 150]]
+      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to, :close]
       _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.closed).must_equal true
       _(shape.closed?).must_equal true
@@ -42,12 +43,13 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
 
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
 
       _(shape.shapes).must_equal path_shapes
-      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190]]
-      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to]
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150], [230, 160], [270, 220], [180, 170]]
+      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
       _(shape.winding_rule).must_equal :wind_even_odd
       _(shape.closed).must_equal false
       _(shape.closed?).must_equal false
@@ -93,9 +95,10 @@ describe PerfectShape do
       shape.shapes << PerfectShape::Line.new(points: [200, 200])
       shape.shapes << PerfectShape::Line.new(points: [180, 170])
       shape.shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      shape.shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
       
-      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150]]
-      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :close]
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150], [230, 160], [270, 220], [180, 170], [200, 150]]
+      _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to, :close]
       _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.closed).must_equal true
       _(shape.closed?).must_equal true
@@ -130,6 +133,7 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
 
       shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
       shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
@@ -146,6 +150,7 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
 
       shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
       path_shapes2 = path_shapes.dup
@@ -468,6 +473,162 @@ describe PerfectShape do
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [235, 205, 220, 190])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [210, 195, 200, 200])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [190, 185, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
+    
+    it 'contains point in center as closed cubic-bezier-curve-based path using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near edge as closed cubic-bezier-curve-based path using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [235, 161]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near corner as closed cubic-bezier-curve-based path using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [269, 170]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box as closed cubic-bezier-curve-based path using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [235, 159]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box as closed cubic-bezier-curve-based path using non-zero rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'contains point in center as closed cubic-bezier-curve-based path using even-odd rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near edge as closed cubic-bezier-curve-based path using even-odd rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [235, 161]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near corner as closed cubic-bezier-curve-based path using even-odd rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [269, 170]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box as closed cubic-bezier-curve-based path using even-odd rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [235, 159]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box as closed cubic-bezier-curve-based path using even-odd rule' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 210, 250, 220])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170])
 
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
       point = [0, 0]
