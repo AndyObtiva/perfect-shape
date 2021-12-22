@@ -1,14 +1,9 @@
 # TODO
 
-## Next (Version 0.1.1)
-
-- Add https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master to image paths in README
-
-## Soon (Version 0.1.x)
+## Next (Version 0.1.2)
 
 - `PerfectShape::CubicBezierCurve` (2 control points)
-- `PerfectShape::Path` add cubic bezier curves
-- Add examples for all shapes in README
+- `PerfectShape::Path` support cubic bezier curves
 
 ## Version 0.2.0
 

@@ -1,4 +1,4 @@
-# Perfect Shape 0.1.0
+# Perfect Shape 0.1.1
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.1.0
+gem install perfect-shape -v 0.1.1
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.1.0'
+gem 'perfect-shape', '~> 0.1.1'
 ```
 
 And, run:
@@ -114,6 +114,12 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Point.new(x: 200, y: 150)
+```
+
 ### `PerfectShape::Line`
 
 Class
@@ -142,6 +148,12 @@ Includes `PerfectShape::MultiPoint`
 - `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Line.new(points: [[200, 150], [270, 220]]) # start point and end point
+```
+
 ### `PerfectShape::QuadraticBezierCurve`
 
 Class
@@ -150,7 +162,7 @@ Extends `PerfectShape::Shape`
 
 Includes `PerfectShape::MultiPoint`
 
-![quadratic_bezier_curve](/images/quadratic_bezier_curve.png)
+![quadratic_bezier_curve](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/quadratic_bezier_curve.png)
 
 - `::new(points: [])`: constructs a quadratic bézier curve with three `points` (two end points and one control point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y values
 - `#min_x`: min x
@@ -164,6 +176,12 @@ Includes `PerfectShape::MultiPoint`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+Example:
+
+```ruby
+shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 220], [180, 170]]) # start point, control point, and end point
+```
 
 ### `PerfectShape::Rectangle`
 
@@ -190,6 +208,12 @@ Includes `PerfectShape::RectangularShape`
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Rectangle.new(x: 15, y: 30, width: 200, height: 100)
+```
+
 ### `PerfectShape::Square`
 
 Class
@@ -213,6 +237,12 @@ Extends `PerfectShape::Rectangle`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+Example:
+
+```ruby
+shape = PerfectShape::Square.new(x: 15, y: 30, length: 200)
+```
 
 ### `PerfectShape::Arc`
 
@@ -248,6 +278,13 @@ Open Arc | Chord Arc | Pie Arc
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
+shape2 = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+```
+
 ### `PerfectShape::Ellipse`
 
 Class
@@ -275,6 +312,13 @@ Extends `PerfectShape::Arc`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+Example:
+
+```ruby
+shape = PerfectShape::Ellipse.new(x: 2, y: 3, width: 50, height: 60)
+shape2 = PerfectShape::Ellipse.new(center_x: 27, center_y: 33, radius_x: 25, radius_y: 30)
+```
 
 ### `PerfectShape::Circle`
 
@@ -306,6 +350,13 @@ Extends `PerfectShape::Ellipse`
 - `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
+shape2 = PerfectShape::Circle.new(center_x: 2 + 30, center_y: 3 + 30, radius: 30)
+```
+
 ### `PerfectShape::Polygon`
 
 Class
@@ -331,6 +382,12 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#contain?(x_or_point, y=nil)`: checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule))
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
+Example:
+
+```ruby
+shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+```
+
 ### `PerfectShape::Path`
 
 Class
@@ -342,7 +399,7 @@ Includes `PerfectShape::MultiPoint`
 ![path](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/path.png)
 
 - `::new(shapes: [], closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, or `PerfectShape::QuadraticBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
-- `#shapes`: the shapes that the path is composed of
+- `#shapes`: the shapes that the path is composed of (must always start with `PerfectShape::Point` or Array of [x,y] coordinates representing start point)
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
 - `#points`: path points calculated (derived) from shapes
@@ -364,13 +421,10 @@ Example:
 ```ruby
 path_shapes = []
 path_shapes << PerfectShape::Point.new(x: 200, y: 150)
-path_shapes << PerfectShape::Line.new(points: [270, 170])
-path_shapes << PerfectShape::Line.new(points: [250, 220])
-path_shapes << PerfectShape::Line.new(points: [220, 190])
-path_shapes << PerfectShape::Line.new(points: [200, 200])
-path_shapes << PerfectShape::Line.new(points: [180, 170])
+path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
 
-shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
 ```
 
 ## Process

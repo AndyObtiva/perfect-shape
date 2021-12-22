@@ -3,7 +3,9 @@
 ## 0.1.1
 
 - `PerfectShape::QuadraticBezierCurve` (two end points and one control point)
-- `PerfectShape::Path` (having quadratic bezier curves in addition to points and lines)
+- `PerfectShape::QuadraticBezierCurve#contain?(x_or_point, y=nil)`
+- `PerfectShape::QuadraticBezierCurve#==`
+- `PerfectShape::Path` having quadratic bezier curves in addition to points and lines
 
 ## 0.1.0
 
