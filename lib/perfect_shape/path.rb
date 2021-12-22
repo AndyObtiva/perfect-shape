@@ -28,6 +28,7 @@ module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Path2D.html
   class Path < Shape
     include MultiPoint
+    include Equalizer.new(:shapes, :closed, :winding_rule)
     
     SHAPE_TYPES = [Array, Point, Line]
     WINDING_RULES = [:wind_non_zero, :wind_even_odd]

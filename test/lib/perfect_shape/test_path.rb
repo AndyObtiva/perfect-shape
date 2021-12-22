@@ -118,6 +118,46 @@ describe PerfectShape do
       proc { shape.points = [[1, 2]] }.must_raise StandardError
     end
 
+    it 'equals other path' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      
+      _(shape2).must_equal shape1
+    end
+    
+    it 'does not equal different path' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+
+      shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
+      path_shapes2 = path_shapes.dup
+      path_shapes2.pop
+      shape2 = PerfectShape::Path.new(shapes: path_shapes2, closed: true, winding_rule: :wind_non_zero)
+      
+      _(shape2).wont_equal shape1
+      
+      shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_non_zero)
+      
+      _(shape2).wont_equal shape1
+      
+      shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      
+      _(shape2).wont_equal shape1
+    end
+    
     it 'contains point in center as closed using non-zero rule' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)

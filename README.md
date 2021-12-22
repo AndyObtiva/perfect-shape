@@ -316,7 +316,7 @@ Includes `PerfectShape::MultiPoint`
 
 ![path](/images/path.png)
 
-- `::new(shapes: nil, closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `::new(shapes: nil, closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
 - `#shapes`: the shapes that the path is composed of
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
