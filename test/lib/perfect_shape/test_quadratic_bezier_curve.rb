@@ -87,7 +87,7 @@ describe PerfectShape do
     end
 
     it 'equals another quadratic bezier curve' do
-      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 220], [180, 170]])
       shape2 = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
 
       _(shape).must_equal shape2
@@ -100,42 +100,34 @@ describe PerfectShape do
       _(shape).wont_equal shape2
     end
 
-#     it 'contains point in center' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [shape.center_x, shape.center_y]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near edge' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 161]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near corner' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [269, 170]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'does not contain point within bounding box' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [235, 159]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside of bounding box' do
-#       shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       point = [0, 0]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
+    it 'contains point near edge' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      point = [270, 220]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near end' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      point = [201, 151]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      point = [200, 260]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
   end
 end
