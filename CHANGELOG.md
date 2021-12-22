@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.1
+
+- `PerfectShape::QuadraticBezierCurve` (two end points and one control point)
+
 ## 0.1.0
 
 - `PerfectShape::Path` (having points or lines)

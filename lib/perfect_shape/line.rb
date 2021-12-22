@@ -189,14 +189,14 @@ module PerfectShape
       # +1 is returned for a crossing where the Y coordinate is increasing
       # -1 is returned for a crossing where the Y coordinate is decreasing
       def point_crossings(x1, y1, x2, y2, px, py)
-        return 0 if (py <  y1 && py <  y2)
-        return 0 if (py >= y1 && py >= y2)
+        return BigDecimal('0') if (py <  y1 && py <  y2)
+        return BigDecimal('0') if (py >= y1 && py >= y2)
         # assert(y1 != y2);
-        return 0 if (px >= x1 && px >= x2)
+        return BigDecimal('0') if (px >= x1 && px >= x2)
         return ((y1 < y2) ? 1 : -1) if (px <  x1 && px <  x2)
         xintercept = x1 + (py - y1) * (x2 - x1) / (y2 - y1);
-        return 0 if (px >= xintercept)
-        (y1 < y2) ? 1 : -1
+        return BigDecimal('0') if (px >= xintercept)
+        (y1 < y2) ? BigDecimal('1') : BigDecimal('-1')
       end
     end
     

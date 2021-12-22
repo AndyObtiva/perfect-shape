@@ -52,7 +52,7 @@ module PerfectShape
         when Point
           shape.to_a
         when Array
-          shape
+          shape.map {|n| BigDecimal(n.to_s)}
         when Line
           shape.points.last.to_a
 #         when QuadraticBezierCurve # TODO
@@ -107,7 +107,7 @@ module PerfectShape
         # Here we know that both x and y are finite.
         return false if shapes.count < 2
         mask = winding_rule == :wind_non_zero ? -1 : 1
-        (point_crossings(x, y) & mask) != 0
+        (point_crossings(x, y).to_i & mask) != 0
       else
         # Either x or y was infinite or NaN.
         # A NaN always produces a negative response to any test
@@ -131,13 +131,13 @@ module PerfectShape
     def point_crossings(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      return 0 if shapes.count == 0
+      return BigDecimal('0') if shapes.count == 0
       movx = movy = curx = cury = endx = endy = 0
       coords = points.flatten
       curx = movx = coords[0]
       cury = movy = coords[1]
-      crossings = 0
-      ci = 2
+      crossings = BigDecimal('0')
+      ci = BigDecimal('2')
       1.upto(shapes.count - 1).each do |i|
           case drawing_types[i]
           when :move_to
