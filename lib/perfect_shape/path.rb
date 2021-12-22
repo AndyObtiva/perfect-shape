@@ -59,6 +59,10 @@ module PerfectShape
       end
     end
     
+    def points=(some_points)
+      raise "Cannot assign points directly! Must set shapes instead and points are calculated from them automatically."
+    end
+    
     def drawing_types
       the_drawing_shapes = @shapes.map do |shape|
         case shape
