@@ -22,6 +22,7 @@
 require 'perfect_shape/shape'
 require 'perfect_shape/point'
 require 'perfect_shape/line'
+require 'perfect_shape/quadratic_bezier_curve'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
@@ -47,20 +48,24 @@ module PerfectShape
     end
     
     def points
-      @shapes.map do |shape|
+      the_points = []
+      @shapes.each do |shape|
         case shape
         when Point
-          shape.to_a
+          the_points << shape.to_a
         when Array
-          shape.map {|n| BigDecimal(n.to_s)}
+          the_points << shape.map {|n| BigDecimal(n.to_s)}
         when Line
-          shape.points.last.to_a
-#         when QuadraticBezierCurve # TODO
+          the_points << shape.points.last.to_a
+        when QuadraticBezierCurve
+          shape.points.each do |point|
+            the_points << point.to_a
+          end
 #         when CubicBezierCurve # TODO
         end
-      end.tap do |the_points|
-        the_points << @shapes.first.to_a if closed?
       end
+      the_points << @shapes.first.to_a if closed?
+      the_points
     end
     
     def points=(some_points)
@@ -76,7 +81,8 @@ module PerfectShape
           :move_to
         when Line
           :line_to
-#         when QuadraticBezierCurve # TODO
+        when QuadraticBezierCurve
+          :quad_to
 #         when CubicBezierCurve # TODO
         end
       end
