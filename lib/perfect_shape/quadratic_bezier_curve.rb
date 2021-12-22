@@ -20,40 +20,37 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/multi_point'
 
 module PerfectShape
-  # Represents multi-point shapes like Line, Polygon, and Polyline
-  module MultiPoint
-    attr_reader :points
-    
-    def initialize(points: [])
-      self.points = points
+  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/QuadCurve2D.html
+  class QuadraticBezierCurve < Shape
+    class << self
+      # TODO
     end
     
-    # Sets points, normalizing to an Array of Arrays of (x,y) pairs as BigDecimal
-    def points=(the_points)
-      unless the_points.first.is_a?(Array)
-        xs = the_points.each_with_index.select {|n, i| i.even?}.map(&:first)
-        ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
-        the_points = xs.zip(ys)
-      end
-      @points = the_points.map {|pair| [BigDecimal(pair.first.to_s), BigDecimal(pair.last.to_s)]}
+    include MultiPoint
+    include Equalizer.new(:points)
+    
+    # Checks if quadratic bézier curve contains point (two-number Array or x, y args)
+    #
+    # @param x The X coordinate of the point to test.
+    # @param y The Y coordinate of the point to test.
+    #
+    # @return {@code true} if the point lies within the bound of
+    # the quadratic bézier curve, {@code false} if the point lies outside of the
+    # quadratic bézier curve's bounds.
+    def contain?(x_or_point, y = nil, distance: 0)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      # TODO
     end
     
-    def min_x
-      points.map(&:first).min
-    end
-    
-    def min_y
-      points.map(&:last).min
-    end
-    
-    def max_x
-      points.map(&:first).max
-    end
-    
-    def max_y
-      points.map(&:last).max
+    # TODO
+    def point_crossings(x_or_point, y = nil)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      # TODO
     end
   end
 end

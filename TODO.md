@@ -1,19 +1,15 @@
 # TODO
 
-## Next (Version 0.1.0)
+## Next (Version 0.1.1)
 
-- `PerfectShape::Path`: represents a geometric path constructed from lines
-- `PerfectShape::Path#Contain?`
+- `PerfectShape::QuadraticBezierCurve` (1 control point)
+- `PerfectShape::Path` add quadratic bezier curves
 
 ## Soon (Version 0.1.x)
 
-- `PerfectShape::QuadraticBezierCurve` (1 control point) [have Path convert to CubicBezierCurve before adding]
-- `PerfectShape::Path` add quadratic bezier curves
 - `PerfectShape::CubicBezierCurve` (2 control points)
 - `PerfectShape::Path` add cubic bezier curves
-- `PerfectShape::Polyline`
-- `PerfectShape::Polyquad`
-- `PerfectShape::Polycubic`
+- Add examples for all shapes in README
 
 ## Version 0.2.0
 
