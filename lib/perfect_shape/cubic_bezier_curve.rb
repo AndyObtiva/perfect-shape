@@ -34,8 +34,41 @@ module PerfectShape
       # up for each recursion level to prevent infinite recursion
       # +1 is added for each crossing where the Y coordinate is increasing
       # -1 is added for each crossing where the Y coordinate is decreasing
-      def point_crossings(x1, y1, xc, yc, x2, y2, px, py, level = 0)
-        # TODO
+      def point_crossings(x1, y1, xc1, yc1, xc2, yc2, x2, y2, px, py, level = 0)
+        return BigDecimal('0') if (py <  y1 && py <  yc1 && py <  yc2 && py <  y2)
+        return BigDecimal('0') if (py >= y1 && py >= yc1 && py >= yc2 && py >= y2)
+        # Note y1 could equal yc1...
+        return BigDecimal('0') if (px >= x1 && px >= xc1 && px >= xc2 && px >= x2)
+        if (px <  x1 && px <  xc1 && px <  xc2 && px <  x2)
+          if (py >= y1)
+            return BigDecimal('1') if (py < y2)
+          else
+            # py < y1
+            return BigDecimal('-1') if (py >= y2)
+          end
+          # py outside of y12 range, and/or y1==yc1
+          return BigDecimal('0')
+        end
+        # double precision only has 52 bits of mantissa
+        return PerfectShape::Line.point_crossings(x1, y1, x2, y2, px, py) if (level > 52)
+        xmid = BigDecimal((xc1 + xc2).to_s) / 2;
+        ymid = BigDecimal((yc1 + yc2).to_s) / 2;
+        xc1 = BigDecimal((x1 + xc1).to_s) / 2;
+        yc1 = BigDecimal((y1 + yc1).to_s) / 2;
+        xc2 = BigDecimal((xc2 + x2).to_s) / 2;
+        yc2 = BigDecimal((yc2 + y2).to_s) / 2;
+        xc1m = BigDecimal((xc1 + xmid).to_s) / 2;
+        yc1m = BigDecimal((yc1 + ymid).to_s) / 2;
+        xmc1 = BigDecimal((xmid + xc2).to_s) / 2;
+        ymc1 = BigDecimal((ymid + yc2).to_s) / 2;
+        xmid = BigDecimal((xc1m + xmc1).to_s) / 2;
+        ymid = BigDecimal((yc1m + ymc1).to_s) / 2;
+        # [xy]mid are NaN if any of [xy]c0m or [xy]mc1 are NaN
+        # [xy]c0m or [xy]mc1 are NaN if any of [xy][c][01] are NaN
+        # These values are also NaN if opposing infinities are added
+        return BigDecimal('0') if (xmid.nan? || ymid.nan?)
+        point_crossings(x1, y1, xc1, yc1, xc1m, yc1m, xmid, ymid, px, py, level+1) +
+          point_crossings(xmid, ymid, xmc1, ymc1, xc2, yc2, x2, y2, px, py, level+1)
       end
     end
     
@@ -54,7 +87,20 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
-      # TODO
+      # Either x or y was infinite or NaN.
+      # A NaN always produces a negative response to any test
+      # and Infinity values cannot be "inside" any path so
+      # they should return false as well.
+      return false if (!(x * 0.0 + y * 0.0 == 0.0))
+      # We count the "Y" crossings to determine if the point is
+      # inside the curve bounded by its closing line.
+      x1 = points[0][0]
+      y1 = points[0][1]
+      x2 = points[3][0]
+      y2 = points[3][1]
+      line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
+      crossings = line.point_crossings(x, y) + point_crossings(x, y);
+      (crossings.to_i & 1) == 1
     end
     
     # Calculates the number of times the cubic bézier curve

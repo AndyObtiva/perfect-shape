@@ -100,34 +100,34 @@ describe PerfectShape do
       _(shape).wont_equal shape2
     end
 
-#     it 'contains point near edge' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
-#       point = [270, 220]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'contains point near end' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
-#       point = [201, 151]
-#
-#       _(shape).must_be :contain?, point
-#       _(shape.contain?(point)).must_equal shape.contain?(*point)
-#     end
-#
-#     it 'does not contain point within bounding box' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
-#       point = [200, 260]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
-#
-#     it 'does not contain point outside of bounding box' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
-#       point = [0, 0]
-#
-#       _(shape.contain?(point)).must_equal false
-#     end
+    it 'contains point near edge' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      point = [270, 220]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point near end' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      point = [201, 151]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'does not contain point within bounding box' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      point = [200, 260]
+
+      _(shape.contain?(point)).must_equal false
+    end
+
+    it 'does not contain point outside of bounding box' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      point = [0, 0]
+
+      _(shape.contain?(point)).must_equal false
+    end
   end
 end

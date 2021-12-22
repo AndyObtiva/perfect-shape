@@ -178,7 +178,7 @@ module PerfectShape
           endy = coords[ci]
           ci += 1
           quad = PerfectShape::QuadraticBezierCurve.new(points: [[curx, cury], [quad_ctrlx, quad_ctrly], [endx, endy]])
-          crossings += quad.point_crossings(x, y, 0)
+          crossings += quad.point_crossings(x, y)
           curx = endx;
           cury = endy;
 #           when :cubic_to # TODO
