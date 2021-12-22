@@ -86,20 +86,20 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-#     it 'equals another quadratic bezier curve' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [270, 220], [180, 170]])
-#       shape2 = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
-#
-#       _(shape).must_equal shape2
-#     end
-#
-#     it 'does not equal a different quadratic bezier curve' do
-#       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 220, 180, 170])
-#       shape2 = PerfectShape::CubicBezierCurve.new(points: [201, 151, 271, 221, 181, 171])
-#
-#       _(shape).wont_equal shape2
-#     end
-#
+    it 'equals another quadratic bezier curve' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+      shape2 = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+
+      _(shape).must_equal shape2
+    end
+
+    it 'does not equal a different quadratic bezier curve' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+      shape2 = PerfectShape::CubicBezierCurve.new(points: [[201, 151], [230, 160], [270, 220], [180, 170]])
+
+      _(shape).wont_equal shape2
+    end
+
 #     it 'contains point near edge' do
 #       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
 #       point = [270, 220]
