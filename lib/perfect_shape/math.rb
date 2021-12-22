@@ -76,9 +76,9 @@ module PerfectShape
         super || ::Math.respond_to?(method_name, include_private)
       end
       
-      def method_missing(method_name, *args, **kwargs, &block)
+      def method_missing(method_name, *args, &block)
         if ::Math.respond_to?(method_name, true)
-          ::Math.send(method_name, *args, **kwargs, &block)
+          ::Math.send(method_name, *args, &block)
         else
           super
         end
