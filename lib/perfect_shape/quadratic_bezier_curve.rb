@@ -35,32 +35,32 @@ module PerfectShape
       # +1 is added for each crossing where the Y coordinate is increasing
       # -1 is added for each crossing where the Y coordinate is decreasing
       def point_crossings(x1, y1, xc, yc, x2, y2, px, py, level = 0)
-        return BigDecimal('0') if (py <  y1 && py <  yc && py <  y2)
-        return BigDecimal('0') if (py >= y1 && py >= yc && py >= y2)
+        return 0 if (py <  y1 && py <  yc && py <  y2)
+        return 0 if (py >= y1 && py >= yc && py >= y2)
         # Note y1 could equal y2...
-        return BigDecimal('0') if (px >= x1 && px >= xc && px >= x2)
+        return 0 if (px >= x1 && px >= xc && px >= x2)
         if (px <  x1 && px <  xc && px <  x2)
           if (py >= y1)
-            return BigDecimal('1') if (py < y2)
+            return 1 if (py < y2)
           else
             # py < y1
-            return BigDecimal('-1') if (py >= y2)
+            return -1 if (py >= y2)
           end
           # py outside of y11 range, and/or y1==y2
-          return BigDecimal('0')
+          return 0
         end
         # double precision only has 52 bits of mantissa
         return PerfectShape::Line.point_crossings(x1, y1, x2, y2, px, py) if (level > 52)
-        x1c = BigDecimal((x1 + xc).to_s) / BigDecimal('2')
-        y1c = BigDecimal((y1 + yc).to_s) / BigDecimal('2')
-        xc1 = BigDecimal((xc + x2).to_s) / BigDecimal('2')
-        yc1 = BigDecimal((yc + y2).to_s) / BigDecimal('2')
-        xc = BigDecimal((x1c + xc1).to_s) / BigDecimal('2')
-        yc = BigDecimal((y1c + yc1).to_s) / BigDecimal('2')
+        x1c = BigDecimal((x1 + xc).to_s) / 2
+        y1c = BigDecimal((y1 + yc).to_s) / 2
+        xc1 = BigDecimal((xc + x2).to_s) / 2
+        yc1 = BigDecimal((yc + y2).to_s) / 2
+        xc = BigDecimal((x1c + xc1).to_s) / 2
+        yc = BigDecimal((y1c + yc1).to_s) / 2
         # [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
         # [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
         # These values are also NaN if opposing infinities are added
-        return BigDecimal('0') if (xc.nan? || yc.nan?)
+        return 0 if (xc.nan? || yc.nan?)
         point_crossings(x1, y1, x1c, y1c, xc, yc, px, py, level+1) +
           point_crossings(xc, yc, xc1, yc1, x2, y2, px, py, level+1);
       end
