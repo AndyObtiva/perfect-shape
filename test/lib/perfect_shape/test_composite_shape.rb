@@ -55,5 +55,33 @@ describe PerfectShape do
       _(shape.center_x).must_equal 20 + (120 + 100 - 20) / 2.0
       _(shape.center_y).must_equal 15 + (115 + 100 - 15) / 2.0
     end
+    
+    it 'equals other composite shape' do
+      shapes1 = []
+      shapes1 << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes1 << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+      shapes2 = []
+      shapes2 << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes2 << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+
+      shape1 = PerfectShape::CompositeShape.new(shapes: shapes1)
+      shape2 = PerfectShape::CompositeShape.new(shapes: shapes2)
+      
+      _(shape2).must_equal shape1
+    end
+    
+    it 'does not equal different composite shape' do
+      shapes1 = []
+      shapes1 << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes1 << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+      shapes2 = []
+      shapes2 << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+      shapes2 << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+
+      shape1 = PerfectShape::CompositeShape.new(shapes: shapes1)
+      shape2 = PerfectShape::CompositeShape.new(shapes: shapes2)
+      
+      _(shape2).wont_equal shape1
+    end
   end
 end
