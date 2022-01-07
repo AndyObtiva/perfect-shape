@@ -86,6 +86,7 @@ describe PerfectShape do
 
       _(shape).must_be :contain?, point
       _(shape.contain?(point)).must_equal shape.contain?(*point)
+      _(shape.contain?(point)).must_equal shape.contain?(point, outline: true)
     end
 
     it 'contains point at end' do
@@ -109,6 +110,7 @@ describe PerfectShape do
       point = [50, 50.01]
 
       _(shape.contain?(point)).must_equal false
+      _(shape.contain?(point, outline: true)).must_equal false
     end
     
     it 'contains point with distance tolerance' do

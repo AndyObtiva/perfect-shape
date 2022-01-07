@@ -127,6 +127,7 @@ describe PerfectShape do
       
       _(shape.contain?(point)).must_equal true
       _(shape.contain?(point)).must_equal shape.contain?(*point)
+      _(shape.contain?(point)).must_equal shape.contain?(point, outline: true)
     end
     
     it 'does not contain point' do
@@ -136,6 +137,7 @@ describe PerfectShape do
       
       _(shape.contain?(point)).must_equal false
       _(shape.contain?(point)).must_equal shape.contain?(*point)
+      _(shape.contain?(point)).must_equal shape.contain?(point, outline: true)
       
       point = [200, 101]
       

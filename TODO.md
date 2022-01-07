@@ -2,11 +2,8 @@
 
 ## Next Version 0.3.0
 
-- `PerfectShape::Rectangle#contain?(outline: true)`: check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
 - `PerfectShape::Square#contain?(outline: true)`:  check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
 - `PerfectShape::Polygon#contain?(outline: true)`:  check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
-- `PerfectShape::Line#contain?(outline: true)` (works just like standard `contain?` on `Line`)
-- `PerfectShape::Point#contain?(outline: true)` (works just like standard `contain?` on `Point`)
  
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js

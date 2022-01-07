@@ -212,7 +212,7 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the line, {@code false} if the point lies outside of the
     # line's bounds.
-    def contain?(x_or_point, y = nil, distance_tolerance: 0)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance_tolerance = BigDecimal(distance_tolerance.to_s)

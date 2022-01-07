@@ -21,6 +21,7 @@
 
 require 'perfect_shape/shape'
 require 'perfect_shape/rectangular_shape'
+require 'perfect_shape/line'
 
 module PerfectShape
   # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html
@@ -36,10 +37,17 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the rectangle, {@code false} if the point lies outside of the
     # rectangle's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      x.between?(self.x, self.x + self.width) && y.between?(self.y, self.y + self.height)
+      if outline
+        Line.new(points: [[self.x, self.y], [self.x + width, self.y]]).contain?(x, y, distance_tolerance: distance_tolerance) or
+          Line.new(points: [[self.x + width, self.y], [self.x + width, self.y + height]]).contain?(x, y, distance_tolerance: distance_tolerance) or
+          Line.new(points: [[self.x + width, self.y + height], [self.x, self.y + height]]).contain?(x, y, distance_tolerance: distance_tolerance) or
+          Line.new(points: [[self.x, self.y + height], [self.x, self.y]]).contain?(x, y, distance_tolerance: distance_tolerance)
+      else
+        x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
+      end
     end
   end
 end
