@@ -66,19 +66,7 @@ module PerfectShape
     def contain?(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      if (x * 0.0 + y * 0.0) == 0.0
-        # N * 0.0 is 0.0 only if N is finite.
-        # Here we know that both x and y are finite.
-        return false if shapes.count < 2
-        mask = winding_rule == :wind_non_zero ? -1 : 1
-        (point_crossings(x, y) & mask) != 0
-      else
-        # Either x or y was infinite or NaN.
-        # A NaN always produces a negative response to any test
-        # and Infinity values cannot be "inside" any path so
-        # they should return false as well.
-        false
-      end
+      shapes.any? {|shape| shape.contain?(x, y) }
     end
   end
 end

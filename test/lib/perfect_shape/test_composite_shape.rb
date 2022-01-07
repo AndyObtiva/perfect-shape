@@ -83,5 +83,51 @@ describe PerfectShape do
       
       _(shape2).wont_equal shape1
     end
+    
+    it 'contains point in center of square shape' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      point = [shapes[0].center_x, shapes[0].center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+    
+    it 'contains point in center of circle shape' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      point = [shapes[1].center_x, shapes[1].center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+    
+    it 'does not contain point between square and circle' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      point = [121, 116]
+
+      _(shape).wont_be :contain?, point
+    end
+    
+    it 'does not contain point outside of bounding boxes of square and circle' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 120, y: 115, diameter: 100)
+
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      point = [-1, -1]
+
+      _(shape).wont_be :contain?, point
+    end
   end
 end
