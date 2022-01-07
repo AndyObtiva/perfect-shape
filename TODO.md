@@ -1,10 +1,6 @@
 # TODO
 
-## Next Version 0.2.0
-
-- `PerfectShape::CompositeShape`: aggregate of multiple shapes
-
-## Version 0.3.0
+## Next Version 0.3.0
 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing

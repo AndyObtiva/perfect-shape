@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.0
+
+- `PerfectShape::CompositeShape`: aggregate of multiple shapes
+- `PerfectShape::CompositeShape#contain?(x_or_point, y=nil)`
+- `PerfectShape::CompositeShape#==`
+
 ## 0.1.2
 
 - `PerfectShape::CubicBezierCurve` (two end points and two control points)

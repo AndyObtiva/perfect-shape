@@ -1,4 +1,4 @@
-# Perfect Shape 0.1.2
+# Perfect Shape 0.2.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.1.2
+gem install perfect-shape -v 0.2.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.1.2'
+gem 'perfect-shape', '~> 0.2.0'
 ```
 
 And, run:
@@ -118,7 +118,16 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Point.new(x: 200, y: 150)
+
+shape.contain?(200, 150) # => true
+shape.contain?([200, 150]) # => true
+shape.contain?(200, 151) # => false
+shape.contain?([200, 151]) # => false
+shape.contain?(200, 151, distance: 5) # => false
+shape.contain?([200, 151], distance: 5) # => false
 ```
 
 ### `PerfectShape::Line`
@@ -152,7 +161,16 @@ Includes `PerfectShape::MultiPoint`
 Example:
 
 ```ruby
-shape = PerfectShape::Line.new(points: [[200, 150], [270, 220]]) # start point and end point
+require 'perfect-shape'
+
+shape = PerfectShape::Line.new(points: [[0, 0], [100, 100]]) # start point and end point
+
+shape.contain?(50, 50) # => true
+shape.contain?([50, 50]) # => true
+shape.contain?(50, 51) # => false
+shape.contain?([50, 51]) # => false
+shape.contain?(50, 51, distance: 5) # => true
+shape.contain?([50, 51], distance: 5) # => true
 ```
 
 ### `PerfectShape::QuadraticBezierCurve`
@@ -182,7 +200,12 @@ Includes `PerfectShape::MultiPoint`
 Example:
 
 ```ruby
-shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 220], [180, 170]]) # start point, control point, and end point
+require 'perfect-shape'
+
+shape = PerfectShape::QuadraticBezierCurve.new(points: [[200, 150], [270, 320], [380, 150]]) # start point, control point, and end point
+
+shape.contain?(270, 220) # => true
+shape.contain?([270, 220]) # => true
 ```
 
 ### `PerfectShape::CubicBezierCurve`
@@ -212,7 +235,12 @@ Includes `PerfectShape::MultiPoint`
 Example:
 
 ```ruby
-shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 50], [270, 220], [180, 170]]) # start point, two control points, and end point
+require 'perfect-shape'
+
+shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [235, 235], [270, 320], [380, 150]]) # start point, two control points, and end point
+
+shape.contain?(270, 220) # => true
+shape.contain?([270, 220]) # => true
 ```
 
 ### `PerfectShape::Rectangle`
@@ -243,7 +271,12 @@ Includes `PerfectShape::RectangularShape`
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Rectangle.new(x: 15, y: 30, width: 200, height: 100)
+
+shape.contain?(115, 80) # => true
+shape.contain?([115, 80]) # => true
 ```
 
 ### `PerfectShape::Square`
@@ -273,7 +306,12 @@ Extends `PerfectShape::Rectangle`
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Square.new(x: 15, y: 30, length: 200)
+
+shape.contain?(115, 130) # => true
+shape.contain?([115, 130]) # => true
 ```
 
 ### `PerfectShape::Arc`
@@ -313,8 +351,35 @@ Open Arc | Chord Arc | Pie Arc
 Example:
 
 ```ruby
-shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 30, extent: 90)
-shape2 = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+require 'perfect-shape'
+
+shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
+shape2 = PerfectShape::Arc.new(type: :open, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+
+shape.contain?(39.5, 33.0) # => true
+shape.contain?([39.5, 33.0]) # => true
+shape2.contain?(39.5, 33.0) # => true
+shape2.contain?([39.5, 33.0]) # => true
+
+shape3 = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
+shape4 = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+
+shape3.contain?(39.5, 33.0) # => true
+shape3.contain?([39.5, 33.0]) # => true
+shape4.contain?(39.5, 33.0) # => true
+shape4.contain?([39.5, 33.0]) # => true
+
+shape5 = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
+shape6 = PerfectShape::Arc.new(type: :pie, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+
+shape5.contain?(39.5, 33.0) # => false
+shape5.contain?([39.5, 33.0]) # => false
+shape6.contain?(39.5, 33.0) # => false
+shape6.contain?([39.5, 33.0]) # => false
+shape5.contain?(9.5, 33.0) # => true
+shape5.contain?([9.5, 33.0]) # => true
+shape6.contain?(9.5, 33.0) # => true
+shape6.contain?([9.5, 33.0]) # => true
 ```
 
 ### `PerfectShape::Ellipse`
@@ -348,8 +413,15 @@ Extends `PerfectShape::Arc`
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Ellipse.new(x: 2, y: 3, width: 50, height: 60)
 shape2 = PerfectShape::Ellipse.new(center_x: 27, center_y: 33, radius_x: 25, radius_y: 30)
+
+shape.contain?(27, 33) # => true
+shape.contain?([27, 33]) # => true
+shape2.contain?(27, 33) # => true
+shape2.contain?([27, 33]) # => true
 ```
 
 ### `PerfectShape::Circle`
@@ -385,8 +457,15 @@ Extends `PerfectShape::Ellipse`
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
 shape2 = PerfectShape::Circle.new(center_x: 2 + 30, center_y: 3 + 30, radius: 30)
+
+shape.contain?(32, 33) # => true
+shape.contain?([32, 33]) # => true
+shape2.contain?(32, 33) # => true
+shape2.contain?([32, 33]) # => true
 ```
 
 ### `PerfectShape::Polygon`
@@ -417,7 +496,12 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+
+shape.contain?(225, 185) # => true
+shape.contain?([225, 185]) # => true
 ```
 
 ### `PerfectShape::Path`
@@ -451,6 +535,8 @@ Includes `PerfectShape::MultiPoint`
 Example:
 
 ```ruby
+require 'perfect-shape'
+
 path_shapes = []
 path_shapes << PerfectShape::Point.new(x: 200, y: 150)
 path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
@@ -458,6 +544,48 @@ path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350,
 path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
 
 shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+
+shape.contain?(225, 160) # => true
+shape.contain?([225, 160]) # => true
+```
+
+### `PerfectShape::CompositeShape`
+
+Class
+
+Extends `PerfectShape::Shape`
+
+![composite shape](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/composite-shape.png)
+
+- `::new(shapes: [])`: constructs a composite shape with `shapes` as `Array` of `PerfectShape::Shape` objects
+- `#shapes`: the shapes that the path is composed of
+- `#min_x`: min x
+- `#min_y`: min y
+- `#max_x`: max x
+- `#max_y`: max y
+- `#width`: width (from min x to max x)
+- `#height`: height (from min y to max y)
+- `#center_x`: center x
+- `#center_y`: center y
+- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
+- `#contain?(x_or_point, y=nil)`: checks if point is inside any of the shapes owned by the composite shape
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+
+Example:
+
+```ruby
+require 'perfect-shape'
+
+shapes = []
+shapes << PerfectShape::Square.new(x: 120, y: 215, length: 100)
+shapes << PerfectShape::Polygon.new(points: [[120, 215], [170, 165], [220, 215]])
+
+shape = PerfectShape::CompositeShape.new(shapes: shapes)
+
+shape.contain?(170, 265) # => true
+shape.contain?([170, 265]) # => true
+shape.contain?(170, 190) # => true
+shape.contain?([170, 190]) # => true
 ```
 
 ## Process
