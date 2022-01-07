@@ -63,15 +63,15 @@ module PerfectShape
     #
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
-    # @param distance The distance from point to tolerate (0 by default)
+    # @param distance_tolerance The distance from point to tolerate (0 by default)
     #
     # @return {@code true} if the point is close enough within distance tolerance,
     # {@code false} if the point is too far.
-    def contain?(x_or_point, y = nil, distance: 0)
+    def contain?(x_or_point, y = nil, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      distance = BigDecimal(distance.to_s)
-      point_distance(x, y) <= distance
+      distance_tolerance = BigDecimal(distance_tolerance.to_s)
+      point_distance(x, y) <= distance_tolerance
     end
     
     def point_distance(x_or_point, y = nil)

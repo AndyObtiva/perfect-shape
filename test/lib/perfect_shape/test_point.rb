@@ -152,10 +152,10 @@ describe PerfectShape do
       point = [200, 101]
       
       _(shape.contain?(point)).must_equal false
-      _(shape.contain?(point, distance: 0.5)).must_equal false
-      _(shape.contain?(point, distance: 1)).must_equal true
-      _(shape.contain?(point, distance: 2)).must_equal true
-      _(shape.contain?(point, distance: 1)).must_equal shape.contain?(*point, distance: 1)
+      _(shape.contain?(point, distance_tolerance: 0.5)).must_equal false
+      _(shape.contain?(point, distance_tolerance: 1)).must_equal true
+      _(shape.contain?(point, distance_tolerance: 2)).must_equal true
+      _(shape.contain?(point, distance_tolerance: 1)).must_equal shape.contain?(*point, distance_tolerance: 1)
     end
   end
 end

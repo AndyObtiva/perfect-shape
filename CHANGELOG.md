@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.0
+
+- Refactoring: rename `distance` option for `#contain?` on `Point`/`Line` into `distance_tolerance`
+
 ## 0.2.0
 
 - `PerfectShape::CompositeShape`: aggregate of multiple shapes
@@ -23,7 +27,7 @@
 ## 0.1.0
 
 - `PerfectShape::Path` (having points or lines)
-- `PerfectShape::Path#contain?(x_or_point, y=nil, distance: 0)`
+- `PerfectShape::Path#contain?(x_or_point, y=nil, distance_tolerance: 0)`
 - `PerfectShape::Path#point_crossings(x_or_point, y=nil)`
 - `PerfectShape::Path#==`
 
@@ -37,12 +41,12 @@
 
 - `PerfectShape::Point`
 - `PerfectShape::Point#point_distance`
-- `PerfectShape::Point#contain?(x_or_point, y=nil, distance: 0)`
+- `PerfectShape::Point#contain?(x_or_point, y=nil, distance_tolerance: 0)`
 - Refactor `PerfectShape::Point`,`PerfectShape::RectangularShape` to include shared `PerfectShape::PointLocation`
 
 ## 0.0.9
 
-- `PerfectShape::Line#contain?(x_or_point, y=nil, distance: 0)` (add a distance tolerance fuzz factor option)
+- `PerfectShape::Line#contain?(x_or_point, y=nil, distance_tolerance: 0)` (add a distance tolerance fuzz factor option)
 
 ## 0.0.8
 

@@ -1,9 +1,9 @@
-# Perfect Shape 0.2.0
+# Perfect Shape 0.3.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
 
-[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bézier curves](#perfectshapecubicbeziercurve) (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve) (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.2.0
+gem install perfect-shape -v 0.3.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.2.0'
+gem 'perfect-shape', '~> 0.3.0'
 ```
 
 And, run:
@@ -111,7 +111,7 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#center_x`: center x (always x)
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, distance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape in a GUI more successfully.
+- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape in a GUI more successfully.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
@@ -126,8 +126,8 @@ shape.contain?(200, 150) # => true
 shape.contain?([200, 150]) # => true
 shape.contain?(200, 151) # => false
 shape.contain?([200, 151]) # => false
-shape.contain?(200, 151, distance: 5) # => false
-shape.contain?([200, 151], distance: 5) # => false
+shape.contain?(200, 151, distance_tolerance: 5) # => true
+shape.contain?([200, 151], distance_tolerance: 5) # => true
 ```
 
 ### `PerfectShape::Line`
@@ -153,7 +153,7 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, distance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape in a GUI more successfully.
+- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape in a GUI more successfully.
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
@@ -169,8 +169,8 @@ shape.contain?(50, 50) # => true
 shape.contain?([50, 50]) # => true
 shape.contain?(50, 51) # => false
 shape.contain?([50, 51]) # => false
-shape.contain?(50, 51, distance: 5) # => true
-shape.contain?([50, 51], distance: 5) # => true
+shape.contain?(50, 51, distance_tolerance: 5) # => true
+shape.contain?([50, 51], distance_tolerance: 5) # => true
 ```
 
 ### `PerfectShape::QuadraticBezierCurve`
@@ -555,10 +555,12 @@ Class
 
 Extends `PerfectShape::Shape`
 
+A composite shape is simply an aggregate of multiple shapes (e.g. square and polygon)
+
 ![composite shape](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/composite-shape.png)
 
 - `::new(shapes: [])`: constructs a composite shape with `shapes` as `Array` of `PerfectShape::Shape` objects
-- `#shapes`: the shapes that the path is composed of
+- `#shapes`: the shapes that the composite shape is composed of
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x

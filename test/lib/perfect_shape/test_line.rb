@@ -116,15 +116,15 @@ describe PerfectShape do
       point = [50, 50.01]
 
       _(shape.contain?(point)).must_equal false
-      _(shape.contain?(point, distance: 0.01)).must_equal true
-      _(shape.contain?(point, distance: 0.001)).must_equal false
+      _(shape.contain?(point, distance_tolerance: 0.01)).must_equal true
+      _(shape.contain?(point, distance_tolerance: 0.001)).must_equal false
       
       shape = PerfectShape::Line.new(points: [[0, 0], [0, 100]])
       point = [1, 0]
 
       _(shape.contain?(point)).must_equal false
-      _(shape.contain?(point, distance: 1)).must_equal true
-      _(shape.contain?(point, distance: 0.9)).must_equal false
+      _(shape.contain?(point, distance_tolerance: 1)).must_equal true
+      _(shape.contain?(point, distance_tolerance: 0.9)).must_equal false
     end
     
     it 'returns point segment distance' do
