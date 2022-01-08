@@ -85,6 +85,10 @@ module PerfectShape
     end
     
     # Subclasses must implement
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
+    end
+    
+    # Subclasses must implement
     def ==(other)
     end
   end

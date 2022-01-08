@@ -56,7 +56,7 @@ This is a base class for all shapes. It is not meant to be used directly. Subcla
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of `[x,y]` coordinates
-- `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside if `outline` is `false` or if point is on the outline if `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::PointLocation`

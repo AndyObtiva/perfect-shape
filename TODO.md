@@ -12,11 +12,19 @@ For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and t
 ## Version 0.4.0
 
 - `PerfectShape::AffineTransform`: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
+- `PerfectShape::AffineTransform#transform_point`
+- `PerfectShape::AffineTransform#inverse_transform_point`
+- `PerfectShape::AffineTransform#transform_points`
+- `PerfectShape::AffineTransform#inverse_transform_points`
+- `Point#affine_transform(affine_transform)`
+- `MultiPoint#affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
+- Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` and inverse-transform point before calculation if `:affine_transform` option is supplied
 - Document affine transforms in README & gemspec intro
 
 ## Version 1.0.0
 
 - Shape `intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- Shape `intersect?(rectangle, affine_transform: )`
 - Document intersection algorithm in README & gemspec intro
 
 ## Geometry
