@@ -152,6 +152,13 @@ describe PerfectShape do
       assert shape.contain?(point, outline: true)
     end
     
+    it 'does not contain point on the outline with chord type shape not having distance tolerance' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
+      point = [shape.x + 1, shape.y + (shape.height / 2.0)]
+
+      refute shape.contain?(point, outline: true)
+    end
+    
     it 'contains point on the outline with distance tolerance and chord type shape' do
       shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
       point = [shape.x + 1, shape.y + (shape.height / 2.0)]
@@ -215,6 +222,13 @@ describe PerfectShape do
       point = [shape.x, shape.y + (shape.height / 2.0)]
 
       assert shape.contain?(point, outline: true)
+    end
+    
+    it 'does not contain point on the outline with open type shape not having distance tolerance' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
+      point = [shape.x + 1, shape.y + (shape.height / 2.0)]
+
+      refute shape.contain?(point, outline: true)
     end
     
     it 'contains point on the outline with distance tolerance and open type shape' do
@@ -294,6 +308,13 @@ describe PerfectShape do
       point = [shape.x, shape.y + (shape.height / 2.0)]
 
       assert shape.contain?(point, outline: true)
+    end
+    
+    it 'does not contain point on the outline with pie type shape not having distance tolerance' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 45, extent: 270)
+      point = [shape.x + 1, shape.y + (shape.height / 2.0)]
+
+      refute shape.contain?(point, outline: true)
     end
     
     it 'contains point on the outline with distance tolerance and pie type shape' do

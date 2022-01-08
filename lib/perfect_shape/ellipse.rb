@@ -63,17 +63,21 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the ellipse, {@code false} if the point lies outside of the
     # ellipse's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       # This is implemented again even though super would have just worked to have an optimized algorithm for Ellipse.
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      ellw = self.width
-      return false if ellw <= 0.0
-      normx = (x - self.x) / ellw - 0.5
-      ellh = self.height
-      return false if ellh <= 0.0
-      normy = (y - self.y) / ellh - 0.5
-      (normx * normx + normy * normy) < 0.25
+      if outline
+        super(x, y, outline: true, distance_tolerance: distance_tolerance)
+      else
+        ellw = self.width
+        return false if ellw <= 0.0
+        normx = (x - self.x) / ellw - 0.5
+        ellh = self.height
+        return false if ellh <= 0.0
+        normy = (y - self.y) / ellh - 0.5
+        (normx * normx + normy * normy) < 0.25
+      end
     end
   end
 end

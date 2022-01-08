@@ -2,14 +2,15 @@
 
 ## 0.3.1
 
-- Check point containment in arc outline with distance tolerance: `PerfectShape::Arc#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
+- Check point containment in arc outline with distance tolerance (new method signature: `PerfectShape::Arc#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- Check point containment in ellipse outline with distance tolerance (new method signature: `PerfectShape::Ellipse#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
 
 ## 0.3.0
 
 - Refactoring: rename `distance` option for `#contain?` on `Point`/`Line` into `distance_tolerance`
-- Check point containment in rectangle outline with distance tolerance: `PerfectShape::Rectangle#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
-- Check point containment in square outline with distance tolerance: `PerfectShape::Square#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
-- Check point containment in polygon outline with distance tolerance: `PerfectShape::Polygon#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
+- Check point containment in rectangle outline with distance tolerance (new method signature: `PerfectShape::Rectangle#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- Check point containment in square outline with distance tolerance (new method signature: `PerfectShape::Square#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- Check point containment in polygon outline with distance tolerance (new method signature: `PerfectShape::Polygon#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
 
 ## 0.2.0
 
