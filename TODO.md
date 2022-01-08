@@ -2,7 +2,6 @@
 
 ## Next Version 0.3.0
 
-- `PerfectShape::Square#contain?(outline: true)`:  check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
 - `PerfectShape::Polygon#contain?(outline: true)`:  check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
  
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)

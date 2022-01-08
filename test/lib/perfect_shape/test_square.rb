@@ -113,12 +113,26 @@ describe PerfectShape do
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
+    it 'contains point at the outline top-left corner' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2, 3]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
     it 'contains point at the top-right corner' do
       shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
       point = [2 + 50, 3]
 
       _(shape).must_be :contain?, point
       _(shape.contain?(*point)).must_equal shape.contain?(point)
+    end
+
+    it 'contains point at the outline top-right corner' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 50, 3]
+
+      _(shape.contain?(point, outline: true)).must_equal true
     end
 
     it 'contains point at the bottom-left corner' do
@@ -129,12 +143,26 @@ describe PerfectShape do
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
+    it 'contains point at the outline bottom-left corner' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2, 3 + 50]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
     it 'contains point at the bottom-right corner' do
       shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
       point = [2 + 50, 3 + 50]
 
       _(shape).must_be :contain?, point
       _(shape.contain?(*point)).must_equal shape.contain?(point)
+    end
+
+    it 'contains point at the outline bottom-right corner' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 50, 3 + 50]
+
+      _(shape.contain?(point, outline: true)).must_equal true
     end
 
     it 'contains point at the top side' do
@@ -145,12 +173,26 @@ describe PerfectShape do
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
+    it 'contains point at the outline top side' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 25, 3]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
     it 'contains point at the left side' do
       shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
       point = [2, 3 + 25]
 
       _(shape).must_be :contain?, point
       _(shape.contain?(*point)).must_equal shape.contain?(point)
+    end
+
+    it 'contains point at the outline left side' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2, 3 + 25]
+
+      _(shape.contain?(point, outline: true)).must_equal true
     end
 
     it 'contains point at the right side' do
@@ -161,6 +203,13 @@ describe PerfectShape do
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
+    it 'contains point at the outline right side' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 50, 3 + 25]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
     it 'contains point at the bottom side' do
       shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
       point = [2 + 25, 3 + 50]
@@ -169,12 +218,33 @@ describe PerfectShape do
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
 
+    it 'contains point at the outline bottom side' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 25, 3 + 50]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
     it 'contains point inside shape' do
       shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
       point = [2 + 25, 3 + 25]
 
       _(shape).must_be :contain?, point
       _(shape.contain?(*point)).must_equal shape.contain?(point)
+    end
+
+    it 'does not contain point inside shape when checking against outline only' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 25, 3 + 25]
+
+      _(shape.contain?(point, outline: true)).must_equal false
+    end
+
+    it 'contains point when checking against outline with distance tolerance' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      point = [2 + 2, 3 + 2]
+
+      _(shape.contain?(point, outline: true, distance_tolerance: 2)).must_equal true
     end
 
     it 'does not contain point to the top-left of the shape' do

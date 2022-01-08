@@ -308,7 +308,7 @@ Extends `PerfectShape::Rectangle`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is false or if point is on the outline when `outline` is true. `distance_tolerance` can be used as a fuzz factor when `outline` is true, for example, to help users mouse-click-select a square shape from its edge in a GUI more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -320,6 +320,14 @@ shape = PerfectShape::Square.new(x: 15, y: 30, length: 200)
 
 shape.contain?(115, 130) # => true
 shape.contain?([115, 130]) # => true
+shape.contain?(115, 130, outline: true) # => false
+shape.contain?([115, 130], outline: true) # => false
+shape.contain?(115, 30, outline: true) # => true
+shape.contain?([115, 30], outline: true) # => true
+shape.contain?(115, 31, outline: true) # => false
+shape.contain?([115, 31], outline: true) # => false
+shape.contain?(115, 31, outline: true, distance_tolerance: 1) # => true
+shape.contain?([115, 31], outline: true, distance_tolerance: 1) # => true
 ```
 
 ### `PerfectShape::Arc`
