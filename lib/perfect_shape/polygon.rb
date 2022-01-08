@@ -37,79 +37,85 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the polygon, {@code false} if the point lies outside of the
     # polygon's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      npoints = points.count
-      xpoints = points.map(&:first)
-      ypoints = points.map(&:last)
-      return false if npoints <= 2 || !bounding_box.contain?(x, y)
-      hits = 0
-
-      lastx = xpoints[npoints - 1]
-      lasty = ypoints[npoints - 1]
-
-      # Walk the edges of the polygon
-      npoints.times do |i|
-        curx = xpoints[i]
-        cury = ypoints[i]
-
-        if cury == lasty
-          lastx = curx
-          lasty = cury
-          next
+      if outline
+        points.zip(points.rotate(1)).any? do |point1, point2|
+          Line.new(points: [[point1.first, point1.last], [point2.first, point2.last]]).contain?(x, y, distance_tolerance: distance_tolerance)
         end
-
-        if curx < lastx
-          if x >= lastx
+      else
+        npoints = points.count
+        xpoints = points.map(&:first)
+        ypoints = points.map(&:last)
+        return false if npoints <= 2 || !bounding_box.contain?(x, y)
+        hits = 0
+  
+        lastx = xpoints[npoints - 1]
+        lasty = ypoints[npoints - 1]
+  
+        # Walk the edges of the polygon
+        npoints.times do |i|
+          curx = xpoints[i]
+          cury = ypoints[i]
+  
+          if cury == lasty
             lastx = curx
             lasty = cury
             next
           end
-          leftx = curx
-        else
-          if x >= curx
-            lastx = curx
-            lasty = cury
-            next
+  
+          if curx < lastx
+            if x >= lastx
+              lastx = curx
+              lasty = cury
+              next
+            end
+            leftx = curx
+          else
+            if x >= curx
+              lastx = curx
+              lasty = cury
+              next
+            end
+            leftx = lastx
           end
-          leftx = lastx
+  
+          if cury < lasty
+            if y < cury || y >= lasty
+              lastx = curx
+              lasty = cury
+              next
+            end
+            if x < leftx
+              hits += 1
+              lastx = curx
+              lasty = cury
+              next
+            end
+            test1 = x - curx
+            test2 = y - cury
+          else
+            if y < lasty || y >= cury
+              lastx = curx
+              lasty = cury
+              next
+            end
+            if x < leftx
+              hits += 1
+              lastx = curx
+              lasty = cury
+              next
+            end
+            test1 = x - lastx
+            test2 = y - lasty
+          end
+  
+          hits += 1 if (test1 < (test2 / (lasty - cury) * (lastx - curx)))
         end
-
-        if cury < lasty
-          if y < cury || y >= lasty
-            lastx = curx
-            lasty = cury
-            next
-          end
-          if x < leftx
-            hits += 1
-            lastx = curx
-            lasty = cury
-            next
-          end
-          test1 = x - curx
-          test2 = y - cury
-        else
-          if y < lasty || y >= cury
-            lastx = curx
-            lasty = cury
-            next
-          end
-          if x < leftx
-            hits += 1
-            lastx = curx
-            lasty = cury
-            next
-          end
-          test1 = x - lastx
-          test2 = y - lasty
-        end
-
-        hits += 1 if (test1 < (test2 / (lasty - cury) * (lastx - curx)))
+  
+        (hits & 1) != 0
       end
-
-      (hits & 1) != 0
     end
   end
 end

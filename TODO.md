@@ -1,9 +1,7 @@
 # TODO
 
-## Next Version 0.3.0
+## Next Version 0.3.1
 
-- `PerfectShape::Polygon#contain?(outline: true)`:  check it against `Line#contain?` and perhaps accept `distance` as fuzz factor option too
- 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::Arc#contain?(outline: true)`: check it by constructing a slightly smaller arc and ensuring point lands in true arc, but not smaller arc (maybe take distance as a fuzz factor too)
@@ -13,17 +11,16 @@ For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and t
  - `PerfectShape::CubicBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::Path#contain?(outline: true)`
  - `PerfectShape::CompositeShape#contain?(outline: true)`
-- Document in README
 
 ## Version 0.4.0
 
 - `PerfectShape::AffineTransform`: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
-- Document in README & gemspec intro
+- Document affine transforms in README & gemspec intro
 
 ## Version 1.0.0
 
 - Shape `intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-- Document in README & gemspec intro
+- Document intersection algorithm in README & gemspec intro
 
 ## Geometry
 

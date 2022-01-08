@@ -5,6 +5,7 @@
 - Refactoring: rename `distance` option for `#contain?` on `Point`/`Line` into `distance_tolerance`
 - Check point containment in rectangle outline with distance tolerance: `PerfectShape::Rectangle#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
 - Check point containment in square outline with distance tolerance: `PerfectShape::Square#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
+- Check point containment in polygon outline with distance tolerance: `PerfectShape::Polygon#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
 
 ## 0.2.0
 

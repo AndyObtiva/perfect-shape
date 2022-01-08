@@ -265,7 +265,7 @@ Includes `PerfectShape::RectangularShape`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is false or if point is on the outline when `outline` is true. `distance_tolerance` can be used as a fuzz factor when `outline` is true, for example, to help users mouse-click-select a rectangle shape from its edge in a GUI more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a rectangle shape from its edges in a GUI more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -308,7 +308,7 @@ Extends `PerfectShape::Rectangle`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is false or if point is on the outline when `outline` is true. `distance_tolerance` can be used as a fuzz factor when `outline` is true, for example, to help users mouse-click-select a square shape from its edge in a GUI more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a square shape from its edges in a GUI more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -506,7 +506,7 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil)`: checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule))
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a polygon shape from its edges in a GUI more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -518,6 +518,14 @@ shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [
 
 shape.contain?(225, 185) # => true
 shape.contain?([225, 185]) # => true
+shape.contain?(225, 185, outline: true) # => false
+shape.contain?([225, 185], outline: true) # => false
+shape.contain?(200, 150, outline: true) # => true
+shape.contain?([200, 150], outline: true) # => true
+shape.contain?(200, 151, outline: true) # => false
+shape.contain?([200, 151], outline: true) # => false
+shape.contain?(200, 151, outline: true, distance_tolerance: 1) # => true
+shape.contain?([200, 151], outline: true, distance_tolerance: 1) # => true
 ```
 
 ### `PerfectShape::Path`

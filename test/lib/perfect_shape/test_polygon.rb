@@ -114,6 +114,27 @@ describe PerfectShape do
       _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
+    it 'does not contain point in center when checking against outline only' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [shape.center_x, shape.center_y]
+
+      _(shape.contain?(point, outline: true)).must_equal false
+    end
+
+    it 'contains point in outline' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [200, 150]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
+    it 'contains point when checking against outline with distance tolerance' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [200, 151]
+
+      _(shape.contain?(point, outline: true, distance_tolerance: 1)).must_equal true
+    end
+
     it 'contains point near edge' do
       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
       point = [235, 161]
