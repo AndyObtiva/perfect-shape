@@ -1,9 +1,7 @@
 # TODO
 
-## Next Version 0.3.1
+## Next Version 0.3.2
 
-- `PerfectShape::Circle#contain?(outline: true)`: check it by constructing a slightly smaller circle and ensuring point lands in true circle, but not smaller circle (maybe take distance as a fuzz factor too)
- 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js

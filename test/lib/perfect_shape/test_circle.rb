@@ -199,6 +199,34 @@ describe PerfectShape do
       _(shape.contain?(point)).must_equal shape.contain?(*point)
     end
 
+    it 'does not contain point in center on outline' do
+      shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
+      point = [shape.center_x, shape.center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+
+    it 'contains point on left side on outline' do
+      shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
+      point = [2, shape.center_y]
+
+      assert shape.contain?(point, outline: true)
+    end
+
+    it 'does not contain point outside left side on outline' do
+      shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
+      point = [2 - 1, shape.center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+
+    it 'contains point on left side on outline with distance tolerance' do
+      shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
+      point = [2 - 1, shape.center_y]
+
+      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+    end
+
     it 'contains point near left' do
       shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60)
       point = [shape.x + shape.width * 1.0 / 4.0, shape.y + (shape.height * 2.0 / 4.0)]

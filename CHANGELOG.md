@@ -4,6 +4,7 @@
 
 - Check point containment in arc outline with distance tolerance (new method signature: `PerfectShape::Arc#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
 - Check point containment in ellipse outline with distance tolerance (new method signature: `PerfectShape::Ellipse#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- Check point containment in circle outline with distance tolerance (new method signature: `PerfectShape::Circle#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
 
 ## 0.3.0
 
