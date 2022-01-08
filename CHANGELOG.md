@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.1
+
+- Check point containment in arc outline with distance tolerance: `PerfectShape::Arc#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`
+
 ## 0.3.0
 
 - Refactoring: rename `distance` option for `#contain?` on `Point`/`Line` into `distance_tolerance`

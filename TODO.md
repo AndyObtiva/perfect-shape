@@ -2,11 +2,12 @@
 
 ## Next Version 0.3.1
 
+- `PerfectShape::Arc#contain?(outline: true)`: check it by constructing a slightly smaller arc and ensuring point lands in true arc, but not smaller arc (maybe take distance as a fuzz factor too)
+- `PerfectShape::Ellipse#contain?(outline: true)`: check it by constructing a slightly smaller ellipse and ensuring point lands in true ellipse, but not smaller ellipse (maybe take distance as a fuzz factor too)
+- `PerfectShape::Circle#contain?(outline: true)`: check it by constructing a slightly smaller circle and ensuring point lands in true circle, but not smaller circle (maybe take distance as a fuzz factor too)
+ 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
- - `PerfectShape::Arc#contain?(outline: true)`: check it by constructing a slightly smaller arc and ensuring point lands in true arc, but not smaller arc (maybe take distance as a fuzz factor too)
- - `PerfectShape::Ellipse#contain?(outline: true)`: check it by constructing a slightly smaller ellipse and ensuring point lands in true ellipse, but not smaller ellipse (maybe take distance as a fuzz factor too)
- - `PerfectShape::Circle#contain?(outline: true)`: check it by constructing a slightly smaller circle and ensuring point lands in true circle, but not smaller circle (maybe take distance as a fuzz factor too)
  - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::CubicBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::Path#contain?(outline: true)`

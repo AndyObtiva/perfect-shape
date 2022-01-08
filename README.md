@@ -1,4 +1,4 @@
-# Perfect Shape 0.3.0
+# Perfect Shape 0.3.1
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -111,7 +111,7 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#center_x`: center x (always x)
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape in a GUI more successfully.
+- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape more successfully.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
@@ -153,7 +153,7 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape in a GUI more successfully.
+- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully.
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
@@ -265,7 +265,7 @@ Includes `PerfectShape::RectangularShape`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a rectangle shape from its edges in a GUI more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a rectangle shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -308,7 +308,7 @@ Extends `PerfectShape::Rectangle`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a square shape from its edges in a GUI more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a square shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -361,7 +361,7 @@ Open Arc | Chord Arc | Pie Arc
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an arc shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -370,23 +370,63 @@ Example:
 require 'perfect-shape'
 
 shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
-shape2 = PerfectShape::Arc.new(type: :open, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+shape2 = PerfectShape::Arc.new(type: :open, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 45, extent: 270)
 
 shape.contain?(39.5, 33.0) # => true
 shape.contain?([39.5, 33.0]) # => true
 shape2.contain?(39.5, 33.0) # => true
 shape2.contain?([39.5, 33.0]) # => true
+shape.contain?(39.5, 33.0, outline: true) # => false
+shape.contain?([39.5, 33.0], outline: true) # => false
+shape2.contain?(39.5, 33.0, outline: true) # => false
+shape2.contain?([39.5, 33.0], outline: true) # => false
+shape.contain?(2.0, 33.0, outline: true) # => true
+shape.contain?([2.0, 33.0], outline: true) # => true
+shape2.contain?(2.0, 33.0, outline: true) # => true
+shape2.contain?([2.0, 33.0], outline: true) # => true
+shape.contain?(3.0, 33.0, outline: true) # => false
+shape.contain?([3.0, 33.0], outline: true) # => false
+shape2.contain?(3.0, 33.0, outline: true) # => false
+shape2.contain?([3.0, 33.0], outline: true) # => false
+shape.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape2.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape2.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape.contain?(shape.center_x, shape.center_y, outline: true) # => false
+shape.contain?([shape.center_x, shape.center_y], outline: true) # => false
+shape2.contain?(shape2.center_x, shape2.center_y, outline: true) # => false
+shape2.contain?([shape2.center_x, shape2.center_y], outline: true) # => false
 
 shape3 = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
-shape4 = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+shape4 = PerfectShape::Arc.new(type: :chord, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 45, extent: 270)
 
 shape3.contain?(39.5, 33.0) # => true
 shape3.contain?([39.5, 33.0]) # => true
 shape4.contain?(39.5, 33.0) # => true
 shape4.contain?([39.5, 33.0]) # => true
+shape3.contain?(39.5, 33.0, outline: true) # => false
+shape3.contain?([39.5, 33.0], outline: true) # => false
+shape4.contain?(39.5, 33.0, outline: true) # => false
+shape4.contain?([39.5, 33.0], outline: true) # => false
+shape3.contain?(2.0, 33.0, outline: true) # => true
+shape3.contain?([2.0, 33.0], outline: true) # => true
+shape4.contain?(2.0, 33.0, outline: true) # => true
+shape4.contain?([2.0, 33.0], outline: true) # => true
+shape3.contain?(3.0, 33.0, outline: true) # => false
+shape3.contain?([3.0, 33.0], outline: true) # => false
+shape4.contain?(3.0, 33.0, outline: true) # => false
+shape4.contain?([3.0, 33.0], outline: true) # => false
+shape3.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape3.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape4.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape4.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape3.contain?(shape3.center_x, shape3.center_y, outline: true) # => false
+shape3.contain?([shape3.center_x, shape3.center_y], outline: true) # => false
+shape4.contain?(shape4.center_x, shape4.center_y, outline: true) # => false
+shape4.contain?([shape4.center_x, shape4.center_y], outline: true) # => false
 
 shape5 = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50, height: 60, start: 45, extent: 270)
-shape6 = PerfectShape::Arc.new(type: :pie, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 30, extent: 90)
+shape6 = PerfectShape::Arc.new(type: :pie, center_x: 2 + 25, center_y: 3 + 30, radius_x: 25, radius_y: 30, start: 45, extent: 270)
 
 shape5.contain?(39.5, 33.0) # => false
 shape5.contain?([39.5, 33.0]) # => false
@@ -396,6 +436,26 @@ shape5.contain?(9.5, 33.0) # => true
 shape5.contain?([9.5, 33.0]) # => true
 shape6.contain?(9.5, 33.0) # => true
 shape6.contain?([9.5, 33.0]) # => true
+shape5.contain?(39.5, 33.0, outline: true) # => false
+shape5.contain?([39.5, 33.0], outline: true) # => false
+shape6.contain?(39.5, 33.0, outline: true) # => false
+shape6.contain?([39.5, 33.0], outline: true) # => false
+shape5.contain?(2.0, 33.0, outline: true) # => true
+shape5.contain?([2.0, 33.0], outline: true) # => true
+shape6.contain?(2.0, 33.0, outline: true) # => true
+shape6.contain?([2.0, 33.0], outline: true) # => true
+shape5.contain?(3.0, 33.0, outline: true) # => false
+shape5.contain?([3.0, 33.0], outline: true) # => false
+shape6.contain?(3.0, 33.0, outline: true) # => false
+shape6.contain?([3.0, 33.0], outline: true) # => false
+shape5.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape5.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape6.contain?(3.0, 33.0, outline: true, distance_tolerance: 1.0) # => true
+shape6.contain?([3.0, 33.0], outline: true, distance_tolerance: 1.0) # => true
+shape5.contain?(shape5.center_x, shape5.center_y, outline: true) # => true
+shape5.contain?([shape5.center_x, shape5.center_y], outline: true) # => true
+shape6.contain?(shape6.center_x, shape6.center_y, outline: true) # => true
+shape6.contain?([shape6.center_x, shape6.center_y], outline: true) # => true
 ```
 
 ### `PerfectShape::Ellipse`
@@ -506,7 +566,7 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help users mouse-click-select a polygon shape from its edges in a GUI more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a polygon shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
@@ -621,7 +681,7 @@ shape.contain?([170, 190]) # => true
 ## Resources
 
 - Rubydoc: https://www.rubydoc.info/gems/perfect-shape
-- AWT Geom JavaDoc (inspiration): https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
+- AWT Geom Javadoc (inspiration): https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 
 ## TODO
 

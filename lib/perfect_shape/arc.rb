@@ -143,44 +143,58 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the arc, {@code false} if the point lies outside of the
     # arc's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      # Normalize the coordinates compared to the ellipse
-      # having a center at 0,0 and a radius of 0.5.
-      ellw = width
-      return false if (ellw <= 0.0)
-      normx = (x - self.x) / ellw - 0.5
-      ellh = height
-      return false if (ellh <= 0.0)
-      normy = (y - self.y) / ellh - 0.5
-      dist_sq = (normx * normx) + (normy * normy)
-      return false if (dist_sq >= 0.25)
-      ang_ext = self.extent.abs
-      return true if (ang_ext >= 360.0)
-      inarc = contain_angle?(-1*Math.radians_to_degrees(Math.atan2(normy, normx)))
-      
-      return inarc if type == :pie
-      # CHORD and OPEN behave the same way
-      if inarc
-        return true if ang_ext >= 180.0
-        # point must be outside the "pie triangle"
+      if outline
+        if type == :pie && x == center_x && y == center_y
+          true
+        else
+          distance_tolerance = BigDecimal(distance_tolerance.to_s)
+          outside_inside_radius_difference = BigDecimal('0.001') + distance_tolerance * 2.0
+          outside_radius_difference = inside_radius_difference = outside_inside_radius_difference / 2.0
+          outside_shape = Arc.new(type: type, center_x: center_x, center_y: center_y, radius_x: radius_x + outside_radius_difference, radius_y: radius_y + outside_radius_difference, start: start, extent: extent)
+          inside_shape = Arc.new(type: type, center_x: center_x, center_y: center_y, radius_x: radius_x - inside_radius_difference, radius_y: radius_y - inside_radius_difference, start: start, extent: extent)
+          outside_shape.contain?(x, y, outline: false) and
+            !inside_shape.contain?(x, y, outline: false)
+        end
       else
-        return false if ang_ext <= 180.0
-        # point must be inside the "pie triangle"
+        # Normalize the coordinates compared to the ellipse
+        # having a center at 0,0 and a radius of 0.5.
+        ellw = width
+        return false if (ellw <= 0.0)
+        normx = (x - self.x) / ellw - 0.5
+        ellh = height
+        return false if (ellh <= 0.0)
+        normy = (y - self.y) / ellh - 0.5
+        dist_sq = (normx * normx) + (normy * normy)
+        return false if (dist_sq >= 0.25)
+        ang_ext = self.extent.abs
+        return true if (ang_ext >= 360.0)
+        inarc = contain_angle?(-1*Math.radians_to_degrees(Math.atan2(normy, normx)))
+        
+        return inarc if type == :pie
+        # CHORD and OPEN behave the same way
+        if inarc
+          return true if ang_ext >= 180.0
+          # point must be outside the "pie triangle"
+        else
+          return false if ang_ext <= 180.0
+          # point must be inside the "pie triangle"
+        end
+        
+        # The point is inside the pie triangle iff it is on the same
+        # side of the line connecting the ends of the arc as the center.
+        angle = Math.degrees_to_radians(-start)
+        x1 = Math.cos(angle)
+        y1 = Math.sin(angle)
+        angle += Math.degrees_to_radians(-extent)
+        x2 = Math.cos(angle)
+        y2 = Math.sin(angle)
+        inside = (Line.relative_counterclockwise(x1, y1, x2, y2, 2*normx, 2*normy) *
+                          Line.relative_counterclockwise(x1, y1, x2, y2, 0, 0) >= 0)
+        inarc ? !inside : inside
       end
-      
-      # The point is inside the pie triangle iff it is on the same
-      # side of the line connecting the ends of the arc as the center.
-      angle = Math.degrees_to_radians(-start)
-      x1 = Math.cos(angle)
-      y1 = Math.sin(angle)
-      angle += Math.degrees_to_radians(-extent)
-      x2 = Math.cos(angle)
-      y2 = Math.sin(angle)
-      inside = (Line.relative_counterclockwise(x1, y1, x2, y2, 2*normx, 2*normy) *
-                        Line.relative_counterclockwise(x1, y1, x2, y2, 0, 0) >= 0)
-      inarc ? !inside : inside
     end
     
     # Determines whether or not the specified angle is within the
