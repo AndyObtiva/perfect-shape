@@ -114,21 +114,26 @@ module PerfectShape
     # @return true if the point lies within the bound of
     # the path or false if the point lies outside of the
     # path's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      if (x * 0.0 + y * 0.0) == 0.0
-        # N * 0.0 is 0.0 only if N is finite.
-        # Here we know that both x and y are finite.
-        return false if shapes.count < 2
-        mask = winding_rule == :wind_non_zero ? -1 : 1
-        (point_crossings(x, y) & mask) != 0
+      
+      if outline
+        
       else
-        # Either x or y was infinite or NaN.
-        # A NaN always produces a negative response to any test
-        # and Infinity values cannot be "inside" any path so
-        # they should return false as well.
-        false
+        if (x * 0.0 + y * 0.0) == 0.0
+          # N * 0.0 is 0.0 only if N is finite.
+          # Here we know that both x and y are finite.
+          return false if shapes.count < 2
+          mask = winding_rule == :wind_non_zero ? -1 : 1
+          (point_crossings(x, y) & mask) != 0
+        else
+          # Either x or y was infinite or NaN.
+          # A NaN always produces a negative response to any test
+          # and Infinity values cannot be "inside" any path so
+          # they should return false as well.
+          false
+        end
       end
     end
     
@@ -217,6 +222,59 @@ module PerfectShape
         crossings += line.point_crossings(x, y)
       end
       crossings
+    end
+    
+    # Disconnected shapes have their start point filled in
+    # so that each shape does not depend on the previous shape
+    # to determine its start point.
+    #
+    # Also, if a point is followed by a non-point shape, it is removed
+    # since it is augmented to the following shape as its start point.
+    #
+    # Lastly, if the path is closed, an extra shape is
+    # added to represent the line connecting the last point to the first
+    def disconnected_shapes
+      initial_point = start_point = @shapes.first.to_a
+      last_shape_is_point = true
+      final_point = nil
+      the_disconnected_shapes = @shapes.drop(1).map do |shape|
+        case shape
+        when Point
+          disconnected_shape = Point.new(*start_point)
+          start_point = shape.to_a
+          final_point = disconnected_shape.to_a
+          return_point = last_shape_is_point
+          last_shape_is_point = true
+          disconnected_shape if return_point
+        when Array
+          disconnected_shape = Point.new(*start_point)
+          start_point = shape.map {|n| BigDecimal(n.to_s)}
+          final_point = disconnected_shape.to_a
+          return_point = last_shape_is_point
+          last_shape_is_point = true
+          disconnected_shape if return_point
+        when Line
+          disconnected_shape = Line.new(points: [start_point.to_a, shape.points.last])
+          start_point = shape.points.last.to_a
+          final_point = disconnected_shape.points.last.to_a
+          last_shape_is_point = false
+          disconnected_shape
+        when QuadraticBezierCurve
+          disconnected_shape = QuadraticBezierCurve.new(points: [start_point.to_a] + shape.points)
+          start_point = shape.points.last.to_a
+          final_point = disconnected_shape.points.last.to_a
+          last_shape_is_point = false
+          disconnected_shape
+        when CubicBezierCurve
+          disconnected_shape = CubicBezierCurve.new(points: [start_point.to_a] + shape.points)
+          start_point = shape.points.last.to_a
+          final_point = disconnected_shape.points.last.to_a
+          last_shape_is_point = false
+          disconnected_shape
+        end
+      end
+      the_disconnected_shapes << Line.new(points: [final_point, initial_point]) if closed?
+      the_disconnected_shapes.compact
     end
   end
 end

@@ -112,7 +112,7 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
-- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape more successfully.
+- `#contain?(x_or_point, y=nil, outline: true, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape more successfully. `outline` option makes no difference on point
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 
 Example:
@@ -154,7 +154,7 @@ Includes `PerfectShape::MultiPoint`
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
-- `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully.
+- `#contain?(x_or_point, y=nil, outline: true, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully. `outline` option makes no difference on line
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 
