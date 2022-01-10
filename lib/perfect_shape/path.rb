@@ -234,7 +234,7 @@ module PerfectShape
     # Lastly, if the path is closed, an extra shape is
     # added to represent the line connecting the last point to the first
     def disconnected_shapes
-      initial_point = start_point = @shapes.first.to_a
+      initial_point = start_point = @shapes.first.to_a.map {|n| BigDecimal(n.to_s)}
       final_point = nil
       the_disconnected_shapes = @shapes.drop(1).map do |shape|
         case shape
