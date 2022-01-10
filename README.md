@@ -38,7 +38,7 @@ Module
 - `::degrees_to_radians(angle)`: converts degrees to radians
 - `::radians_to_degrees(angle)`: converts radians to degrees
 - `::normalize_degrees(angle)`: normalizes the specified angle into the range -180 to 180.
-- `::ieee_remainder(x, y)` (alias: `ieee754_remainder`): [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985) (different from standard % modulo operator as it operates on floats and could return a negative result)
+- `::ieee_remainder(x, y)` (alias: `ieee754_remainder`): [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985) (different from standard `%` modulo operator as it operates on floats and could return a negative result)
 
 ### `PerfectShape::Shape`
 
@@ -756,5 +756,5 @@ shape.contain?([170, 190]) # => true
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2021 Andy Maleh. See
+Copyright (c) 2021-2022 Andy Maleh. See
 [LICENSE.txt](LICENSE.txt) for further details.
