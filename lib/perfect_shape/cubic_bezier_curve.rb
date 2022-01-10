@@ -83,24 +83,28 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the cubic bézier curve, {@code false} if the point lies outside of the
     # cubic bézier curve's bounds.
-    def contain?(x_or_point, y = nil)
+    def contain?(x_or_point, y = nil, outline: false)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
-      # Either x or y was infinite or NaN.
-      # A NaN always produces a negative response to any test
-      # and Infinity values cannot be "inside" any path so
-      # they should return false as well.
-      return false if (!(x * 0.0 + y * 0.0 == 0.0))
-      # We count the "Y" crossings to determine if the point is
-      # inside the curve bounded by its closing line.
-      x1 = points[0][0]
-      y1 = points[0][1]
-      x2 = points[3][0]
-      y2 = points[3][1]
-      line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
-      crossings = line.point_crossings(x, y) + point_crossings(x, y);
-      (crossings & 1) == 1
+      if outline
+        curve_center_point == [x, y]
+      else
+        # Either x or y was infinite or NaN.
+        # A NaN always produces a negative response to any test
+        # and Infinity values cannot be "inside" any path so
+        # they should return false as well.
+        return false if (!(x * 0.0 + y * 0.0 == 0.0))
+        # We count the "Y" crossings to determine if the point is
+        # inside the curve bounded by its closing line.
+        x1 = points[0][0]
+        y1 = points[0][1]
+        x2 = points[3][0]
+        y2 = points[3][1]
+        line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
+        crossings = line.point_crossings(x, y) + point_crossings(x, y);
+        (crossings & 1) == 1
+      end
     end
     
     # Calculates the number of times the cubic bézier curve
@@ -115,6 +119,48 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       CubicBezierCurve.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], points[3][0], points[3][1], x, y, level)
+    end
+    
+    def curve_center_point
+      subdivide.last.points[0]
+    end
+    
+    def curve_center_x
+      subdivide.last.points[0][0]
+    end
+    
+    def curve_center_y
+      subdivide.last.points[0][1]
+    end
+    
+    # Subdivides CubicBezierCurve exactly at its curve center
+    # returning two CubicBezierCurve's as a two-element Array
+    def subdivide
+      # TODO look into supporting an arbitrary even number of subdivisions
+      x1 = points[0][0]
+      y1 = points[0][1]
+      ctrlx1 = points[1][0]
+      ctrly1 = points[1][1]
+      ctrlx2 = points[2][0]
+      ctrly2 = points[2][1]
+      x2 = points[3][0]
+      y2 = points[3][1]
+      centerx = (ctrlx1 + ctrlx2) / 2.0
+      centery = (ctrly1 + ctrly2) / 2.0
+      ctrlx1 = (x1 + ctrlx1) / 2.0
+      ctrly1 = (y1 + ctrly1) / 2.0
+      ctrlx2 = (x2 + ctrlx2) / 2.0
+      ctrly2 = (y2 + ctrly2) / 2.0
+      ctrlx12 = (ctrlx1 + centerx) / 2.0
+      ctrly12 = (ctrly1 + centery) / 2.0
+      ctrlx21 = (ctrlx2 + centerx) / 2.0
+      ctrly21 = (ctrly2 + centery) / 2.0
+      centerx = (ctrlx12 + ctrlx21) / 2.0
+      centery = (ctrly12 + ctrly21) / 2.0
+      [
+        CubicBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx, centery]),
+        CubicBezierCurve.new(points: [centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2, x2, y2])
+      ]
     end
   end
 end
