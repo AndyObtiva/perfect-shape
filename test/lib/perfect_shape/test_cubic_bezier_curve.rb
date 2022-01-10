@@ -167,7 +167,7 @@ describe PerfectShape do
       
       point = [227.421875, 210.765625]
 
-      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+      assert shape.contain?(point, outline: true, distance_tolerance: 1.1)
     end
     
     it 'returns 2 subdivisions by default' do
@@ -210,6 +210,31 @@ describe PerfectShape do
       _(subdivisions[1].points.flatten).must_equal [227.421875, 209.765625, 237.34375, 227.03125, 248.4375, 240.3125, 261.875, 245.625]
       _(subdivisions[2].points.flatten).must_equal [261.875, 245.625, 275.3125, 250.9375, 291.09375, 248.28125, 310.390625, 233.671875]
       _(subdivisions[3].points.flatten).must_equal [310.390625, 233.671875, 329.6875, 219.0625, 352.5, 192.5, 380.0, 150.0]
+    end
+    
+    it 'returns point segment distance as 0' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+          
+      point = [261.875, 245.625]
+
+      _(shape.point_segment_distance(point)).must_equal 0
+      _(shape.point_segment_distance(*point)).must_equal shape.point_segment_distance(point)
+    end
+    
+    it 'returns point segment distance as 10' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+          
+      point = [261.875, 255.625]
+
+      _(shape.point_segment_distance(point)).must_equal 10
+    end
+    
+    it 'returns point segment distance as 10' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+          
+      point = [207.421875, 209.765625]
+
+      _(shape.point_segment_distance(point)).must_equal 20
     end
   end
 end

@@ -85,31 +85,12 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the cubic bézier curve, {@code false} if the point lies outside of the
     # cubic bézier curve's bounds.
-    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
       if outline
-        point = Point.new(x, y)
-        minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
-        current_curve = self
-        minimum_distance = point.point_distance(curve_center_point)
-        last_minimum_distance = minimum_distance + 1 # start bigger to ensure going through loop once
-        i = 0
-        while minimum_distance > minimum_distance_threshold && minimum_distance < last_minimum_distance
-          curve1, curve2 = current_curve.subdivisions
-          distance1 = point.point_distance(curve1.curve_center_point)
-          distance2 = point.point_distance(curve2.curve_center_point)
-          last_minimum_distance = minimum_distance
-          if distance1 < distance2
-            minimum_distance = distance1
-            current_curve = curve1
-          else
-            minimum_distance = distance2
-            current_curve = curve2
-          end
-        end
-        minimum_distance <= minimum_distance_threshold
+        point_segment_distance(x, y, minimum_distance_threshold: distance_tolerance) < distance_tolerance
       else
         # Either x or y was infinite or NaN.
         # A NaN always produces a negative response to any test
@@ -192,6 +173,34 @@ module PerfectShape
         default_subdivisions.map { |curve| curve.subdivisions(number - 2) }.flatten
       else
         default_subdivisions
+      end
+    end
+    
+    def point_segment_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
+      x, y = normalize_point(x_or_point, y)
+      return unless x && y
+      
+      point = Point.new(x, y)
+      current_curve = self
+      minimum_distance = point.point_distance(curve_center_point)
+      last_minimum_distance = minimum_distance + 1 # start bigger to ensure going through loop once at least
+      while minimum_distance >= minimum_distance_threshold && minimum_distance < last_minimum_distance
+        curve1, curve2 = current_curve.subdivisions
+        distance1 = point.point_distance(curve1.curve_center_point)
+        distance2 = point.point_distance(curve2.curve_center_point)
+        last_minimum_distance = minimum_distance
+        if distance1 < distance2
+          minimum_distance = distance1
+          current_curve = curve1
+        else
+          minimum_distance = distance2
+          current_curve = curve2
+        end
+      end
+      if minimum_distance < minimum_distance_threshold
+        minimum_distance
+      else
+        last_minimum_distance
       end
     end
   end
