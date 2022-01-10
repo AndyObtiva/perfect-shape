@@ -235,41 +235,33 @@ module PerfectShape
     # added to represent the line connecting the last point to the first
     def disconnected_shapes
       initial_point = start_point = @shapes.first.to_a
-      last_shape_is_point = true
       final_point = nil
       the_disconnected_shapes = @shapes.drop(1).map do |shape|
         case shape
         when Point
-          disconnected_shape = Point.new(*start_point)
+          disconnected_shape = Point.new(*shape.to_a)
           start_point = shape.to_a
           final_point = disconnected_shape.to_a
-          return_point = last_shape_is_point
-          last_shape_is_point = true
-          disconnected_shape if return_point
+          nil
         when Array
-          disconnected_shape = Point.new(*start_point)
+          disconnected_shape = Point.new(*shape.map {|n| BigDecimal(n.to_s)})
           start_point = shape.map {|n| BigDecimal(n.to_s)}
           final_point = disconnected_shape.to_a
-          return_point = last_shape_is_point
-          last_shape_is_point = true
-          disconnected_shape if return_point
+          nil
         when Line
           disconnected_shape = Line.new(points: [start_point.to_a, shape.points.last])
           start_point = shape.points.last.to_a
           final_point = disconnected_shape.points.last.to_a
-          last_shape_is_point = false
           disconnected_shape
         when QuadraticBezierCurve
           disconnected_shape = QuadraticBezierCurve.new(points: [start_point.to_a] + shape.points)
           start_point = shape.points.last.to_a
           final_point = disconnected_shape.points.last.to_a
-          last_shape_is_point = false
           disconnected_shape
         when CubicBezierCurve
           disconnected_shape = CubicBezierCurve.new(points: [start_point.to_a] + shape.points)
           start_point = shape.points.last.to_a
           final_point = disconnected_shape.points.last.to_a
-          last_shape_is_point = false
           disconnected_shape
         end
       end

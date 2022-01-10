@@ -662,32 +662,52 @@ describe PerfectShape do
 #       assert shape.contain?(point, outline: true)
 #     end
  
-    it 'returns disconnected shapes' do
+    it 'returns disconnected shapes for closed path' do
       path_shapes = [
-        [190, 150],
+        [190, 150], # ignored since it is overridden by next point
         PerfectShape::Point.new(x: 200, y: 150),
         PerfectShape::Line.new(points: [250, 170]),
         PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]),
-        [351, 151],
+        PerfectShape::Point.new(x: 351, y: 151), # ignored since it is overridden by next point
+        [352, 152],
         PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]),
       ]
       
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
 
       expected_disconnected_shapes = [
-        PerfectShape::Point.new(x: 190, y: 150),
         PerfectShape::Line.new(points: [[200, 150], [250, 170]]),
         PerfectShape::QuadraticBezierCurve.new(points: [[250, 170], [300, 185], [350, 150]]),
-        PerfectShape::CubicBezierCurve.new(points: [[351, 151], [370, 50], [430, 220], [480, 170]]),
+        PerfectShape::CubicBezierCurve.new(points: [[352, 152], [370, 50], [430, 220], [480, 170]]),
         PerfectShape::Line.new(points: [[480, 170], [190, 150]]),
       ]
 
       _(shape.disconnected_shapes.count).must_equal expected_disconnected_shapes.count
-      _(shape.disconnected_shapes[0..0]).must_equal expected_disconnected_shapes[0..0]
-      _(shape.disconnected_shapes[0..1]).must_equal expected_disconnected_shapes[0..1]
-      _(shape.disconnected_shapes[0..2]).must_equal expected_disconnected_shapes[0..2]
-      _(shape.disconnected_shapes[0..3]).must_equal expected_disconnected_shapes[0..3]
-      _(shape.disconnected_shapes[4]).must_equal expected_disconnected_shapes[4]
+      _(shape.disconnected_shapes).must_equal expected_disconnected_shapes
+    end
+ 
+    it 'returns disconnected shapes for closed path ending with a point' do
+      path_shapes = [
+        [190, 150], # ignored since it is overridden by next point
+        PerfectShape::Point.new(x: 200, y: 150),
+        PerfectShape::Line.new(points: [250, 170]),
+        PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]),
+        PerfectShape::Point.new(x: 351, y: 151), # ignored since it is overridden by next point
+        [352, 152],
+        PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]),
+        [400, 300],
+      ]
+      
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+
+      expected_disconnected_shapes = [
+        PerfectShape::Line.new(points: [[200, 150], [250, 170]]),
+        PerfectShape::QuadraticBezierCurve.new(points: [[250, 170], [300, 185], [350, 150]]),
+        PerfectShape::CubicBezierCurve.new(points: [[352, 152], [370, 50], [430, 220], [480, 170]]),
+        PerfectShape::Line.new(points: [[400, 300], [190, 150]]),
+      ]
+
+      _(shape.disconnected_shapes.count).must_equal expected_disconnected_shapes.count
       _(shape.disconnected_shapes).must_equal expected_disconnected_shapes
     end
   end
