@@ -2,7 +2,6 @@
 
 ## Next Version 0.3.3
 
-- Fix `number` arg consumption in `CubicBezierCurve#subdivisions(number=2)` (e.g. number=6 does not get 6 subdivisions yet 8). Change from an even number to an arbitrary number that represents levels or depth.
 - `Polygon`, `Rectangle`, `Square` `#edges` method
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true, distance_tolerance: 1)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js

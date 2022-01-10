@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.3
+
+- Rename `number` arg to `level` in `CubicBezierCurve#subdivisions(level=1)`, making it signify the level of subdivision recursion to perform.
+
 ## 0.3.2
 
 - Check point containment in cubic bezier curve outline with distance tolerance (new method signature: `PerfectShape::CubicBezierCurve#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)

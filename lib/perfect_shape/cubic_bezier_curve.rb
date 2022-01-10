@@ -141,11 +141,13 @@ module PerfectShape
     
     # Subdivides CubicBezierCurve exactly at its curve center
     # returning 2 CubicBezierCurve's as a two-element Array by default
-    # `number` parameter may be specified as an even number in case more
-    # subdivisions are needed. If an odd number is given, it is rounded
-    # up to the closest even number above it (e.g. 3 becomes 4).
-    def subdivisions(number = 2)
-      number = (number.to_i / 2.0).ceil*2
+    #
+    # Optional `level` parameter specifies the level of recursions to
+    # perform to get more subdivisions. The number of resulting
+    # subdivisions is 2 to the power of `level` (e.g. 2 subdivisions
+    # for level=1, 4 subdivisions for level=2, and 8 subdivisions for level=3)
+    def subdivisions(level = 1)
+      level -= 1 # consume 1 level
       x1 = points[0][0]
       y1 = points[0][1]
       ctrlx1 = points[1][0]
@@ -170,10 +172,10 @@ module PerfectShape
         CubicBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx, centery]),
         CubicBezierCurve.new(points: [centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2, x2, y2])
       ]
-      if number > 2
-        default_subdivisions.map { |curve| curve.subdivisions(number - 2) }.flatten
-      else
+      if level == 0
         default_subdivisions
+      else
+        default_subdivisions.map { |curve| curve.subdivisions(level) }.flatten
       end
     end
     
