@@ -75,6 +75,8 @@ module PerfectShape
     include MultiPoint
     include Equalizer.new(:points)
     
+    OUTLINE_MINIMUM_DISTANCE_THRESHOLD = BigDecimal('0.001')
+    
     # Checks if cubic bézier curve contains point (two-number Array or x, y args)
     #
     # @param x The X coordinate of the point to test.
@@ -83,12 +85,30 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the cubic bézier curve, {@code false} if the point lies outside of the
     # cubic bézier curve's bounds.
-    def contain?(x_or_point, y = nil, outline: false)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
       if outline
-        curve_center_point == [x, y]
+        point = Point.new(x, y)
+        minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
+        current_curve = self
+        minimum_distance = point.point_distance(curve_center_point)
+        last_minimum_distance = minimum_distance + 1 # start bigger to ensure going through loop once
+        while minimum_distance > minimum_distance_threshold && minimum_distance < last_minimum_distance
+          curve1, curve2 = current_curve.subdivisions
+          distance1 = point.point_distance(curve1.curve_center_point)
+          distance2 = point.point_distance(curve2.curve_center_point)
+          last_minimum_distance = minimum_distance
+          if distance1 < distance2
+            minimum_distance = distance1
+            current_curve = curve1
+          else
+            minimum_distance = distance2
+            current_curve = curve2
+          end
+        end
+        minimum_distance <= minimum_distance_threshold
       else
         # Either x or y was infinite or NaN.
         # A NaN always produces a negative response to any test
@@ -121,21 +141,24 @@ module PerfectShape
       CubicBezierCurve.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], points[3][0], points[3][1], x, y, level)
     end
     
+    # The center point on the outline of the curve
     def curve_center_point
-      subdivide.last.points[0]
+      subdivisions.last.points[0]
     end
     
+    # The center point x on the outline of the curve
     def curve_center_x
-      subdivide.last.points[0][0]
+      subdivisions.last.points[0][0]
     end
     
+    # The center point y on the outline of the curve
     def curve_center_y
-      subdivide.last.points[0][1]
+      subdivisions.last.points[0][1]
     end
     
     # Subdivides CubicBezierCurve exactly at its curve center
     # returning two CubicBezierCurve's as a two-element Array
-    def subdivide
+    def subdivisions
       # TODO look into supporting an arbitrary even number of subdivisions
       x1 = points[0][0]
       y1 = points[0][1]

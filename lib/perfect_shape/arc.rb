@@ -30,6 +30,7 @@ module PerfectShape
     include Equalizer.new(:type, :x, :y, :width, :height, :start, :extent)
     
     TYPES = [:open, :chord, :pie]
+    DEFAULT_OUTLINE_RADIUS = BigDecimal('0.001')
     attr_accessor :type
     attr_reader :start, :extent
     
@@ -151,7 +152,7 @@ module PerfectShape
           true
         else
           distance_tolerance = BigDecimal(distance_tolerance.to_s)
-          outside_inside_radius_difference = BigDecimal('0.001') + distance_tolerance * 2.0
+          outside_inside_radius_difference = DEFAULT_OUTLINE_RADIUS + distance_tolerance * 2.0
           outside_radius_difference = inside_radius_difference = outside_inside_radius_difference / 2.0
           outside_shape = Arc.new(type: type, center_x: center_x, center_y: center_y, radius_x: radius_x + outside_radius_difference, radius_y: radius_y + outside_radius_difference, start: start, extent: extent)
           inside_shape = Arc.new(type: type, center_x: center_x, center_y: center_y, radius_x: radius_x - inside_radius_difference, radius_y: radius_y - inside_radius_difference, start: start, extent: extent)
