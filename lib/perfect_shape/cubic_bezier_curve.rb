@@ -95,6 +95,7 @@ module PerfectShape
         current_curve = self
         minimum_distance = point.point_distance(curve_center_point)
         last_minimum_distance = minimum_distance + 1 # start bigger to ensure going through loop once
+        i = 0
         while minimum_distance > minimum_distance_threshold && minimum_distance < last_minimum_distance
           curve1, curve2 = current_curve.subdivisions
           distance1 = point.point_distance(curve1.curve_center_point)
@@ -157,9 +158,12 @@ module PerfectShape
     end
     
     # Subdivides CubicBezierCurve exactly at its curve center
-    # returning two CubicBezierCurve's as a two-element Array
-    def subdivisions
-      # TODO look into supporting an arbitrary even number of subdivisions
+    # returning 2 CubicBezierCurve's as a two-element Array by default
+    # `number` parameter may be specified as an even number in case more
+    # subdivisions are needed. If an odd number is given, it is rounded
+    # up to the closest even number above it (e.g. 3 becomes 4).
+    def subdivisions(number = 2)
+      number = (number.to_i / 2.0).ceil*2
       x1 = points[0][0]
       y1 = points[0][1]
       ctrlx1 = points[1][0]
@@ -180,10 +184,15 @@ module PerfectShape
       ctrly21 = (ctrly2 + centery) / 2.0
       centerx = (ctrlx12 + ctrlx21) / 2.0
       centery = (ctrly12 + ctrly21) / 2.0
-      [
+      default_subdivisions = [
         CubicBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx, centery]),
         CubicBezierCurve.new(points: [centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2, x2, y2])
       ]
+      if number > 2
+        default_subdivisions.map { |curve| curve.subdivisions(number - 2) }.flatten
+      else
+        default_subdivisions
+      end
     end
   end
 end

@@ -169,5 +169,47 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
+    
+    it 'returns 2 subdivisions by default' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions
+      _(subdivisions.count).must_equal 2
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 217.5, 192.5, 235.0, 235.0, 261.875, 245.625]
+      _(subdivisions[1].points.flatten).must_equal [261.875, 245.625, 288.75, 256.25, 325.0, 235.0, 380.0, 150.0]
+    end
+    
+    it 'returns 2 subdivisions' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(2)
+      _(subdivisions.count).must_equal 2
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 217.5, 192.5, 235.0, 235.0, 261.875, 245.625]
+      _(subdivisions[1].points.flatten).must_equal [261.875, 245.625, 288.75, 256.25, 325.0, 235.0, 380.0, 150.0]
+    end
+    
+    it 'returns 4 subdivisions' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(4)
+      
+      _(subdivisions.count).must_equal 4
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 208.75, 171.25, 217.5, 192.5, 227.421875, 209.765625,]
+      _(subdivisions[1].points.flatten).must_equal [227.421875, 209.765625, 237.34375, 227.03125, 248.4375, 240.3125, 261.875, 245.625]
+      _(subdivisions[2].points.flatten).must_equal [261.875, 245.625, 275.3125, 250.9375, 291.09375, 248.28125, 310.390625, 233.671875]
+      _(subdivisions[3].points.flatten).must_equal [310.390625, 233.671875, 329.6875, 219.0625, 352.5, 192.5, 380.0, 150.0]
+    end
+    
+    it 'returns 4 subdivisions when 3 are requested (automatically figuring out closest greater even number)' do
+      shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(3)
+      
+      _(subdivisions.count).must_equal 4
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 208.75, 171.25, 217.5, 192.5, 227.421875, 209.765625,]
+      _(subdivisions[1].points.flatten).must_equal [227.421875, 209.765625, 237.34375, 227.03125, 248.4375, 240.3125, 261.875, 245.625]
+      _(subdivisions[2].points.flatten).must_equal [261.875, 245.625, 275.3125, 250.9375, 291.09375, 248.28125, 310.390625, 233.671875]
+      _(subdivisions[3].points.flatten).must_equal [310.390625, 233.671875, 329.6875, 219.0625, 352.5, 192.5, 380.0, 150.0]
+    end
   end
 end
