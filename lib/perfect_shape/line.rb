@@ -104,7 +104,7 @@ module PerfectShape
       #           measured against the specified line segment
       # @return a double value that is the square of the distance from the
       #                  specified point to the specified line segment.
-      def point_segment_distance_square(x1, y1,
+      def point_distance_square(x1, y1,
                                        x2, y2,
                                        px, py)
         x1 = BigDecimal(x1.to_s)
@@ -177,10 +177,10 @@ module PerfectShape
       #           measured against the specified line segment
       # @return a double value that is the distance from the specified point
       #                          to the specified line segment.
-      def point_segment_distance(x1, y1,
+      def point_distance(x1, y1,
                                  x2, y2,
                                  px, py)
-        BigDecimal(::Math.sqrt(point_segment_distance_square(x1, y1, x2, y2, px, py)).to_s)
+        BigDecimal(::Math.sqrt(point_distance_square(x1, y1, x2, y2, px, py)).to_s)
       end
       
       # Calculates the number of times the line from (x1,y1) to (x2,y2)
@@ -216,13 +216,13 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       distance_tolerance = BigDecimal(distance_tolerance.to_s)
-      point_segment_distance(x, y) <= distance_tolerance
+      point_distance(x, y) <= distance_tolerance
     end
     
-    def point_segment_distance(x_or_point, y = nil)
+    def point_distance(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
-      Line.point_segment_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+      Line.point_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end
     
     def relative_counterclockwise(x_or_point, y = nil)

@@ -141,8 +141,8 @@ Includes `PerfectShape::MultiPoint`
 ![line](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/line.png)
 
 - `::relative_counterclockwise(x1, y1, x2, y2, px, py)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
-- `::point_segment_distance_square(x1, y1, x2, y2, px, py)`: Returns the square of distance from a point to a line segment.
-- `::point_segment_distance(x1, y1, x2, y2, px, py)`: Returns the distance from a point to a line segment.
+- `::point_distance_square(x1, y1, x2, y2, px, py)`: Returns the square of distance from a point to a line segment.
+- `::point_distance(x1, y1, x2, y2, px, py)`: Returns the distance from a point to a line segment.
 - `::new(points: [])`: constructs a line with two `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
 - `#min_x`: min x
 - `#min_y`: min y
@@ -156,7 +156,7 @@ Includes `PerfectShape::MultiPoint`
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully.
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
-- `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
+- `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 
 Example:
 
@@ -200,7 +200,7 @@ Includes `PerfectShape::MultiPoint`
 - `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides quadratic bezier curve at its center into into 2 quadratic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
-- `#point_segment_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
+- `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
 
 Example:
 
@@ -248,7 +248,7 @@ Includes `PerfectShape::MultiPoint`
 - `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides cubic bezier curve at its center into into 2 cubic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
-- `#point_segment_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
+- `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
 
 Example:
 

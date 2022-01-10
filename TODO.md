@@ -30,14 +30,14 @@ For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#projections a
 Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
 
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)
-- `PerfectShape::Line#point_line_distance` (distance from line ray vector not just line segment)
 - `PerfectShape::Triangle` (a special case of `PerfectShape::Polygon` and `PerfectShape::Path`). Also, support RightTriangle and Equilateral Triangle.
 - `Shape#area` for all shapes
 - `Line#parallel?(other_line)`
-
-## Miscellaneous
-
-None
+- `Arc#point_distance`, `Ellipse#point_distance`, and `Circle#point_distance`
+- `Rectangle#point_distance`, `Square#point_distance`, and `Polygon#point_distance`
+- `Path#point_distance`
+- `CompositeShape#point_distance`
+- `PerfectShape::Line#point_line_distance` or `PerfectShape::Ray#point_distance` (distance from line ray vector not just line segment)
 
 ## Maybe
 

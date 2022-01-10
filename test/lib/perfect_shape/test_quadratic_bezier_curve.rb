@@ -217,8 +217,8 @@ describe PerfectShape do
           
       point = [280, 235]
 
-      _(shape.point_segment_distance(point)).must_equal 0
-      _(shape.point_segment_distance(*point)).must_equal shape.point_segment_distance(point)
+      _(shape.point_distance(point)).must_equal 0
+      _(shape.point_distance(*point)).must_equal shape.point_distance(point)
     end
     
     it 'returns point segment distance as 10' do
@@ -226,7 +226,7 @@ describe PerfectShape do
           
       point = [280, 245]
 
-      _(shape.point_segment_distance(point)).must_equal 10
+      _(shape.point_distance(point)).must_equal 10
     end
     
     it 'returns point segment distance as 20' do
@@ -234,7 +234,7 @@ describe PerfectShape do
           
       point = [280, 255]
 
-      _(shape.point_segment_distance(point)).must_equal 20
+      _(shape.point_distance(point)).must_equal 20
     end
   end
 end

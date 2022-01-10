@@ -91,7 +91,7 @@ module PerfectShape
       
       if outline
         minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
-        point_segment_distance(x, y, minimum_distance_threshold: minimum_distance_threshold) < minimum_distance_threshold
+        point_distance(x, y, minimum_distance_threshold: minimum_distance_threshold) < minimum_distance_threshold
       else
         # Either x or y was infinite or NaN.
         # A NaN always produces a negative response to any test
@@ -179,7 +179,7 @@ module PerfectShape
       end
     end
     
-    def point_segment_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
+    def point_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       

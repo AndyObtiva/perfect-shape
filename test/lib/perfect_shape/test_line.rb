@@ -133,13 +133,13 @@ describe PerfectShape do
       shape = PerfectShape::Line.new(points: [[0, 0], [100, 0]])
       point = [0, 1]
 
-      _(shape.point_segment_distance(point)).must_equal 1
-      _(shape.point_segment_distance(point)).must_equal shape.point_segment_distance(*point)
+      _(shape.point_distance(point)).must_equal 1
+      _(shape.point_distance(point)).must_equal shape.point_distance(*point)
       
       point = [0, 2]
 
-      _(shape.point_segment_distance(point)).must_equal 2
-      _(shape.point_segment_distance(point)).must_equal shape.point_segment_distance(*point)
+      _(shape.point_distance(point)).must_equal 2
+      _(shape.point_distance(point)).must_equal shape.point_distance(*point)
     end
     
     it 'returns relative counter clockwise value of point' do
