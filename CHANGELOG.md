@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.3.2
+
+- Check point containment in cubic bezier curve outline with distance tolerance (new method signature: `PerfectShape::CubicBezierCurve#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- `PerfectShape::CubicBezierCurve#curve_center_point`, `PerfectShape::CubicBezierCurve#curve_center_x`, `PerfectShape::CubicBezierCurve#curve_center_y`
+- `PerfectShape::CubicBezierCurve#subdivisions(number=2)`
+- `PerfectShape::CubicBezierCurve#point_segment_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`
+
 ## 0.3.1
 
 - Check point containment in arc outline with distance tolerance (new method signature: `PerfectShape::Arc#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)

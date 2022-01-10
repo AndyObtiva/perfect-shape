@@ -1,10 +1,7 @@
 # TODO
 
-## Next Version 0.3.2
+## Next Version 0.3.3
 
-- `PerfectShape::CubicBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
-- `PerfectShape::CubicBezierCurve#contain?(outline: true, distance_tolernace: 1)`: check this: https://pomax.github.io/bezierinfo/#tracing and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
- 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
  - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js

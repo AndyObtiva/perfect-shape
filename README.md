@@ -1,4 +1,4 @@
-# Perfect Shape 0.3.1
+# Perfect Shape 0.3.2
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.3.1
+gem install perfect-shape -v 0.3.2
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.3.1'
+gem 'perfect-shape', '~> 0.3.2'
 ```
 
 And, run:
@@ -55,9 +55,9 @@ This is a base class for all shapes. It is not meant to be used directly. Subcla
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#normalize_point(x_or_point, y = nil)`: normalizes point into an `Array` of `[x,y]` coordinates
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside if `outline` is `false` or if point is on the outline if `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a shape from its outline more successfully
-- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 ### `PerfectShape::PointLocation`
 
@@ -111,9 +111,9 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#center_x`: center x (always x)
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape more successfully.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
-- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
 
@@ -153,10 +153,10 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully.
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system used by Java 2D, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_segment_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
-- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
 
@@ -194,8 +194,8 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
-- `#contain?(x_or_point, y=nil)`: checks if point is inside
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil)`: checks if point is inside
 
 Example:
 
@@ -229,8 +229,8 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a cubic bezier curve shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a cubic bezier curve shape from its outline more successfully
 - `#curve_center_point`: point at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
@@ -246,6 +246,14 @@ shape = PerfectShape::CubicBezierCurve.new(points: [[200, 150], [235, 235], [270
 
 shape.contain?(270, 220) # => true
 shape.contain?([270, 220]) # => true
+shape.contain?(270, 220, outline: true) # => false
+shape.contain?([270, 220], outline: true) # => false
+shape.contain?(261.875, 245.625, outline: true) # => true
+shape.contain?([261.875, 245.625], outline: true) # => true
+shape.contain?(261.875, 246.625, outline: true) # => false
+shape.contain?([261.875, 246.625], outline: true) # => false
+shape.contain?(261.875, 246.625, outline: true, distance_tolerance: 1) # => true
+shape.contain?([261.875, 246.625], outline: true, distance_tolerance: 1) # => true
 ```
 
 ### `PerfectShape::Rectangle`
@@ -270,8 +278,8 @@ Includes `PerfectShape::RectangularShape`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a rectangle shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a rectangle shape from its outline more successfully
 
 Example:
 
@@ -313,8 +321,8 @@ Extends `PerfectShape::Rectangle`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a square shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a square shape from its outline more successfully
 
 Example:
 
@@ -366,8 +374,8 @@ Open Arc | Chord Arc | Pie Arc
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an arc shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an arc shape from its outline more successfully
 
 Example:
 
@@ -488,8 +496,8 @@ Extends `PerfectShape::Arc`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an ellipse shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an ellipse shape from its outline more successfully
 
 Example:
 
@@ -548,8 +556,8 @@ Extends `PerfectShape::Ellipse`
 - `#max_x`: max x
 - `#max_y`: max y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a circle shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a circle shape from its outline more successfully
 
 Example:
 
@@ -603,8 +611,8 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a polygon shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a polygon shape from its outline more successfully
 
 Example:
 
@@ -649,9 +657,9 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
+- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil)`: checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm))
 - `#point_crossings(x_or_point, y=nil)`: calculates the number of times the given path crosses the ray extending to the right from (x,y)
-- `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 
 Example:
 
@@ -691,8 +699,8 @@ A composite shape is simply an aggregate of multiple shapes (e.g. square and pol
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
-- `#contain?(x_or_point, y=nil)`: checks if point is inside any of the shapes owned by the composite shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#contain?(x_or_point, y=nil)`: checks if point is inside any of the shapes owned by the composite shape
 
 Example:
 
