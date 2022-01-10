@@ -2,6 +2,10 @@
 
 ## 0.3.3
 
+- Check point containment in quadratic bezier curve outline with distance tolerance (new method signature: `PerfectShape::QuadraticBezierCurve#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- `PerfectShape::QuadraticBezierCurve#curve_center_point`, `PerfectShape::QuadraticBezierCurve#curve_center_x`, `PerfectShape::QuadraticBezierCurve#curve_center_y`
+- `PerfectShape::QuadraticBezierCurve#subdivisions(level=1)`
+- `PerfectShape::QuadraticBezierCurve#point_segment_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`
 - `PerfectShape::Polygon#edges` returns edges of polygon as `PerfectShape::Line` objects
 - `PerfectShape::Rectangle#edges` returns edges of rectangle as `PerfectShape::Line` objects
 - `PerfectShape::Square#edges` returns edges of square as `PerfectShape::Line` objects
@@ -11,7 +15,7 @@
 
 - Check point containment in cubic bezier curve outline with distance tolerance (new method signature: `PerfectShape::CubicBezierCurve#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
 - `PerfectShape::CubicBezierCurve#curve_center_point`, `PerfectShape::CubicBezierCurve#curve_center_x`, `PerfectShape::CubicBezierCurve#curve_center_y`
-- `PerfectShape::CubicBezierCurve#subdivisions(number=2)`
+- `PerfectShape::CubicBezierCurve#subdivisions(level=1)`
 - `PerfectShape::CubicBezierCurve#point_segment_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`
 
 ## 0.3.1

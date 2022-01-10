@@ -175,6 +175,7 @@ describe PerfectShape do
       
       subdivisions = shape.subdivisions
       _(subdivisions.count).must_equal 2
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::CubicBezierCurve]
       _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 217.5, 192.5, 235.0, 235.0, 261.875, 245.625]
       _(subdivisions[1].points.flatten).must_equal [261.875, 245.625, 288.75, 256.25, 325.0, 235.0, 380.0, 150.0]
     end
@@ -184,6 +185,7 @@ describe PerfectShape do
       
       subdivisions = shape.subdivisions(1)
       _(subdivisions.count).must_equal 2
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::CubicBezierCurve]
       _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 217.5, 192.5, 235.0, 235.0, 261.875, 245.625]
       _(subdivisions[1].points.flatten).must_equal [261.875, 245.625, 288.75, 256.25, 325.0, 235.0, 380.0, 150.0]
     end
@@ -194,6 +196,7 @@ describe PerfectShape do
       subdivisions = shape.subdivisions(2)
       
       _(subdivisions.count).must_equal 4
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::CubicBezierCurve]
       _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 208.75, 171.25, 217.5, 192.5, 227.421875, 209.765625,]
       _(subdivisions[1].points.flatten).must_equal [227.421875, 209.765625, 237.34375, 227.03125, 248.4375, 240.3125, 261.875, 245.625]
       _(subdivisions[2].points.flatten).must_equal [261.875, 245.625, 275.3125, 250.9375, 291.09375, 248.28125, 310.390625, 233.671875]
@@ -225,7 +228,7 @@ describe PerfectShape do
       _(shape.point_segment_distance(point)).must_equal 10
     end
     
-    it 'returns point segment distance as 10' do
+    it 'returns point segment distance as 20' do
       shape = PerfectShape::CubicBezierCurve.new(points: [200, 150, 235, 235, 270, 320, 380, 150])
           
       point = [207.421875, 209.765625]

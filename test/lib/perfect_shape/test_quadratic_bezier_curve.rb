@@ -129,5 +129,112 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
+
+    it 'contains point at center of outline' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      point = [280, 235]
+      
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
+    it 'contains point at quarter of outline' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      point = [327.5, 213.75]
+
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
+    it 'contains point near beginning of outline' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      point = [353.125, 187.1875]
+      
+      _(shape.contain?(point, outline: true)).must_equal true
+    end
+
+    it 'does not contain point on outline' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      point = [281, 235]
+      
+      _(shape.contain?(point, outline: true)).must_equal false
+    end
+
+    it 'contains point on outline with distance tolerance' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      point = [281, 235]
+      
+      _(shape.contain?(point, outline: true, distance_tolerance: 1)).must_equal true
+    end
+    
+    it 'returns 2 subdivisions by default' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions
+      _(subdivisions.count).must_equal 2
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::QuadraticBezierCurve]
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 235.0, 235.0, 280.0, 235.0]
+      _(subdivisions[1].points.flatten).must_equal [280.0, 235.0, 325.0, 235.0, 380.0, 150.0]
+    end
+    
+    it 'returns 2 subdivisions for level 1' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(1)
+      _(subdivisions.count).must_equal 2
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::QuadraticBezierCurve]
+      _(subdivisions[0].points.flatten).must_equal [200.0, 150.0, 235.0, 235.0, 280.0, 235.0]
+      _(subdivisions[1].points.flatten).must_equal [280.0, 235.0, 325.0, 235.0, 380.0, 150.0]
+    end
+    
+    it 'returns 4 subdivisions for level 2' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(2)
+      
+      _(subdivisions.count).must_equal 4
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::QuadraticBezierCurve]
+      _(subdivisions[0].points.flatten.map(&:to_f)).must_equal [200.0, 150.0, 217.5, 192.5, 237.5, 213.75]
+      _(subdivisions[1].points.flatten.map(&:to_f)).must_equal [237.5, 213.75, 257.5, 235.0, 280.0, 235.0]
+      _(subdivisions[2].points.flatten.map(&:to_f)).must_equal [280.0, 235.0, 302.5, 235.0, 327.5, 213.75]
+      _(subdivisions[3].points.flatten.map(&:to_f)).must_equal [327.5, 213.75, 352.5, 192.5, 380.0, 150.0]
+    end
+    
+    it 'returns 8 subdivisions for level 3' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      
+      subdivisions = shape.subdivisions(3)
+      _(subdivisions.map(&:class).uniq).must_equal [PerfectShape::QuadraticBezierCurve]
+      
+      _(subdivisions.count).must_equal 8
+    end
+    
+    it 'returns point segment distance as 0' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+          
+      point = [280, 235]
+
+      _(shape.point_segment_distance(point)).must_equal 0
+      _(shape.point_segment_distance(*point)).must_equal shape.point_segment_distance(point)
+    end
+    
+    it 'returns point segment distance as 10' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+          
+      point = [280, 245]
+
+      _(shape.point_segment_distance(point)).must_equal 10
+    end
+    
+    it 'returns point segment distance as 20' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+          
+      point = [280, 255]
+
+      _(shape.point_segment_distance(point)).must_equal 20
+    end
   end
 end
