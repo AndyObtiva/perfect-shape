@@ -164,5 +164,20 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
+    
+    it 'returns edges of polygon' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+    
+      expected_edges = [
+        PerfectShape::Line.new(points: [[200, 150], [270, 170]]),
+        PerfectShape::Line.new(points: [[270, 170], [250, 220]]),
+        PerfectShape::Line.new(points: [[250, 220], [220, 190]]),
+        PerfectShape::Line.new(points: [[220, 190], [200, 200]]),
+        PerfectShape::Line.new(points: [[200, 200], [180, 170]]),
+        PerfectShape::Line.new(points: [[180, 170], [200, 150]]),
+      ]
+    
+      _(shape.edges).must_equal expected_edges
+    end
   end
 end

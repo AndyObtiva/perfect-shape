@@ -41,9 +41,7 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       if outline
-        points.zip(points.rotate(1)).any? do |point1, point2|
-          Line.new(points: [[point1.first, point1.last], [point2.first, point2.last]]).contain?(x, y, distance_tolerance: distance_tolerance)
-        end
+        edges.any? { |edge| edge.contain?(x, y, distance_tolerance: distance_tolerance) }
       else
         npoints = points.count
         xpoints = points.map(&:first)
@@ -115,6 +113,12 @@ module PerfectShape
         end
   
         (hits & 1) != 0
+      end
+    end
+    
+    def edges
+      points.zip(points.rotate(1)).map do |point1, point2|
+        Line.new(points: [[point1.first, point1.last], [point2.first, point2.last]])
       end
     end
   end

@@ -2,6 +2,7 @@
 
 ## 0.3.3
 
+- `PerfectShape::Polygon#edges` returns edges of polygon as `PerfectShape::Line` objects
 - Rename `number` arg to `level` in `CubicBezierCurve#subdivisions(level=1)`, making it signify the level of subdivision recursion to perform.
 
 ## 0.3.2

@@ -2,7 +2,7 @@
 
 ## Next Version 0.3.3
 
-- `Polygon`, `Rectangle`, `Square` `#edges` method
+- `Rectangle`, `Square` `#edges` method
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true, distance_tolerance: 1)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 - `PerfectShape::QuadraticBezierCurve#subdivisions`
