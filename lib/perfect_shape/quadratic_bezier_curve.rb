@@ -194,8 +194,8 @@ module PerfectShape
       QuadraticBezierCurve.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], x, y, level)
     end
     
-    
     # The center point on the outline of the curve
+    # in Array format as pair of (x, y) coordinates
     def curve_center_point
       subdivisions.last.points[0]
     end

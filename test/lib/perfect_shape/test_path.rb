@@ -649,18 +649,174 @@ describe PerfectShape do
       refute shape.contain?(point, outline: true)
     end
     
-#     it 'contains point element of path on outline' do
-#       path_shapes = []
-#       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
-#       path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
-#       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
-#       path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
-#
-#       shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
-#       point = [200, 150]
-#
-#       assert shape.contain?(point, outline: true)
-#     end
+    it 'contains point element of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [200, 150]
+
+      assert shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on line of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = shape.disconnected_shapes[0].center_point
+
+      assert shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on quadratic bezier curve of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = shape.disconnected_shapes[1].curve_center_point
+
+      assert shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on cubic bezier curve of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = shape.disconnected_shapes[2].curve_center_point
+
+      assert shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on last connecting line of closed path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = shape.disconnected_shapes[3].center_point
+
+      assert shape.contain?(point, outline: true)
+    end
+ 
+    it 'does not contain point on line of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[0].center_x + 1, shape.disconnected_shapes[0].center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on line of path outline with distance_tolerance' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[0].center_x + 1, shape.disconnected_shapes[0].center_y]
+
+      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+    end
+    
+    it 'does not contain point on quadratic bezier curve of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on quadratic bezier curve of path outline with distance tolerance' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y]
+
+      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+    end
+    
+    it 'does not contain point on cubic bezier curve of path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[2].curve_center_x + 1, shape.disconnected_shapes[2].curve_center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on cubic bezier curve of path outline with distance tolerance' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[2].curve_center_x + 1, shape.disconnected_shapes[2].curve_center_y]
+
+      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+    end
+    
+    it 'does not contain point on last connecting line of closed path outline' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[3].center_x + 1, shape.disconnected_shapes[3].center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+ 
+    it 'contains point on last connecting line of closed path outline with distance tolerance' do
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(x: 200, y: 150)
+      path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
+      point = [shape.disconnected_shapes[3].center_x + 1, shape.disconnected_shapes[3].center_y]
+
+      assert shape.contain?(point, outline: true, distance_tolerance: 1)
+    end
  
     it 'returns disconnected shapes for closed path' do
       path_shapes = [

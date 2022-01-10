@@ -4,7 +4,6 @@
 
 - Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
 For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
- - `PerfectShape::Path#contain?(outline: true)`
  - `PerfectShape::CompositeShape#contain?(outline: true)`
 
 ## Version 0.4.0
@@ -49,7 +48,6 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Report weird issue with tests taking too long in jruby due to BigDecimal use in `QuadraticBezierCurve::point_crossings` in commit `b48d66313e429fb60339c87c7d6b1b165ff4e7d8`
 - Support `PerfectShape::Point` everywhere `[x, y]` is accepted
 - Override `PerfectShape::Shape#inspect` to auto-convert all `BigDecimal`s with `to_s('f')` for better readability
-- Enable `Point#[0]`, `Point#[1]` (and `first`/`last`) to return `x` and `y` just like an `Array` point works, also supporting `[]=` similarly too.
 - `Line#overlap_line?(other_line)`: checks if it overlaps with other line
 - `Line#contain_line?(other_line)`: checks if it contains other line completely
 - `Line#intersect_line?(other_line)`: checks if it intersects with other line
@@ -58,3 +56,6 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Support `Vector`
 - Support `Shape#center_point` method (`[center_x, center_y]`)
 - Add `#size`/`#size=` as aliases for `#length`/`#length=` in `PerfectShape::Square`
+- `Shape#center_point`
+- Enable `Point#[0]`, `Point#[1]` (and `first`/`last`) to return `x` and `y` just like an `Array` point works, also supporting `[]=` similarly too.
+- Support `Pt[x, y]` syntax for constructing a `PerfectShape::Point`

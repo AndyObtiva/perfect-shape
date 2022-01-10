@@ -51,6 +51,12 @@ module PerfectShape
       max_y - min_y if max_y && min_y
     end
     
+    # Center point is `[center_x, center_y]`
+    # Returns `nil` if either center_x or center_y are `nil`
+    def center_point
+      [center_x, center_y] unless center_x.nil? || center_y.nil?
+    end
+    
     # center_x is min_x + width/2.0 by default
     # Returns nil if min_x or width are nil
     def center_x

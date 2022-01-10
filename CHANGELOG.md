@@ -2,6 +2,9 @@
 
 ## 0.3.4
 
+- Check point containment in path outline with distance tolerance (new method signature: `PerfectShape::Path#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+- `PerfectShape::Path#disconnected_shapes`: Disconnected shapes have their start point filled in so that each shape does not depend on the previous shape to determine its start point.
+- `Shape#center_point` as `[center_x, center_y]`
 - Rename `#point_segment_distance` to `#point_distance` everywhere
 
 ## 0.3.3

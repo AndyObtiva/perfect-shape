@@ -114,12 +114,12 @@ module PerfectShape
     # @return true if the point lies within the bound of
     # the path or false if the point lies outside of the
     # path's bounds.
-    def contain?(x_or_point, y = nil, outline: false)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
       if outline
-        
+        disconnected_shapes.any? {|shape| shape.contain?(x, y, outline: true, distance_tolerance: distance_tolerance) }
       else
         if (x * 0.0 + y * 0.0) == 0.0
           # N * 0.0 is 0.0 only if N is finite.

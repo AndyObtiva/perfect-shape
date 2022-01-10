@@ -1,4 +1,4 @@
-# Perfect Shape 0.3.3
+# Perfect Shape 0.3.4
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.3.3
+gem install perfect-shape -v 0.3.4
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.3.3'
+gem 'perfect-shape', '~> 0.3.4'
 ```
 
 And, run:
@@ -52,6 +52,7 @@ This is a base class for all shapes. It is not meant to be used directly. Subcla
 - `#max_y`: max y
 - `#width`: width
 - `#height`: height
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height just as those of shape
@@ -84,9 +85,6 @@ Includes `PerfectShape::PointLocation`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
-- `#center_x`: center x
-- `#center_y`: center y
-- `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 
 ### `PerfectShape::Point`
 
@@ -108,6 +106,7 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#max_y`: max y (always y)
 - `#width`: width (always 0)
 - `#height`: height (always 0)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x (always x)
 - `#center_y`: center y (always y)
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
@@ -150,6 +149,7 @@ Includes `PerfectShape::MultiPoint`
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
@@ -191,14 +191,15 @@ Includes `PerfectShape::MultiPoint`
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a quadratic bezier curve shape from its outline more successfully
-- `#curve_center_point`: point at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
-- `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
-- `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_point`: point at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_x`: point x coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_y`: point y coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides quadratic bezier curve at its center into into 2 quadratic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
 - `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
 
@@ -239,14 +240,15 @@ Includes `PerfectShape::MultiPoint`
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a cubic bezier curve shape from its outline more successfully
-- `#curve_center_point`: point at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
-- `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
-- `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_point`: point at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_x`: point x coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_y`: point y coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides cubic bezier curve at its center into into 2 cubic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
 - `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
 
@@ -284,6 +286,7 @@ Includes `PerfectShape::RectangularShape`
 - `#y`: top-left y
 - `#width`: width
 - `#height`: height
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#min_x`: min x
@@ -328,6 +331,7 @@ Extends `PerfectShape::Rectangle`
 - `#length`: length
 - `#width`: width (equal to length)
 - `#height`: height (equal to length)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#min_x`: min x
@@ -380,6 +384,7 @@ Open Arc | Chord Arc | Pie Arc
 - `#height`: height
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
@@ -499,6 +504,7 @@ Extends `PerfectShape::Arc`
 - `#y`: top-left y
 - `#width`: width
 - `#height`: height
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
@@ -558,6 +564,7 @@ Extends `PerfectShape::Ellipse`
 - `#diameter`: diameter
 - `#width`: width (equal to diameter)
 - `#height`: height (equal to diameter)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#radius`: radius
@@ -623,6 +630,7 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
@@ -670,12 +678,14 @@ Includes `PerfectShape::MultiPoint`
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
-- `#contain?(x_or_point, y=nil)`: checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm))
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside path utilizing the configured winding rule, which can be the [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule) (aka [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm)) or the [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) (aka [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a path shape from its outline more successfully
 - `#point_crossings(x_or_point, y=nil)`: calculates the number of times the given path crosses the ray extending to the right from (x,y)
+- `#disconnected_shapes`: Disconnected shapes have their start point filled in so that each shape does not depend on the previous shape to determine its start point. Also, if a point is followed by a non-point shape, it is removed since it is augmented to the following shape as its start point. Lastly, if the path is closed, an extra shape is added to represent the line connecting the last point to the first
 
 Example:
 
@@ -692,6 +702,14 @@ shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule:
 
 shape.contain?(225, 160) # => true
 shape.contain?([225, 160]) # => true
+shape.contain?(225, 160, outline: true) # => false
+shape.contain?([225, 160], outline: true) # => false
+shape.contain?(shape.disconnected_shapes[1].curve_center_x, shape.disconnected_shapes[1].curve_center_y, outline: true) # => true
+shape.contain?([shape.disconnected_shapes[1].curve_center_x, shape.disconnected_shapes[1].curve_center_y], outline: true) # => true
+shape.contain?(shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y, outline: true) # => false
+shape.contain?([shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y], outline: true) # => false
+shape.contain?(shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y, outline: true, distance_tolerance: 1) # => true
+shape.contain?([shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y], outline: true, distance_tolerance: 1) # => true
 ```
 
 ### `PerfectShape::CompositeShape`
@@ -712,6 +730,7 @@ A composite shape is simply an aggregate of multiple shapes (e.g. square and pol
 - `#max_y`: max y
 - `#width`: width (from min x to max x)
 - `#height`: height (from min y to max y)
+- `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
