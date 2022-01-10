@@ -167,7 +167,7 @@ describe PerfectShape do
       
       point = [227.421875, 210.765625]
 
-      assert shape.contain?(point, outline: true, distance_tolerance: 1.1)
+      assert shape.contain?(point, outline: true, distance_tolerance: 1.0)
     end
     
     it 'returns 2 subdivisions by default' do

@@ -229,8 +229,13 @@ Includes `PerfectShape::MultiPoint`
 - `#center_x`: center x
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
-- `#contain?(x_or_point, y=nil)`: checks if point is inside
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a cubic bezier curve shape from its outline more successfully
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#curve_center_point`: point at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_x`: point x coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
+- `#curve_center_y`: point y coordinate at the center of the curve (not the center of the bounding box area like `center_x` and `center_y`)
+- `#subdivisions(number=2)`: subdivides cubic bezier curve at its center into into 2 cubic bezier curves by default, or more if `number` is specified. `number` must be an even number, or it will be rounded up to the closest even number.
+- `#point_segment_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
 
 Example:
 

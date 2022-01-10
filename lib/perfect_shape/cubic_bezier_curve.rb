@@ -85,12 +85,13 @@ module PerfectShape
     # @return {@code true} if the point lies within the bound of
     # the cubic bézier curve, {@code false} if the point lies outside of the
     # cubic bézier curve's bounds.
-    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
+    def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       
       if outline
-        point_segment_distance(x, y, minimum_distance_threshold: distance_tolerance) < distance_tolerance
+        minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
+        point_segment_distance(x, y, minimum_distance_threshold: minimum_distance_threshold) < minimum_distance_threshold
       else
         # Either x or y was infinite or NaN.
         # A NaN always produces a negative response to any test
