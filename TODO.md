@@ -2,7 +2,6 @@
 
 ## Next Version 0.3.3
 
-- `Rectangle`, `Square` `#edges` method
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 - `PerfectShape::QuadraticBezierCurve#contain?(outline: true, distance_tolerance: 1)`: check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
 - `PerfectShape::QuadraticBezierCurve#subdivisions`
@@ -64,3 +63,4 @@ None
 - Support `Ray`
 - Support `Vector`
 - Support `Shape#center_point` method (`[center_x, center_y]`)
+- Add `#size`/`#size=` as aliases for `#length`/`#length=` in `PerfectShape::Square`

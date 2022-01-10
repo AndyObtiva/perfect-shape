@@ -266,5 +266,18 @@ describe PerfectShape do
       _(shape.contain?(point)).must_equal false
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
+    
+    it 'returns edges of rectangle' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      expected_edges = [
+        PerfectShape::Line.new(points: [[2, 3], [2 + 50, 3]]),
+        PerfectShape::Line.new(points: [[2 + 50, 3], [2 + 50, 3 + 60]]),
+        PerfectShape::Line.new(points: [[2 + 50, 3 + 60], [2, 3 + 60]]),
+        PerfectShape::Line.new(points: [[2, 3 + 60], [2, 3]]),
+      ]
+      
+      _(shape.edges).must_equal expected_edges
+    end
   end
 end

@@ -41,13 +41,19 @@ module PerfectShape
       x, y = normalize_point(x_or_point, y)
       return unless x && y
       if outline
-        Line.new(points: [[self.x, self.y], [self.x + width, self.y]]).contain?(x, y, distance_tolerance: distance_tolerance) or
-          Line.new(points: [[self.x + width, self.y], [self.x + width, self.y + height]]).contain?(x, y, distance_tolerance: distance_tolerance) or
-          Line.new(points: [[self.x + width, self.y + height], [self.x, self.y + height]]).contain?(x, y, distance_tolerance: distance_tolerance) or
-          Line.new(points: [[self.x, self.y + height], [self.x, self.y]]).contain?(x, y, distance_tolerance: distance_tolerance)
+        edges.any? { |edge| edge.contain?(x, y, distance_tolerance: distance_tolerance) }
       else
         x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
       end
+    end
+    
+    def edges
+      [
+        Line.new(points: [[self.x, self.y], [self.x + width, self.y]]),
+        Line.new(points: [[self.x + width, self.y], [self.x + width, self.y + height]]),
+        Line.new(points: [[self.x + width, self.y + height], [self.x, self.y + height]]),
+        Line.new(points: [[self.x, self.y + height], [self.x, self.y]])
+      ]
     end
   end
 end
