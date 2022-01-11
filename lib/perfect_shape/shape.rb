@@ -85,8 +85,8 @@ module PerfectShape
     def normalize_point(x_or_point, y = nil)
       x = x_or_point
       x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
-      x = BigDecimal(x.to_s)
-      y = BigDecimal(y.to_s)
+      x = x.is_a?(BigDecimal) ? x : BigDecimal(x.to_s)
+      y = y.is_a?(BigDecimal) ? y : BigDecimal(y.to_s)
       [x, y]
     end
     

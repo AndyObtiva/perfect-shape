@@ -51,18 +51,18 @@ module PerfectShape
         end
         # double precision only has 52 bits of mantissa
         return PerfectShape::Line.point_crossings(x1, y1, x2, y2, px, py) if (level > 52)
-        xmid = BigDecimal((xc1 + xc2).to_s) / 2;
-        ymid = BigDecimal((yc1 + yc2).to_s) / 2;
-        xc1 = BigDecimal((x1 + xc1).to_s) / 2;
-        yc1 = BigDecimal((y1 + yc1).to_s) / 2;
-        xc2 = BigDecimal((xc2 + x2).to_s) / 2;
-        yc2 = BigDecimal((yc2 + y2).to_s) / 2;
-        xc1m = BigDecimal((xc1 + xmid).to_s) / 2;
-        yc1m = BigDecimal((yc1 + ymid).to_s) / 2;
-        xmc1 = BigDecimal((xmid + xc2).to_s) / 2;
-        ymc1 = BigDecimal((ymid + yc2).to_s) / 2;
-        xmid = BigDecimal((xc1m + xmc1).to_s) / 2;
-        ymid = BigDecimal((yc1m + ymc1).to_s) / 2;
+        xmid = BigDecimal((xc1 + xc2).to_s) / 2
+        ymid = BigDecimal((yc1 + yc2).to_s) / 2
+        xc1 = BigDecimal((x1 + xc1).to_s) / 2
+        yc1 = BigDecimal((y1 + yc1).to_s) / 2
+        xc2 = BigDecimal((xc2 + x2).to_s) / 2
+        yc2 = BigDecimal((yc2 + y2).to_s) / 2
+        xc1m = BigDecimal((xc1 + xmid).to_s) / 2
+        yc1m = BigDecimal((yc1 + ymid).to_s) / 2
+        xmc1 = BigDecimal((xmid + xc2).to_s) / 2
+        ymc1 = BigDecimal((ymid + yc2).to_s) / 2
+        xmid = BigDecimal((xc1m + xmc1).to_s) / 2
+        ymid = BigDecimal((yc1m + ymc1).to_s) / 2
         # [xy]mid are NaN if any of [xy]c0m or [xy]mc1 are NaN
         # [xy]c0m or [xy]mc1 are NaN if any of [xy][c][01] are NaN
         # These values are also NaN if opposing infinities are added
@@ -90,6 +90,7 @@ module PerfectShape
       return unless x && y
       
       if outline
+        distance_tolerance = BigDecimal(distance_tolerance.to_s)
         minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
         point_distance(x, y, minimum_distance_threshold: minimum_distance_threshold) < minimum_distance_threshold
       else
@@ -105,7 +106,7 @@ module PerfectShape
         x2 = points[3][0]
         y2 = points[3][1]
         line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
-        crossings = line.point_crossings(x, y) + point_crossings(x, y);
+        crossings = line.point_crossings(x, y) + point_crossings(x, y)
         (crossings & 1) == 1
       end
     end
@@ -148,6 +149,7 @@ module PerfectShape
     # for level=1, 4 subdivisions for level=2, and 8 subdivisions for level=3)
     def subdivisions(level = 1)
       level -= 1 # consume 1 level
+      
       x1 = points[0][0]
       y1 = points[0][1]
       ctrlx1 = points[1][0]
@@ -156,22 +158,23 @@ module PerfectShape
       ctrly2 = points[2][1]
       x2 = points[3][0]
       y2 = points[3][1]
-      centerx = (ctrlx1 + ctrlx2) / 2.0
-      centery = (ctrly1 + ctrly2) / 2.0
-      ctrlx1 = (x1 + ctrlx1) / 2.0
-      ctrly1 = (y1 + ctrly1) / 2.0
-      ctrlx2 = (x2 + ctrlx2) / 2.0
-      ctrly2 = (y2 + ctrly2) / 2.0
-      ctrlx12 = (ctrlx1 + centerx) / 2.0
-      ctrly12 = (ctrly1 + centery) / 2.0
-      ctrlx21 = (ctrlx2 + centerx) / 2.0
-      ctrly21 = (ctrly2 + centery) / 2.0
-      centerx = (ctrlx12 + ctrlx21) / 2.0
-      centery = (ctrly12 + ctrly21) / 2.0
-      default_subdivisions = [
-        CubicBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx, centery]),
-        CubicBezierCurve.new(points: [centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2, x2, y2])
-      ]
+      centerx = BigDecimal((ctrlx1 + ctrlx2).to_s) / 2
+      centery = BigDecimal((ctrly1 + ctrly2).to_s) / 2
+      ctrlx1 = BigDecimal((x1 + ctrlx1).to_s) / 2
+      ctrly1 = BigDecimal((y1 + ctrly1).to_s) / 2
+      ctrlx2 = BigDecimal((x2 + ctrlx2).to_s) / 2
+      ctrly2 = BigDecimal((y2 + ctrly2).to_s) / 2
+      ctrlx12 = BigDecimal((ctrlx1 + centerx).to_s) / 2
+      ctrly12 = BigDecimal((ctrly1 + centery).to_s) / 2
+      ctrlx21 = BigDecimal((ctrlx2 + centerx).to_s) / 2
+      ctrly21 = BigDecimal((ctrly2 + centery).to_s) / 2
+      centerx = BigDecimal((ctrlx12 + ctrlx21).to_s) / 2
+      centery = BigDecimal((ctrly12 + ctrly21).to_s) / 2
+      
+      first_curve = CubicBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx, centery])
+      second_curve = CubicBezierCurve.new(points: [centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2, x2, y2])
+      default_subdivisions = [first_curve, second_curve]
+      
       if level == 0
         default_subdivisions
       else
@@ -189,8 +192,10 @@ module PerfectShape
       last_minimum_distance = minimum_distance + 1 # start bigger to ensure going through loop once at least
       while minimum_distance >= minimum_distance_threshold && minimum_distance < last_minimum_distance
         curve1, curve2 = current_curve.subdivisions
-        distance1 = point.point_distance(curve1.curve_center_point)
-        distance2 = point.point_distance(curve2.curve_center_point)
+        curve1_center_point = curve1.curve_center_point
+        distance1 = point.point_distance(curve1_center_point)
+        curve2_center_point = curve2.curve_center_point
+        distance2 = point.point_distance(curve2_center_point)
         last_minimum_distance = minimum_distance
         if distance1 < distance2
           minimum_distance = distance1

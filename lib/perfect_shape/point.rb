@@ -27,10 +27,10 @@ module PerfectShape
   class Point < Shape
     class << self
       def point_distance(x, y, px, py)
-        x = BigDecimal(x.to_s)
-        y = BigDecimal(y.to_s)
-        px = BigDecimal(px.to_s)
-        py = BigDecimal(py.to_s)
+        x = x.is_a?(BigDecimal) ? x : BigDecimal(x.to_s)
+        y = y.is_a?(BigDecimal) ? y : BigDecimal(y.to_s)
+        px = px.is_a?(BigDecimal) ? px : BigDecimal(px.to_s)
+        py = py.is_a?(BigDecimal) ? py : BigDecimal(py.to_s)
         BigDecimal(Math.sqrt((px - x)**2 + (py - y)**2).to_s)
       end
     end
@@ -77,6 +77,7 @@ module PerfectShape
     def point_distance(x_or_point, y = nil)
       x, y = normalize_point(x_or_point, y)
       return unless x && y
+      
       Point.point_distance(self.x, self.y, x, y)
     end
     

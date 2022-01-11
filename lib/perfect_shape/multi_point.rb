@@ -37,7 +37,13 @@ module PerfectShape
         ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
         the_points = xs.zip(ys)
       end
-      @points = the_points.map {|pair| [BigDecimal(pair.first.to_s), BigDecimal(pair.last.to_s)]}
+      @points = the_points.map do |pair|
+        [
+          pair.first.is_a?(BigDecimal) ? pair.first : BigDecimal(pair.first.to_s),
+          pair.last.is_a?(BigDecimal) ? pair.last : BigDecimal(pair.last.to_s)
+        ]
+      end
+      @points
     end
     
     def min_x

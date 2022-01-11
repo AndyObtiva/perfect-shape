@@ -27,14 +27,14 @@ describe PerfectShape do
       shape = PerfectShape::CompositeShape.new
 
       _(shape.shapes).must_equal []
-      _(shape.min_x).must_equal nil
-      _(shape.min_y).must_equal nil
-      _(shape.max_x).must_equal nil
-      _(shape.max_y).must_equal nil
-      _(shape.width).must_equal nil
-      _(shape.height).must_equal nil
-      _(shape.center_x).must_equal nil
-      _(shape.center_y).must_equal nil
+      assert_nil shape.min_x
+      assert_nil shape.min_y
+      assert_nil shape.max_x
+      assert_nil shape.max_y
+      assert_nil shape.width
+      assert_nil shape.height
+      assert_nil shape.center_x
+      assert_nil shape.center_y
     end
     
     it 'updates attributes' do

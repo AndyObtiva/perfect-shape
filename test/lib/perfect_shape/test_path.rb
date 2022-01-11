@@ -72,14 +72,14 @@ describe PerfectShape do
       _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.closed).must_equal false
       _(shape.closed?).must_equal false
-      _(shape.min_x).must_equal nil
-      _(shape.min_y).must_equal nil
-      _(shape.max_x).must_equal nil
-      _(shape.max_y).must_equal nil
-      _(shape.width).must_equal nil
-      _(shape.height).must_equal nil
-      _(shape.center_x).must_equal nil
-      _(shape.center_y).must_equal nil
+      assert_nil shape.min_x
+      assert_nil shape.min_y
+      assert_nil shape.max_x
+      assert_nil shape.max_y
+      assert_nil shape.width
+      assert_nil shape.height
+      assert_nil shape.center_x
+      assert_nil shape.center_y
     end
 
     it 'updates attributes' do
@@ -115,13 +115,13 @@ describe PerfectShape do
     it 'does not set invalid winding rule' do
       shape = PerfectShape::Path.new
       
-      proc { shape.winding_rule = :invalid }.must_raise StandardError
+      _(proc { shape.winding_rule = :invalid }).must_raise StandardError
     end
 
     it 'does not set invalid winding rule' do
       shape = PerfectShape::Path.new
       
-      proc { shape.points = [[1, 2]] }.must_raise StandardError
+      _(proc { shape.points = [[1, 2]] }).must_raise StandardError
     end
 
     it 'equals other path' do

@@ -53,10 +53,10 @@ describe PerfectShape do
     end
     
     it 'fails to construct with width, height, and length not equal' do
-      proc { PerfectShape::Square.new(x: 2, y: 3, width: 30, height: 50) }.must_raise StandardError
-      proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50) }.must_raise StandardError
-      proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, height: 50) }.must_raise StandardError
-      proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50, height: 50) }.must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, width: 30, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50, height: 50) }).must_raise StandardError
     end
     
     it 'constructs with defaults' do

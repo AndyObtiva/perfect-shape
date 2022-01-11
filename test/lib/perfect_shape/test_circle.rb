@@ -29,17 +29,17 @@ describe PerfectShape do
     end
 
     it 'fails to construct with width, height, and diameter not equal' do
-      proc { PerfectShape::Circle.new(x: 2, y: 3, width: 30, height: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, height: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50, height: 50) }.must_raise StandardError
+      _(proc { PerfectShape::Circle.new(x: 2, y: 3, width: 30, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50, height: 50) }).must_raise StandardError
     end
 
     it 'fails to construct with radiux_x, radiux_y, and radius not equal' do
-      proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius_x: 30, radius_y: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_y: 50) }.must_raise StandardError
-      proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50, radius_y: 50) }.must_raise StandardError
+      _(proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius_x: 30, radius_y: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_y: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Circle.new(center_x: 2, center_y: 3, radius: 25, radius_x: 50, radius_y: 50) }).must_raise StandardError
     end
 
     it 'constructs with alternate dimensions (center_x, center_y, radius)' do
@@ -186,9 +186,9 @@ describe PerfectShape do
 
     it 'raises error for attempting to update type, start, or extent' do
       shape = PerfectShape::Circle.new
-      proc { shape.type = :chord }.must_raise StandardError
-      proc { shape.start = 30 }.must_raise StandardError
-      proc { shape.extent = 45 }.must_raise StandardError
+      _(proc { shape.type = :chord }).must_raise StandardError
+      _(proc { shape.start = 30 }).must_raise StandardError
+      _(proc { shape.extent = 45 }).must_raise StandardError
     end
 
     it 'contains point in center' do

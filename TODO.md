@@ -41,6 +41,7 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 ## Maybe
 
 - Consider the idea of having tests run in JRuby and check against java.awt.geom and compare result with perfect-shape
+- Report issue in JRuby with highly repeated operations like `xc1 = (x1 + xc1) / 2.0` slowing performance of running specs to a crawl (hanging completely) unless I update code to `xc1 = BigDecimal((x1 + xc1).to_s) / 2;`
 - Consider contributing IEEEremainder to Ruby
 - Contribute this type of expectation: `_(arc).must_be :contain?, *point` to Minitest Expectations
 - Maybe contribute xit to minitest expectations
@@ -59,3 +60,4 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - `Shape#center_point`
 - Enable `Point#[0]`, `Point#[1]` (and `first`/`last`) to return `x` and `y` just like an `Array` point works, also supporting `[]=` similarly too.
 - Support `Pt[x, y]` syntax for constructing a `PerfectShape::Point`
+- Consider supporting `Math::to_big_decimal` or `Numeric#to_big_decimal` to automate complications like checking if a number is `BigDecimal` first before enhancing it to avoid object/memory waste

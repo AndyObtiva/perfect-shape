@@ -91,6 +91,7 @@ module PerfectShape
       y2 = points[2][1]
       
       if outline
+        distance_tolerance = BigDecimal(distance_tolerance.to_s)
         minimum_distance_threshold = OUTLINE_MINIMUM_DISTANCE_THRESHOLD + distance_tolerance
         point_distance(x, y, minimum_distance_threshold: minimum_distance_threshold) < minimum_distance_threshold
       else
@@ -226,12 +227,12 @@ module PerfectShape
       ctrly = points[1][1]
       x2 = points[2][0]
       y2 = points[2][1]
-      ctrlx1 = (x1 + ctrlx) / 2.0
-      ctrly1 = (y1 + ctrly) / 2.0
-      ctrlx2 = (x2 + ctrlx) / 2.0
-      ctrly2 = (y2 + ctrly) / 2.0
-      centerx = (ctrlx1 + ctrlx2) / 2.0
-      centery = (ctrly1 + ctrly2) / 2.0
+      ctrlx1 = BigDecimal((x1 + ctrlx).to_s) / 2
+      ctrly1 = BigDecimal((y1 + ctrly).to_s) / 2
+      ctrlx2 = BigDecimal((x2 + ctrlx).to_s) / 2
+      ctrly2 = BigDecimal((y2 + ctrly).to_s) / 2
+      centerx = BigDecimal((ctrlx1 + ctrlx2).to_s) / 2
+      centery = BigDecimal((ctrly1 + ctrly2).to_s) / 2
       
       default_subdivisions = [
         QuadraticBezierCurve.new(points: [x1, y1, ctrlx1, ctrly1, centerx, centery]),

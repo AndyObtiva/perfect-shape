@@ -80,9 +80,9 @@ describe PerfectShape do
 
     it 'raises error for attempting to update type, start, or extent' do
       shape = PerfectShape::Ellipse.new
-      proc { shape.type = :chord }.must_raise StandardError
-      proc { shape.start = 30 }.must_raise StandardError
-      proc { shape.extent = 45 }.must_raise StandardError
+      _(proc { shape.type = :chord }).must_raise StandardError
+      _(proc { shape.start = 30 }).must_raise StandardError
+      _(proc { shape.extent = 45 }).must_raise StandardError
     end
 
     it 'updates attributes with alternate dimensions (center_x,center_y,radius_x,radius_y)' do
