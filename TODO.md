@@ -1,12 +1,6 @@
 # TODO
 
-## Next Version 0.3.4
-
-- Support `contain?(outline: true)` on all shapes to compare against shape outline only (checking that point lies at the edge, not inside)
-For Bezier Curves, check this: https://pomax.github.io/bezierinfo/#projections and this: https://pomax.github.io/bezierinfo/chapters/projections/project.js
- - `PerfectShape::CompositeShape#contain?(outline: true)`
-
-## Version 0.4.0
+## Next Version 0.4.0
 
 - `PerfectShape::AffineTransform`: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
 - `PerfectShape::AffineTransform#transform_point`
@@ -57,7 +51,7 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 - Support `Vector`
 - Support `Shape#center_point` method (`[center_x, center_y]`)
 - Add `#size`/`#size=` as aliases for `#length`/`#length=` in `PerfectShape::Square`
-- `Shape#center_point`
+- `Shape#to_s` readable format for all shapes
 - Enable `Point#[0]`, `Point#[1]` (and `first`/`last`) to return `x` and `y` just like an `Array` point works, also supporting `[]=` similarly too.
 - Support `Pt[x, y]` syntax for constructing a `PerfectShape::Point`
 - Consider supporting `Math::to_big_decimal` or `Numeric#to_big_decimal` to automate complications like checking if a number is `BigDecimal` first before enhancing it to avoid object/memory waste

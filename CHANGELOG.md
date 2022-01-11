@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.5
+
+- Check point containment in composite shape outline with distance tolerance (new method signature: `PerfectShape::CompositeShape#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)
+
 ## 0.3.4
 
 - Check point containment in path outline with distance tolerance (new method signature: `PerfectShape::Path#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)

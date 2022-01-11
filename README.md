@@ -1,4 +1,4 @@
-# Perfect Shape 0.3.4
+# Perfect Shape 0.3.5
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.3.4
+gem install perfect-shape -v 0.3.5
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.3.4'
+gem 'perfect-shape', '~> 0.3.5'
 ```
 
 And, run:
@@ -700,10 +700,10 @@ path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220]
 
 shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
 
-shape.contain?(225, 160) # => true
-shape.contain?([225, 160]) # => true
-shape.contain?(225, 160, outline: true) # => false
-shape.contain?([225, 160], outline: true) # => false
+shape.contain?(275, 165) # => true
+shape.contain?([275, 165]) # => true
+shape.contain?(275, 165, outline: true) # => false
+shape.contain?([275, 165], outline: true) # => false
 shape.contain?(shape.disconnected_shapes[1].curve_center_x, shape.disconnected_shapes[1].curve_center_y, outline: true) # => true
 shape.contain?([shape.disconnected_shapes[1].curve_center_x, shape.disconnected_shapes[1].curve_center_y], outline: true) # => true
 shape.contain?(shape.disconnected_shapes[1].curve_center_x + 1, shape.disconnected_shapes[1].curve_center_y, outline: true) # => false
@@ -735,7 +735,7 @@ A composite shape is simply an aggregate of multiple shapes (e.g. square and pol
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
-- `#contain?(x_or_point, y=nil)`: checks if point is inside any of the shapes owned by the composite shape
+- `#contain?(x_or_point, y=nil)`: When `outline` is `false`, it checks if point is inside any of the shapes owned by the composite shape. Otherwise, when `outline` is `true`, it checks if point is on the outline of any of the shapes owned by the composite shape. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a composite shape from its outline more successfully
 
 Example:
 
@@ -748,10 +748,27 @@ shapes << PerfectShape::Polygon.new(points: [[120, 215], [170, 165], [220, 215]]
 
 shape = PerfectShape::CompositeShape.new(shapes: shapes)
 
-shape.contain?(170, 265) # => true
-shape.contain?([170, 265]) # => true
-shape.contain?(170, 190) # => true
-shape.contain?([170, 190]) # => true
+shape.contain?(170, 265) # => true inside square
+shape.contain?([170, 265]) # => true inside square
+shape.contain?(170, 265, outline: true) # => false
+shape.contain?([170, 265], outline: true) # => false
+shape.contain?(170, 315, outline: true) # => true
+shape.contain?([170, 315], outline: true) # => true
+shape.contain?(170, 316, outline: true) # => false
+shape.contain?([170, 316], outline: true) # => false
+shape.contain?(170, 316, outline: true, distance_tolerance: 1) # => true
+shape.contain?([170, 316], outline: true, distance_tolerance: 1) # => true
+
+shape.contain?(170, 190) # => true inside polygon
+shape.contain?([170, 190]) # => true inside polygon
+shape.contain?(170, 190, outline: true) # => false
+shape.contain?([170, 190], outline: true) # => false
+shape.contain?(145, 190, outline: true) # => true
+shape.contain?([145, 190], outline: true) # => true
+shape.contain?(145, 189, outline: true) # => false
+shape.contain?([145, 189], outline: true) # => false
+shape.contain?(145, 189, outline: true, distance_tolerance: 1) # => true
+shape.contain?([145, 189], outline: true, distance_tolerance: 1) # => true
 ```
 
 ## Process
