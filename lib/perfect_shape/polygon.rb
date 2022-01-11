@@ -23,7 +23,6 @@ require 'perfect_shape/shape'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/Polygon.html
   class Polygon < Shape
     include MultiPoint
     include Equalizer.new(:points)

@@ -23,7 +23,6 @@ require 'perfect_shape/shape'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Line2D.html
   class Line < Shape
     class << self
       # Returns an indicator of where the specified point (px,py) lies with respect to the line segment from

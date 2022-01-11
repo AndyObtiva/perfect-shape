@@ -12,15 +12,14 @@
 - Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` and inverse-transform point before calculation if `:affine_transform` option is supplied
 - Document affine transforms in README & gemspec intro
 
-## Version 1.0.0
+## Version 0.5.0
 
 - Shape `intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 - Shape `intersect?(rectangle, affine_transform: )`
 - Document intersection algorithm in README & gemspec intro
+- Make the last 0.5.x release Version 1.0.0
 
-## Geometry
-
-Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/package-summary.html
+## Far Future
 
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)
 - `PerfectShape::Triangle` (a special case of `PerfectShape::Polygon` and `PerfectShape::Path`). Also, support RightTriangle and Equilateral Triangle.
@@ -34,7 +33,6 @@ Mostly inspired by java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java
 
 ## Maybe
 
-- Consider the idea of having tests run in JRuby and check against java.awt.geom and compare result with perfect-shape
 - Report issue in JRuby with highly repeated operations like `xc1 = (x1 + xc1) / 2.0` slowing performance of running specs to a crawl (hanging completely) unless I update code to `xc1 = BigDecimal((x1 + xc1).to_s) / 2;`
 - Consider contributing IEEEremainder to Ruby
 - Contribute this type of expectation: `_(arc).must_be :contain?, *point` to Minitest Expectations

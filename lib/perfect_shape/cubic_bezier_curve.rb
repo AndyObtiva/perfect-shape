@@ -23,7 +23,6 @@ require 'perfect_shape/shape'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/QuadCurve2D.html
   class CubicBezierCurve < Shape
     class << self
       # Calculates the number of times the cubic bézier curve from (x1,y1) to (x2,y2)

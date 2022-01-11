@@ -27,7 +27,6 @@ require 'perfect_shape/cubic_bezier_curve'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Path2D.html
   class Path < Shape
     include MultiPoint
     include Equalizer.new(:shapes, :closed, :winding_rule)

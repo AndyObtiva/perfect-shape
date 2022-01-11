@@ -24,7 +24,6 @@ require 'perfect_shape/rectangular_shape'
 require 'perfect_shape/line'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html
   class Rectangle < Shape
     include RectangularShape
     include Equalizer.new(:x, :y, :width, :height)

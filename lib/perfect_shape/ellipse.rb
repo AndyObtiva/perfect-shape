@@ -22,7 +22,6 @@
 require 'perfect_shape/arc'
 
 module PerfectShape
-  # Mostly ported from java.awt.geom: https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Ellipse2D.html
   class Ellipse < Arc
     MESSAGE_CANNOT_UPDATE_ATTRIUBTE = "Ellipse %s cannot be updated. If you want to update type, use Arc instead!"
     
