@@ -37,7 +37,7 @@ module PerfectShape
     # the rectangle, {@code false} if the point lies outside of the
     # rectangle's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       
       if outline

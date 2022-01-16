@@ -212,20 +212,20 @@ module PerfectShape
     # the line, {@code false} if the point lies outside of the
     # line's bounds.
     def contain?(x_or_point, y = nil, outline: true, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       distance_tolerance = BigDecimal(distance_tolerance.to_s)
       point_distance(x, y) <= distance_tolerance
     end
     
     def point_distance(x_or_point, y = nil)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       Line.point_distance(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end
     
     def relative_counterclockwise(x_or_point, y = nil)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       Line.relative_counterclockwise(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end
@@ -236,7 +236,7 @@ module PerfectShape
     # +1 is returned for a crossing where the Y coordinate is increasing
     # -1 is returned for a crossing where the Y coordinate is decreasing
     def point_crossings(x_or_point, y = nil)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       Line.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
     end

@@ -64,7 +64,7 @@ module PerfectShape
     # the composite shape or false if the point lies outside of the
     # path's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       
       shapes.any? { |shape| shape.contain?(x, y, outline: outline, distance_tolerance: distance_tolerance) }

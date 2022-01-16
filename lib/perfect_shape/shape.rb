@@ -75,17 +75,6 @@ module PerfectShape
       Rectangle.new(x: min_x, y: min_y, width: width, height: height)
     end
   
-    # Normalizes point args whether two-number Array or x, y args returning
-    # normalized point array of two BigDecimal's
-    #
-    # @param x_or_point The point or X coordinate of the point to test.
-    # @param y The Y coordinate of the point to test.
-    #
-    # @return Array of x and y BigDecimal's representing point
-    def normalize_point(x_or_point, y = nil)
-      Point.normalize_point(x_or_point, y)
-    end
-    
     # Subclasses must implement
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
     end

@@ -79,7 +79,7 @@ module PerfectShape
     # the quadratic bézier curve, {@code false} if the point lies outside of the
     # quadratic bézier curve's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
 
       x1 = points[0][0]
@@ -189,7 +189,7 @@ module PerfectShape
     # +1 is added for each crossing where the Y coordinate is increasing
     # -1 is added for each crossing where the Y coordinate is decreasing
     def point_crossings(x_or_point, y = nil, level = 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       QuadraticBezierCurve.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], x, y, level)
     end
@@ -246,7 +246,7 @@ module PerfectShape
     end
     
     def point_distance(x_or_point, y = nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       
       point = Point.new(x, y)

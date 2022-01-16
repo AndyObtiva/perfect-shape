@@ -64,7 +64,7 @@ module PerfectShape
     # ellipse's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       # This is implemented again even though super would have just worked to have an optimized algorithm for Ellipse.
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       if outline
         super(x, y, outline: true, distance_tolerance: distance_tolerance)

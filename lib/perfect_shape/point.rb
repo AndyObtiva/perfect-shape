@@ -83,14 +83,14 @@ module PerfectShape
     # @return {@code true} if the point is close enough within distance tolerance,
     # {@code false} if the point is too far.
     def contain?(x_or_point, y = nil, outline: true, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       distance_tolerance = BigDecimal(distance_tolerance.to_s)
       point_distance(x, y) <= distance_tolerance
     end
     
     def point_distance(x_or_point, y = nil)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       
       Point.point_distance(self.x, self.y, x, y)

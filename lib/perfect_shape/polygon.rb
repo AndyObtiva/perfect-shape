@@ -37,7 +37,7 @@ module PerfectShape
     # the polygon, {@code false} if the point lies outside of the
     # polygon's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
-      x, y = normalize_point(x_or_point, y)
+      x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       if outline
         edges.any? { |edge| edge.contain?(x, y, distance_tolerance: distance_tolerance) }
