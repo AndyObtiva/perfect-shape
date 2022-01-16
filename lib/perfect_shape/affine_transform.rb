@@ -112,6 +112,7 @@ module PerfectShape
     alias m23= yt=
     
     # Resets to identity matrix
+    # Returns self to support fluent interface chaining
     def identity!
       self.xxp = 1
       self.xyp = 0
@@ -119,8 +120,35 @@ module PerfectShape
       self.yyp = 1
       self.xt  = 0
       self.yt  = 0
+      self
     end
     alias reset! identity!
+
+    # Inverts affine transform matrix if invertible
+    # Raises an error if affine transform matrix is not invertible
+    # Returns self to support fluent interface chaining
+    def invert!
+#       raise 'Cannot invert affine transform (matrix is not invertible)!' if !invertible?
+      require 'matrix'
+      the_matrix = matrix_3d
+      the_inverse_matrix = the_matrix.inverse
+      self.xxp = the_inverse_matrix[0, 0]
+      self.xyp = the_inverse_matrix[0, 1]
+      self.xt = the_inverse_matrix[0, 2]
+      self.yxp = the_inverse_matrix[1, 0]
+      self.yyp = the_inverse_matrix[1, 1]
+      self.yt = the_inverse_matrix[1, 2]
+      self
+    end
+    
+    def invertible?
+      (m11 * m22 - m12 * m21) != 0
+    end
+    
+    # Returns Ruby Matrix representing Affine Transform matrix elements in 3D
+    def matrix_3d
+      Matrix[[xxp, xyp, xt], [yxp, yyp, yt], [0, 0, 1]]
+    end
     
     def transform_point(x_or_point, y = nil)
       x, y = Point.normalize_point(x_or_point, y)

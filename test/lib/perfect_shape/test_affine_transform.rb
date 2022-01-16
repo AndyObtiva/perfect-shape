@@ -308,5 +308,23 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal 0
       _(affine_transform.yt).must_equal 0
     end
+    
+    it 'inverts affine transform with invertible matrix ' do
+      xxp = -1 # point x coordinate x product (m11)
+      xyp = 1.5 # point x coordinate y product (m12)
+      yxp = 1 # point y coordinate x product (m21)
+      yyp = -1 # point y coordinate y product (m22)
+      xt = 0 # point x coordinate translation (m13)
+      yt = 0 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform.invert!
+      
+      _(affine_transform.xxp).must_equal 2
+      _(affine_transform.xyp).must_equal 3
+      _(affine_transform.yxp).must_equal 2
+      _(affine_transform.yyp).must_equal 2
+      _(affine_transform.xt).must_equal 0
+      _(affine_transform.yt).must_equal 0
+    end
   end
 end

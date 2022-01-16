@@ -3,10 +3,13 @@
 ## Next Version 0.4.0
 
 - `PerfectShape::AffineTransform#invert!`
+- `PerfectShape::AffineTransform#invertible?`
+- `PerfectShape::AffineTransform#multiply!`
 - `PerfectShape::AffineTransform#translate!`
 - `PerfectShape::AffineTransform#scale!`
 - `PerfectShape::AffineTransform#rotate!`
 - `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
+- `PerfectShape::AffineTransform#clone`
 - `PerfectShape::AffineTransform#inverse_transform_point`
 - `PerfectShape::AffineTransform#inverse_transform_points`
 - `Point#affine_transform(affine_transform)`
