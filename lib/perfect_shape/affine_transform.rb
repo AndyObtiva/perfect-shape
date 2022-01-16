@@ -26,19 +26,13 @@ module PerfectShape
   class AffineTransform
     include Equalizer.new(:xxp, :xyp, :yxp, :yyp, :xt, :yt)
   
-    attr_accessor :xxp, :xyp, :yxp, :yyp, :xt, :yt
+    attr_reader :xxp, :xyp, :yxp, :yyp, :xt, :yt
     alias m11 xxp
-    alias m11= xxp=
     alias m12 xyp
-    alias m12= xyp=
     alias m21 yxp
-    alias m21= yxp=
     alias m22 yyp
-    alias m22= yyp=
     alias m13 xt
-    alias m13= xt=
     alias m23 yt
-    alias m23= yt=
   
     # Creates a new AffineTransform with the following Matrix:
     #
@@ -77,15 +71,43 @@ module PerfectShape
     def initialize(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
                    xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
                    m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)
-      self.xxp = BigDecimal((xxp_element || xxp || m11 || 1).to_s)
-      self.xyp = BigDecimal((xyp_element || xyp || m12 || 0).to_s)
-      self.yxp = BigDecimal((yxp_element || yxp || m21 || 0).to_s)
-      self.yyp = BigDecimal((yyp_element || yyp || m22 || 1).to_s)
-      self.xt  = BigDecimal((xt_element  || xt  || m13 || 0).to_s)
-      self.yt  = BigDecimal((yt_element  || yt  || m23 || 0).to_s)
+      self.xxp = xxp_element || xxp || m11 || 1
+      self.xyp = xyp_element || xyp || m12 || 0
+      self.yxp = yxp_element || yxp || m21 || 0
+      self.yyp = yyp_element || yyp || m22 || 1
+      self.xt  = xt_element  || xt  || m13 || 0
+      self.yt  = yt_element  || yt  || m23 || 0
     end
     
-    # TODO override attr writers to normalize values into big decimals
+    def xxp=(value)
+      @xxp = BigDecimal(value.to_s)
+    end
+    alias m11= xxp=
+    
+    def xyp=(value)
+      @xyp = BigDecimal(value.to_s)
+    end
+    alias m12= xyp=
+    
+    def yxp=(value)
+      @yxp = BigDecimal(value.to_s)
+    end
+    alias m21= yxp=
+    
+    def yyp=(value)
+      @yyp = BigDecimal(value.to_s)
+    end
+    alias m22= yyp=
+    
+    def xt=(value)
+      @xt = BigDecimal(value.to_s)
+    end
+    alias m13= xt=
+    
+    def yt=(value)
+      @yt = BigDecimal(value.to_s)
+    end
+    alias m23= yt=
     
     def transform(x_or_point, y = nil)
       x, y = Point.normalize_point(x_or_point, y)

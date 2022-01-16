@@ -15,17 +15,29 @@ describe PerfectShape do
       affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
 
       _(affine_transform.xxp).must_equal xxp
+      _(affine_transform.xxp).must_be_instance_of BigDecimal
       _(affine_transform.xyp).must_equal xyp
+      _(affine_transform.xyp).must_be_instance_of BigDecimal
       _(affine_transform.yxp).must_equal yxp
+      _(affine_transform.yxp).must_be_instance_of BigDecimal
       _(affine_transform.yyp).must_equal yyp
+      _(affine_transform.yyp).must_be_instance_of BigDecimal
       _(affine_transform.xt).must_equal xt
+      _(affine_transform.xt).must_be_instance_of BigDecimal
       _(affine_transform.yt).must_equal yt
+      _(affine_transform.yt).must_be_instance_of BigDecimal
       _(affine_transform.m11).must_equal xxp
+      _(affine_transform.m11).must_be_instance_of BigDecimal
       _(affine_transform.m12).must_equal xyp
+      _(affine_transform.m12).must_be_instance_of BigDecimal
       _(affine_transform.m21).must_equal yxp
+      _(affine_transform.m21).must_be_instance_of BigDecimal
       _(affine_transform.m22).must_equal yyp
+      _(affine_transform.m22).must_be_instance_of BigDecimal
       _(affine_transform.m13).must_equal xt
+      _(affine_transform.m13).must_be_instance_of BigDecimal
       _(affine_transform.m23).must_equal yt
+      _(affine_transform.m23).must_be_instance_of BigDecimal
     end
     
     it 'constructs with matrix element kwargs' do
