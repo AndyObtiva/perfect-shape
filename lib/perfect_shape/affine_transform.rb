@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'perfect_shape/math'
 require 'perfect_shape/shape'
 require 'perfect_shape/point'
 require 'perfect_shape/multi_point'
@@ -165,6 +166,18 @@ module PerfectShape
       
       scale_affine_transform = AffineTransform.new(xxp: x, xyp: 0, yxp: 0, yyp: y, xt: 0, yt: 0)
       multiply!(scale_affine_transform)
+      
+      self
+    end
+    
+    # Rotates AffineTransform counter-clockwise for positive angle value in degrees
+    # or clockwise for negative angle value in degrees
+    def rotate!(degrees)
+      degrees = Math.normalize_degrees(degrees)
+      radians = Math.degrees_to_radians(degrees)
+      
+      rotation_affine_transform = AffineTransform.new(xxp: Math.cos(radians), xyp: -Math.sin(radians), yxp: Math.sin(radians), yyp: Math.cos(radians), xt: 0, yt: 0)
+      multiply!(rotation_affine_transform)
       
       self
     end

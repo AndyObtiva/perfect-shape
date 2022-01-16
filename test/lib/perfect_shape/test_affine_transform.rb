@@ -453,5 +453,25 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal 34
       _(affine_transform.yt).must_equal 48
     end
+
+    it 'rotates affine transform by angle in degrees counter-clockwise' do
+      xxp = 6 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 8 # point y coordinate y product (m22)
+      xt = 34 # point x coordinate translation (m13)
+      yt = 48 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+
+      return_value = affine_transform.rotate!(90)
+
+      _(return_value).must_equal affine_transform
+      _(affine_transform.xxp).must_equal BigDecimal('0.36739403974420596e-15')
+      _(affine_transform.xyp).must_equal BigDecimal('-6.0')
+      _(affine_transform.yxp).must_equal BigDecimal('8.0')
+      _(affine_transform.yyp).must_equal BigDecimal('0.48985871965894128e-15')
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
   end
 end
