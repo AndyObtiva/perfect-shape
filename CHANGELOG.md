@@ -7,7 +7,8 @@
 - `PerfectShape::AffineTransform#transform_point`
 - `PerfectShape::AffineTransform#transform_points`
 - `PerfectShape::AffineTransform#identity!` (alias: `reset!`)
-
+- `PerfectShape::AffineTransform#invert!`
+- `PerfectShape::AffineTransform#invertible?`
 
 ## 0.3.5
 

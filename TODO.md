@@ -2,8 +2,6 @@
 
 ## Next Version 0.4.0
 
-- `PerfectShape::AffineTransform#invert!`
-- `PerfectShape::AffineTransform#invertible?`
 - `PerfectShape::AffineTransform#multiply!`
 - `PerfectShape::AffineTransform#translate!`
 - `PerfectShape::AffineTransform#scale!`

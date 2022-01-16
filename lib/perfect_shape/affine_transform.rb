@@ -128,7 +128,7 @@ module PerfectShape
     # Raises an error if affine transform matrix is not invertible
     # Returns self to support fluent interface chaining
     def invert!
-#       raise 'Cannot invert affine transform (matrix is not invertible)!' if !invertible?
+      raise 'Cannot invert (matrix is not invertible)!' if !invertible?
       require 'matrix'
       the_matrix = matrix_3d
       the_inverse_matrix = the_matrix.inverse
