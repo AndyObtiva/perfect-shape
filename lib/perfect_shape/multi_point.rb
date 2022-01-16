@@ -24,6 +24,19 @@ require 'perfect_shape/shape'
 module PerfectShape
   # Represents multi-point shapes like Line, Polygon, and Polyline
   module MultiPoint
+    class << self
+      def normalize_point_array(the_points)
+        if the_points.all? {|the_point| the_point.is_a?(Array)}
+          the_points
+        else
+          the_points = the_points.flatten
+          xs = the_points.each_with_index.select {|n, i| i.even?}.map(&:first)
+          ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
+          xs.zip(ys)
+        end
+      end
+    end
+  
     attr_reader :points
     
     def initialize(points: [])
@@ -32,11 +45,7 @@ module PerfectShape
     
     # Sets points, normalizing to an Array of Arrays of (x,y) pairs as BigDecimal
     def points=(the_points)
-      unless the_points.first.is_a?(Array)
-        xs = the_points.each_with_index.select {|n, i| i.even?}.map(&:first)
-        ys = the_points.each_with_index.select {|n, i| i.odd?}.map(&:first)
-        the_points = xs.zip(ys)
-      end
+      the_points = MultiPoint.normalize_point_array(the_points)
       @points = the_points.map do |pair|
         [
           pair.first.is_a?(BigDecimal) ? pair.first : BigDecimal(pair.first.to_s),

@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/point'
 require 'perfect_shape/multi_point'
 
 module PerfectShape

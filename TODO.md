@@ -2,12 +2,12 @@
 
 ## Next Version 0.4.0
 
-- `PerfectShape::AffineTransform#transform_point`
 - `PerfectShape::AffineTransform#inverse_transform_point`
-- `PerfectShape::AffineTransform#transform_points`
 - `PerfectShape::AffineTransform#inverse_transform_points`
 - `Point#affine_transform(affine_transform)`
+- `Point#inverse_affine_transform(affine_transform)`
 - `MultiPoint#affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
+- `MultiPoint#inverse_affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
 - Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` and inverse-transform point before calculation if `:affine_transform` option is supplied
 - Document affine transforms in README & gemspec intro
 

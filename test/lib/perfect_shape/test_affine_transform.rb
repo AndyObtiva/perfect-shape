@@ -210,7 +210,7 @@ describe PerfectShape do
       yt = 7 # point y coordinate translation (m23)
       affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
       
-      _(affine_transform.transform([1, 8])).must_equal [2*1 + 3*8 + 6, 4*1 + 5*8 + 7]
+      _(affine_transform.transform_point([1, 8])).must_equal [2*1 + 3*8 + 6, 4*1 + 5*8 + 7]
     end
     
     it 'transforms a point as x,y arguments returning as [x,y] pair Array' do
@@ -222,7 +222,43 @@ describe PerfectShape do
       yt = 7 # point y coordinate translation (m23)
       affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
       
-      _(affine_transform.transform(1, 8)).must_equal [2*1 + 3*8 + 6, 4*1 + 5*8 + 7]
+      _(affine_transform.transform_point(1, 8)).must_equal [2*1 + 3*8 + 6, 4*1 + 5*8 + 7]
+    end
+    
+    it 'transforms points as [x,y] pair Arrays returning as [x,y] pair Arrays' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      
+      _(affine_transform.transform_points([[1, 8], [2, 9]])).must_equal [[2*1 + 3*8 + 6, 4*1 + 5*8 + 7], [2*2 + 3*9 + 6, 4*2 + 5*9 + 7]]
+    end
+    
+    it 'transforms points as a flattened Array of alternating [x,y] coordinates returning as [x,y] pair Arrays' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      
+      _(affine_transform.transform_points([1, 8, 2, 9])).must_equal [[2*1 + 3*8 + 6, 4*1 + 5*8 + 7], [2*2 + 3*9 + 6, 4*2 + 5*9 + 7]]
+    end
+    
+    it 'transforms points as flattened alternating x,y coordinate arguments returning as [x,y] pair Arrays' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      
+      _(affine_transform.transform_points(1, 8, 2, 9)).must_equal [[2*1 + 3*8 + 6, 4*1 + 5*8 + 7], [2*2 + 3*9 + 6, 4*2 + 5*9 + 7]]
     end
   end
 end

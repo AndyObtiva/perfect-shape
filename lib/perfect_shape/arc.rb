@@ -21,6 +21,7 @@
 
 require 'perfect_shape/shape'
 require 'perfect_shape/rectangular_shape'
+require 'perfect_shape/point'
 require 'perfect_shape/line'
 
 module PerfectShape

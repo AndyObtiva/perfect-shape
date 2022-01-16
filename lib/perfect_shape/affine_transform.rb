@@ -20,6 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'perfect_shape/shape'
+require 'perfect_shape/point'
+require 'perfect_shape/multi_point'
 
 module PerfectShape
   # Represents an affine transform
@@ -109,11 +111,17 @@ module PerfectShape
     end
     alias m23= yt=
     
-    def transform(x_or_point, y = nil)
+    def transform_point(x_or_point, y = nil)
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       
       [xxp*x + xyp*y + xt, yxp*x + yyp*y + yt]
+    end
+    
+    def transform_points(*xy_coordinates_or_points)
+      points = xy_coordinates_or_points.first.is_a?(Array) ? xy_coordinates_or_points.first : xy_coordinates_or_points
+      points = MultiPoint.normalize_point_array(points)
+      points.map { |point| transform_point(point) }
     end
   end
 end
