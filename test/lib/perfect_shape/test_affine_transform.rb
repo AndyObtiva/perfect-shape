@@ -50,5 +50,28 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal m13
       _(affine_transform.yt).must_equal m23
     end
+    
+    it 'constructs with standard args' do
+      m11 = 2
+      m12 = 3
+      m21 = 4
+      m22 = 5
+      m13 = 6
+      m23 = 7
+      affine_transform = PerfectShape::AffineTransform.new(m11, m12, m21, m22, m13, m23)
+
+      _(affine_transform.m11).must_equal m11
+      _(affine_transform.m12).must_equal m12
+      _(affine_transform.m21).must_equal m21
+      _(affine_transform.m22).must_equal m22
+      _(affine_transform.m13).must_equal m13
+      _(affine_transform.m23).must_equal m23
+      _(affine_transform.xxp).must_equal m11
+      _(affine_transform.xyp).must_equal m12
+      _(affine_transform.yxp).must_equal m21
+      _(affine_transform.yyp).must_equal m22
+      _(affine_transform.xt).must_equal m13
+      _(affine_transform.yt).must_equal m23
+    end
   end
 end
