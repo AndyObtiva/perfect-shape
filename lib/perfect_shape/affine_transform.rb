@@ -158,6 +158,17 @@ module PerfectShape
       self
     end
     
+    # Scales AffineTransform
+    def scale!(x_or_point, y = nil)
+      x, y = Point.normalize_point(x_or_point, y)
+      return unless x && y
+      
+      scale_affine_transform = AffineTransform.new(xxp: x, xyp: 0, yxp: 0, yyp: y, xt: 0, yt: 0)
+      multiply!(scale_affine_transform)
+      
+      self
+    end
+    
     # Sets elements from a Ruby Matrix representing Affine Transform matrix elements in 3D
     def matrix_3d=(the_matrix_3d)
       self.xxp = the_matrix_3d[0, 0]

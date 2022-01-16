@@ -11,6 +11,7 @@
 - `PerfectShape::AffineTransform#invertible?`
 - `PerfectShape::AffineTransform#multiply!`
 - `PerfectShape::AffineTransform#translate!`
+- `PerfectShape::AffineTransform#scale!`
 
 ## 0.3.5
 
