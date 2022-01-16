@@ -1,9 +1,9 @@
-# Perfect Shape 0.3.5
+# Perfect Shape 0.4.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
 
-[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve) (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.3.5
+gem install perfect-shape -v 0.4.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.3.5'
+gem 'perfect-shape', '~> 0.4.0'
 ```
 
 And, run:
@@ -99,17 +99,20 @@ The matrix is used to transform (x,y) point coordinates as follows:
 [ xxp xyp xt ] * [x] = [ xxp * x + xyp * y + xt ]<br>
 [ yxp yyp yt ] * [y] = [ yxp * x + yyp * y + yt ]
 
-xxp is the x coordinate x product (m11)<br>
-xyp is the x coordinate y product (m12)<br>
-yxp is the y coordinate x product (m21)<br>
-yyp is the y coordinate y product (m22)<br>
-xt is the x coordinate translation (m13)<br>
-yt is the y coordinate translation (m23)
+`xxp` is the x coordinate x product (`m11`)<br>
+`xyp` is the x coordinate y product (`m12`)<br>
+`yxp` is the y coordinate x product (`m21`)<br>
+`yyp` is the y coordinate y product (`m22`)<br>
+`xt` is the x coordinate translation (`m13`)<br>
+`yt` is the y coordinate translation (`m23`)
 
-- `::new(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,<br>
-         xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,<br>
+Affine transform mutation operations ending with `!` can be chained as they all return `self`.
+
+- `::new(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
+         xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
          m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)`:
   The constructor accepts either the (x,y)-operation related argument/kwarg names or traditional matrix element kwarg names. If no arguments are supplied, it constructs an identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`).
+- `#matrix_3d`: Returns Ruby `Matrix` object representing affine transform in 3D (used internally for performing multiplication)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#identity!` (alias: `reset!`): Resets to identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`)
 - `#invertible?` Returns `true` if matrix is invertible and `false` otherwise
@@ -117,8 +120,13 @@ yt is the y coordinate translation (m23)
 - `#multiply!(other)`: Multiplies affine transform with another affine transform, storing resulting changes in matrix elements
 - `#translate!(x_or_point, y=nil)`: Translates affine transform with (x, y) translation values
 - `#scale!(x_or_point, y=nil)`: Scales affine transform with (x, y) scale values
-- `#transform_point(x_or_point, y=nil)`: returns `[xxp * x + xyp * y + xt, yxp * x + yyp * y + yt]`
+- `#rotate!(degrees)`: Rotates by angle degrees counter-clockwise if angle value is positive or clockwise if angle value is negative. Note that it returns very close approximate results for rotations that are 90/180/270 degrees (good enough for inverse-transform GUI point containment checks needed when checking if mouse-click-point is inside a transformed shape).
+- `#shear!(x_or_point, y=nil)`: Shears by x and y factors
+- `#clone`: Returns a new AffineTransform with the same matrix elements
+- `#transform_point(x_or_point, y=nil)`: returns `[xxp * x + xyp * y + xt, yxp * x + yyp * y + yt]`. Note that result is a close approximation, but should be good enough for GUI mouse-click-point containment checks.
 - `#transform_points(*xy_coordinates_or_points)`: returns `Array` of (x,y) pair `Array`s transformed with `#transform_point` method
+- `#inverse_transform_point(x_or_point, y=nil)`: returns inverse transform of a point (x,y) coordinates (clones self and inverts clone, and then transforms point). Note that result is a close approximation, but should be good enough for GUI mouse-click-point containment checks.
+- `#inverse_transform_points(*xy_coordinates_or_points)`: returns inverse transforms of a point `Array` of (x,y) coordinates
 
 Example:
 
@@ -129,9 +137,17 @@ yxp = 4
 yyp = 5
 xt = 6
 yt = 7
-affine_transform1 = AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt) # (x,y)-operation kwarg names
-affine_transform2 = AffineTransform.new(m11: xxp, m12: xyp, m21: yxp, m22: yyp, m13: xt, m23: yt) # traditional matrix element kwarg names
-affine_transform3 = AffineTransform.new(xxp, xyp, yxp, yyp, xt, yt) # standard arguments
+affine_transform1 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt) # (x,y)-operation kwarg names
+affine_transform2 = PerfectShape::AffineTransform.new(m11: xxp, m12: xyp, m21: yxp, m22: yyp, m13: xt, m23: yt) # traditional matrix element kwarg names
+affine_transform3 = PerfectShape::AffineTransform.new(xxp, xyp, yxp, yyp, xt, yt) # standard arguments
+
+affine_transform2.matrix_3d == affine_transform1.matrix_3d # => true
+affine_transform3.matrix_3d == affine_transform1.matrix_3d # => true
+
+affine_transform = PerfectShape::AffineTransform.new.translate!(30, 20).scale!(2, 3)
+
+affine_transform.transform_point(10, 10) # => approximately [50, 50]
+affine_transform.inverse_transform_point(50, 50) # => approximately [10, 10]
 ```
 
 ### `PerfectShape::Point`

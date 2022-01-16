@@ -1,20 +1,6 @@
 # TODO
 
-## Next Version 0.4.0
-
-- `rotate` and `shear` seem to be wrongly implemented compared to results returned from SWT
-- `PerfectShape::AffineTransform#clone`
-- `PerfectShape::AffineTransform#inverse_transform_point`
-- `PerfectShape::AffineTransform#inverse_transform_points`
-- `Point#affine_transform(affine_transform)`
-- `Point#inverse_affine_transform(affine_transform)`
-- `MultiPoint#affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
-- `MultiPoint#inverse_affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
-- Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` and inverse-transform point before calculation if `:affine_transform` option is supplied
-- Document affine transforms in README & gemspec intro
-- Rotate around a point instead of origin (0, 0) (Glimmer DSL for LibUI supports that)
-
-## Version 0.5.0
+## Next Version 0.5.0
 
 - Shape `intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 - Shape `intersect?(rectangle, affine_transform: )`
@@ -56,6 +42,13 @@
 - Support `Pt[x, y]` syntax for constructing a `PerfectShape::Point`
 - Consider supporting `Math::to_big_decimal` or `Numeric#to_big_decimal` to automate complications like checking if a number is `BigDecimal` first before enhancing it to avoid object/memory waste
 - `PerfectShape::AffineTransform#mirror!`
-- Preserve straightness and parallelness of lines during rotation by giving 90/180/270 degree rotations special logic
+- Preserve straightness and parallelness of lines during rotation by giving 90/180/270 degree rotations special logic (e.g. rotate (10, 10) by 90 should give (-10, 10) not (-9.99999, 10.00001))
 - `AffineTransform#rotate_by_vector(x, y)`
 - Understand why rotate in SWT works differently from standard Matrix rotate algorithm
+- non-`!` versions of mutation methods on `AffineTransform`
+- Rotate around a point instead of origin (0, 0) for convenience (translates by x,y amount, rotates, and then translates by -x, -y amount)
+- `Point#affine_transform(affine_transform)`
+- `Point#inverse_affine_transform(affine_transform)`
+- `MultiPoint#affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
+- `MultiPoint#inverse_affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
+- Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` or to allow alternatively setting `affine_transform=` on `Shape`, and later inverse-transform point before calculation if `:affine_transform` option is supplied

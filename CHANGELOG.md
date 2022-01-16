@@ -14,6 +14,9 @@
 - `PerfectShape::AffineTransform#scale!`
 - `PerfectShape::AffineTransform#rotate!`
 - `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
+- `PerfectShape::AffineTransform#clone`
+- `PerfectShape::AffineTransform#inverse_transform_point`
+- `PerfectShape::AffineTransform#inverse_transform_points`
 
 ## 0.3.5
 

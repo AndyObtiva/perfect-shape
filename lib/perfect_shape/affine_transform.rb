@@ -216,10 +216,20 @@ module PerfectShape
       [xxp*x + xyp*y + xt, yxp*x + yyp*y + yt]
     end
     
+    def inverse_transform_point(x_or_point, y = nil)
+      clone.invert!.transform_point(x_or_point, y)
+    end
+    
     def transform_points(*xy_coordinates_or_points)
       points = xy_coordinates_or_points.first.is_a?(Array) ? xy_coordinates_or_points.first : xy_coordinates_or_points
       points = MultiPoint.normalize_point_array(points)
       points.map { |point| transform_point(point) }
+    end
+    
+    def inverse_transform_points(*xy_coordinates_or_points)
+      points = xy_coordinates_or_points.first.is_a?(Array) ? xy_coordinates_or_points.first : xy_coordinates_or_points
+      points = MultiPoint.normalize_point_array(points)
+      points.map { |point| inverse_transform_point(point) }
     end
   end
 end
