@@ -342,5 +342,32 @@ describe PerfectShape do
       refute affine_transform.invertible?
       _(proc {affine_transform.invert!}).must_raise StandardError
     end
+    
+    it 'multiplies affine transform with another' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 4 # point y coordinate y product (m22)
+      xt = 0 # point x coordinate translation (m13)
+      yt = 0 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+    
+      xxp = 1 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 1 # point y coordinate y product (m22)
+      xt = 30 # point x coordinate translation (m13)
+      yt = -90 # point y coordinate translation (m23)
+      affine_transform2 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+    
+      affine_transform.multiply!(affine_transform2)
+      
+      _(affine_transform.xxp).must_equal 2
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 4
+      _(affine_transform.xt).must_equal 60
+      _(affine_transform.yt).must_equal -360
+    end
   end
 end

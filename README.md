@@ -112,6 +112,9 @@ yt is the y coordinate translation (m23)
   The constructor accepts either the (x,y)-operation related argument/kwarg names or traditional matrix element kwarg names. If no arguments are supplied, it constructs an identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`).
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#identity!` (alias: `reset!`): Resets to identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`)
+- `#invertible?` Returns `true` if matrix is invertible and `false` otherwise
+- `#invert!`: Inverts affine transform matrix if invertible or raises an error otherwise
+- `#multiply!(other)`: Multiplies affine transform with another affine transform, storing resulting changes in matrix elements
 - `#transform_point(x_or_point, y=nil)`: returns `[xxp * x + xyp * y + xt, yxp * x + yyp * y + yt]`
 - `#transform_points(*xy_coordinates_or_points)`: returns `Array` of (x,y) pair `Array`s transformed with `#transform_point` method
 

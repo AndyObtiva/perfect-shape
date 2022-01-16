@@ -23,6 +23,7 @@ $LOAD_PATH.unshift File.expand_path('.', __dir__)
 
 require 'bigdecimal'
 require 'equalizer'
+require 'matrix'
 
 module PerfectShape
 end

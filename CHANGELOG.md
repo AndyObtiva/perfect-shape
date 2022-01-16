@@ -9,6 +9,7 @@
 - `PerfectShape::AffineTransform#identity!` (alias: `reset!`)
 - `PerfectShape::AffineTransform#invert!`
 - `PerfectShape::AffineTransform#invertible?`
+- `PerfectShape::AffineTransform#multiply!`
 
 ## 0.3.5
 

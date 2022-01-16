@@ -129,20 +129,27 @@ module PerfectShape
     # Returns self to support fluent interface chaining
     def invert!
       raise 'Cannot invert (matrix is not invertible)!' if !invertible?
-      require 'matrix'
-      the_matrix = matrix_3d
-      the_inverse_matrix = the_matrix.inverse
-      self.xxp = the_inverse_matrix[0, 0]
-      self.xyp = the_inverse_matrix[0, 1]
-      self.xt = the_inverse_matrix[0, 2]
-      self.yxp = the_inverse_matrix[1, 0]
-      self.yyp = the_inverse_matrix[1, 1]
-      self.yt = the_inverse_matrix[1, 2]
+      self.matrix_3d = matrix_3d.inverse
       self
     end
     
     def invertible?
       (m11 * m22 - m12 * m21) != 0
+    end
+    
+    def multiply!(other)
+      self.matrix_3d = matrix_3d*other.matrix_3d
+      self
+    end
+    
+    # Sets elements from a Ruby Matrix representing Affine Transform matrix elements in 3D
+    def matrix_3d=(the_matrix_3d)
+      self.xxp = the_matrix_3d[0, 0]
+      self.xyp = the_matrix_3d[0, 1]
+      self.xt = the_matrix_3d[0, 2]
+      self.yxp = the_matrix_3d[1, 0]
+      self.yyp = the_matrix_3d[1, 1]
+      self.yt = the_matrix_3d[1, 2]
     end
     
     # Returns Ruby Matrix representing Affine Transform matrix elements in 3D
