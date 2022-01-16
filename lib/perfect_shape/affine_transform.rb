@@ -120,16 +120,19 @@ module PerfectShape
       self.yyp = 1
       self.xt  = 0
       self.yt  = 0
+      
       self
     end
     alias reset! identity!
 
-    # Inverts affine transform matrix if invertible
+    # Inverts AffineTransform matrix if invertible
     # Raises an error if affine transform matrix is not invertible
     # Returns self to support fluent interface chaining
     def invert!
       raise 'Cannot invert (matrix is not invertible)!' if !invertible?
+      
       self.matrix_3d = matrix_3d.inverse
+      
       self
     end
     
@@ -137,8 +140,21 @@ module PerfectShape
       (m11 * m22 - m12 * m21) != 0
     end
     
-    def multiply!(other)
-      self.matrix_3d = matrix_3d*other.matrix_3d
+    # Multiplies by other AffineTransform
+    def multiply!(other_affine_transform)
+      self.matrix_3d = matrix_3d*other_affine_transform.matrix_3d
+      
+      self
+    end
+    
+    # Translates AffineTransform
+    def translate!(x_or_point, y = nil)
+      x, y = Point.normalize_point(x_or_point, y)
+      return unless x && y
+      
+      translation_affine_transform = AffineTransform.new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: x, yt: y)
+      multiply!(translation_affine_transform)
+      
       self
     end
     

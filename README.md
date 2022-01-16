@@ -115,6 +115,7 @@ yt is the y coordinate translation (m23)
 - `#invertible?` Returns `true` if matrix is invertible and `false` otherwise
 - `#invert!`: Inverts affine transform matrix if invertible or raises an error otherwise
 - `#multiply!(other)`: Multiplies affine transform with another affine transform, storing resulting changes in matrix elements
+- `#translate!(x_or_point, y=nil)`: Translates affine transform with (x, y) translation values
 - `#transform_point(x_or_point, y=nil)`: returns `[xxp * x + xyp * y + xt, yxp * x + yyp * y + yt]`
 - `#transform_points(*xy_coordinates_or_points)`: returns `Array` of (x,y) pair `Array`s transformed with `#transform_point` method
 

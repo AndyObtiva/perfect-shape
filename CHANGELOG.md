@@ -10,6 +10,7 @@
 - `PerfectShape::AffineTransform#invert!`
 - `PerfectShape::AffineTransform#invertible?`
 - `PerfectShape::AffineTransform#multiply!`
+- `PerfectShape::AffineTransform#translate!`
 
 ## 0.3.5
 

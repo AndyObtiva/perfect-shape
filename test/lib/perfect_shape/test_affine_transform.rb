@@ -369,5 +369,43 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal 60
       _(affine_transform.yt).must_equal -360
     end
+    
+    it 'translates affine transform by (x,y) coordinate pair Array point' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 4 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 24 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+    
+      affine_transform.translate!([14, 6])
+      
+      _(affine_transform.xxp).must_equal 2
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 4
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
+    
+    it 'translates affine transform by (x,y) coordinate args' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 4 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 24 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+    
+      affine_transform.translate!(14, 6)
+      
+      _(affine_transform.xxp).must_equal 2
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 4
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
   end
 end

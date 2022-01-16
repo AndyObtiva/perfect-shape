@@ -2,7 +2,7 @@
 
 ## Next Version 0.4.0
 
-- `PerfectShape::AffineTransform#translate!`
+- Test that all mutation methods on transform are fluent interface compatible (return self)
 - `PerfectShape::AffineTransform#scale!`
 - `PerfectShape::AffineTransform#rotate!`
 - `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
