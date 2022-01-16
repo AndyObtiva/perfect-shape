@@ -149,7 +149,44 @@ describe PerfectShape do
       _(affine_transform.yt).must_equal m23
     end
     
-#    it 'equals another AffineTransform'
-#    it 'does not equal another AffineTransform'
+    it 'equals another AffineTransform' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform1 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform1b = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform2 = PerfectShape::AffineTransform.new(m11: xxp, m12: xyp, m21: yxp, m22: yyp, m13: xt, m23: yt)
+      affine_transform3 = PerfectShape::AffineTransform.new(xxp, xyp, yxp, yyp, xt, yt)
+    
+      _(affine_transform1b).must_equal affine_transform1
+      _(affine_transform2).must_equal affine_transform1
+      _(affine_transform3).must_equal affine_transform1
+    end
+     
+    it 'does not equal a different AffineTransform' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform1 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform2 = PerfectShape::AffineTransform.new(xxp: xxp + 1, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform3 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp + 1, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform4 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp + 1, yyp: yyp, xt: xt, yt: yt)
+      affine_transform5 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp + 1, xt: xt, yt: yt)
+      affine_transform6 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt + 1, yt: yt)
+      affine_transform7 = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt + 1)
+      
+      _(affine_transform2).wont_equal affine_transform1
+      _(affine_transform3).wont_equal affine_transform1
+      _(affine_transform4).wont_equal affine_transform1
+      _(affine_transform5).wont_equal affine_transform1
+      _(affine_transform6).wont_equal affine_transform1
+      _(affine_transform7).wont_equal affine_transform1
+    end
   end
 end

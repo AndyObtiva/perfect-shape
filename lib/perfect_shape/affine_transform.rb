@@ -24,6 +24,8 @@ require 'perfect_shape/shape'
 module PerfectShape
   # Represents an affine transform
   class AffineTransform
+    include Equalizer.new(:xxp, :xyp, :yxp, :yyp, :xt, :yt)
+  
     attr_accessor :xxp, :xyp, :yxp, :yyp, :xt, :yt
     alias m11 xxp
     alias m11= xxp=
