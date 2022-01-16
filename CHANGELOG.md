@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.4.0
+
+- `PerfectShape::AffineTransform#new`
+- `PerfectShape::AffineTransform#==`
+- `PerfectShape::AffineTransform#transform_point`
+- `PerfectShape::AffineTransform#transform_points`
+- `PerfectShape::AffineTransform#identity!` (alias: `reset!`)
+
+
 ## 0.3.5
 
 - Check point containment in composite shape outline with distance tolerance (new method signature: `PerfectShape::CompositeShape#contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)`)

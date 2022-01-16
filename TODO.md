@@ -2,6 +2,11 @@
 
 ## Next Version 0.4.0
 
+- `PerfectShape::AffineTransform#invert!`
+- `PerfectShape::AffineTransform#translate!`
+- `PerfectShape::AffineTransform#scale!`
+- `PerfectShape::AffineTransform#rotate!`
+- `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
 - `PerfectShape::AffineTransform#inverse_transform_point`
 - `PerfectShape::AffineTransform#inverse_transform_points`
 - `Point#affine_transform(affine_transform)`
@@ -52,3 +57,4 @@
 - Enable `Point#[0]`, `Point#[1]` (and `first`/`last`) to return `x` and `y` just like an `Array` point works, also supporting `[]=` similarly too.
 - Support `Pt[x, y]` syntax for constructing a `PerfectShape::Point`
 - Consider supporting `Math::to_big_decimal` or `Numeric#to_big_decimal` to automate complications like checking if a number is `BigDecimal` first before enhancing it to avoid object/memory waste
+- `PerfectShape::AffineTransform#mirror!`

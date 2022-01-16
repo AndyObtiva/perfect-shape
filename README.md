@@ -106,11 +106,12 @@ yyp is the y coordinate y product (m22)<br>
 xt is the x coordinate translation (m13)<br>
 yt is the y coordinate translation (m23)
 
-- `::new(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
-         xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
+- `::new(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,<br>
+         xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,<br>
          m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)`:
   The constructor accepts either the (x,y)-operation related argument/kwarg names or traditional matrix element kwarg names. If no arguments are supplied, it constructs an identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`).
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
+- `#identity!` (alias: `reset!`): Resets to identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`)
 - `#transform_point(x_or_point, y=nil)`: returns `[xxp * x + xyp * y + xt, yxp * x + yyp * y + yt]`
 - `#transform_points(*xy_coordinates_or_points)`: returns `Array` of (x,y) pair `Array`s transformed with `#transform_point` method
 

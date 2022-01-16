@@ -111,6 +111,17 @@ module PerfectShape
     end
     alias m23= yt=
     
+    # Resets to identity matrix
+    def identity!
+      self.xxp = 1
+      self.xyp = 0
+      self.yxp = 0
+      self.yyp = 1
+      self.xt  = 0
+      self.yt  = 0
+    end
+    alias reset! identity!
+    
     def transform_point(x_or_point, y = nil)
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y

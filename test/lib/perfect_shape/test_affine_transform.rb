@@ -260,5 +260,53 @@ describe PerfectShape do
       
       _(affine_transform.transform_points(1, 8, 2, 9)).must_equal [[2*1 + 3*8 + 6, 4*1 + 5*8 + 7], [2*2 + 3*9 + 6, 4*2 + 5*9 + 7]]
     end
+    
+    it 'resets to identity matrix' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform.identity!
+      
+      _(affine_transform.m11).must_equal 1
+      _(affine_transform.m12).must_equal 0
+      _(affine_transform.m21).must_equal 0
+      _(affine_transform.m22).must_equal 1
+      _(affine_transform.m13).must_equal 0
+      _(affine_transform.m23).must_equal 0
+      _(affine_transform.xxp).must_equal 1
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 1
+      _(affine_transform.xt).must_equal 0
+      _(affine_transform.yt).must_equal 0
+    end
+    
+    it 'resets to identity matrix' do
+      xxp = 2 # point x coordinate x product (m11)
+      xyp = 3 # point x coordinate y product (m12)
+      yxp = 4 # point y coordinate x product (m21)
+      yyp = 5 # point y coordinate y product (m22)
+      xt = 6 # point x coordinate translation (m13)
+      yt = 7 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+      affine_transform.reset!
+      
+      _(affine_transform.m11).must_equal 1
+      _(affine_transform.m12).must_equal 0
+      _(affine_transform.m21).must_equal 0
+      _(affine_transform.m22).must_equal 1
+      _(affine_transform.m13).must_equal 0
+      _(affine_transform.m23).must_equal 0
+      _(affine_transform.xxp).must_equal 1
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 1
+      _(affine_transform.xt).must_equal 0
+      _(affine_transform.yt).must_equal 0
+    end
   end
 end
