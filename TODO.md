@@ -2,7 +2,7 @@
 
 ## Next Version 0.4.0
 
-- `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
+- `rotate` and `shear` seem to be wrongly implemented compared to results returned from SWT
 - `PerfectShape::AffineTransform#clone`
 - `PerfectShape::AffineTransform#inverse_transform_point`
 - `PerfectShape::AffineTransform#inverse_transform_points`

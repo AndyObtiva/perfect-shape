@@ -473,5 +473,65 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal 34
       _(affine_transform.yt).must_equal 48
     end
+
+    it 'shears affine transform by (x,y) pair Array' do
+      xxp = 6 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 8 # point y coordinate y product (m22)
+      xt = 34 # point x coordinate translation (m13)
+      yt = 48 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+
+      return_value = affine_transform.shear!([2, 3])
+
+      _(return_value).must_equal affine_transform
+      _(affine_transform.xxp).must_equal 42
+      _(affine_transform.xyp).must_equal 12
+      _(affine_transform.yxp).must_equal 24
+      _(affine_transform.yyp).must_equal 8
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
+
+    it 'shears affine transform by (x,y) args' do
+      xxp = 6 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 8 # point y coordinate y product (m22)
+      xt = 34 # point x coordinate translation (m13)
+      yt = 48 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+
+      return_value = affine_transform.shear!(2, 3)
+
+      _(return_value).must_equal affine_transform
+      _(affine_transform.xxp).must_equal 42
+      _(affine_transform.xyp).must_equal 12
+      _(affine_transform.yxp).must_equal 24
+      _(affine_transform.yyp).must_equal 8
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
+
+    it 'skews (alias to shear) affine transform by (x,y) args' do
+      xxp = 6 # point x coordinate x product (m11)
+      xyp = 0 # point x coordinate y product (m12)
+      yxp = 0 # point y coordinate x product (m21)
+      yyp = 8 # point y coordinate y product (m22)
+      xt = 34 # point x coordinate translation (m13)
+      yt = 48 # point y coordinate translation (m23)
+      affine_transform = PerfectShape::AffineTransform.new(xxp: xxp, xyp: xyp, yxp: yxp, yyp: yyp, xt: xt, yt: yt)
+
+      return_value = affine_transform.skew!(2, 3)
+
+      _(return_value).must_equal affine_transform
+      _(affine_transform.xxp).must_equal 42
+      _(affine_transform.xyp).must_equal 12
+      _(affine_transform.yxp).must_equal 24
+      _(affine_transform.yyp).must_equal 8
+      _(affine_transform.xt).must_equal 34
+      _(affine_transform.yt).must_equal 48
+    end
   end
 end

@@ -13,6 +13,7 @@
 - `PerfectShape::AffineTransform#translate!`
 - `PerfectShape::AffineTransform#scale!`
 - `PerfectShape::AffineTransform#rotate!`
+- `PerfectShape::AffineTransform#shear!` (alias: `skew!`)
 
 ## 0.3.5
 

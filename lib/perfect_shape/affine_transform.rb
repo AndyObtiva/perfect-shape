@@ -182,6 +182,18 @@ module PerfectShape
       self
     end
     
+    # Shears AffineTransform by (x,y) amount
+    def shear!(x_or_point, y = nil)
+      x, y = Point.normalize_point(x_or_point, y)
+      return unless x && y
+      
+      shear_affine_transform = AffineTransform.new(xxp: 1 + x*y, xyp: x, yxp: y, yyp: 1, xt: 0, yt: 0)
+      multiply!(shear_affine_transform)
+      
+      self
+    end
+    alias skew! shear!
+    
     # Sets elements from a Ruby Matrix representing Affine Transform matrix elements in 3D
     def matrix_3d=(the_matrix_3d)
       self.xxp = the_matrix_3d[0, 0]
