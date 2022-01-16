@@ -70,15 +70,17 @@ module PerfectShape
     #
     # AffineTransform.new(2, 3, 4, 5, 6, 7)
     #
+    # If no arguments are supplied, it constructs an identity matrix
+    # (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`)
     def initialize(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
                    xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
                    m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)
-      self.xxp = xxp_element || xxp || m11
-      self.xyp = xyp_element || xyp || m12
-      self.yxp = yxp_element || yxp || m21
-      self.yyp = yyp_element || yyp || m22
-      self.xt = xt_element || xt || m13
-      self.yt = yt_element || yt || m23
+      self.xxp = xxp_element || xxp || m11 || 1
+      self.xyp = xyp_element || xyp || m12 || 0
+      self.yxp = yxp_element || yxp || m21 || 0
+      self.yyp = yyp_element || yyp || m22 || 1
+      self.xt  = xt_element  || xt  || m13 || 0
+      self.yt  = yt_element  || yt  || m23 || 0
     end
   end
 end

@@ -110,7 +110,7 @@ yt is the y coordinate translation (m23)
 - `::new(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
          xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
          m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)`:
-  The constructor accepts either the (x,y)-operation related argument/kwarg names or traditional matrix element kwarg names
+  The constructor accepts either the (x,y)-operation related argument/kwarg names or traditional matrix element kwarg names. If no arguments are supplied, it constructs an identity matrix (i.e. like calling `::new(xxp: 1, xyp: 0, yxp: 0, yyp: 1, xt: 0, yt: 0)`).
 
 Example:
 

@@ -74,6 +74,23 @@ describe PerfectShape do
       _(affine_transform.yt).must_equal m23
     end
     
+    it 'constructs with defaults as identity matrix' do
+      affine_transform = PerfectShape::AffineTransform.new
+
+      _(affine_transform.m11).must_equal 1
+      _(affine_transform.m12).must_equal 0
+      _(affine_transform.m21).must_equal 0
+      _(affine_transform.m22).must_equal 1
+      _(affine_transform.m13).must_equal 0
+      _(affine_transform.m23).must_equal 0
+      _(affine_transform.xxp).must_equal 1
+      _(affine_transform.xyp).must_equal 0
+      _(affine_transform.yxp).must_equal 0
+      _(affine_transform.yyp).must_equal 1
+      _(affine_transform.xt).must_equal 0
+      _(affine_transform.yt).must_equal 0
+    end
+    
     it 'updates attributes with (x,y)-operation names' do
       xxp = 2 # point x coordinate x product (m11)
       xyp = 3 # point x coordinate y product (m12)
@@ -131,5 +148,8 @@ describe PerfectShape do
       _(affine_transform.xt).must_equal m13
       _(affine_transform.yt).must_equal m23
     end
+    
+#    it 'equals another AffineTransform'
+#    it 'does not equal another AffineTransform'
   end
 end
