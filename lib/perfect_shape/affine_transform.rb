@@ -77,12 +77,21 @@ module PerfectShape
     def initialize(xxp_element = nil, xyp_element = nil, yxp_element = nil, yyp_element = nil, xt_element = nil, yt_element = nil,
                    xxp: nil, xyp: nil, yxp: nil, yyp: nil, xt: nil, yt: nil,
                    m11: nil, m12: nil, m21: nil, m22: nil, m13: nil, m23: nil)
-      self.xxp = xxp_element || xxp || m11 || 1
-      self.xyp = xyp_element || xyp || m12 || 0
-      self.yxp = yxp_element || yxp || m21 || 0
-      self.yyp = yyp_element || yyp || m22 || 1
-      self.xt  = xt_element  || xt  || m13 || 0
-      self.yt  = yt_element  || yt  || m23 || 0
+      self.xxp = BigDecimal((xxp_element || xxp || m11 || 1).to_s)
+      self.xyp = BigDecimal((xyp_element || xyp || m12 || 0).to_s)
+      self.yxp = BigDecimal((yxp_element || yxp || m21 || 0).to_s)
+      self.yyp = BigDecimal((yyp_element || yyp || m22 || 1).to_s)
+      self.xt  = BigDecimal((xt_element  || xt  || m13 || 0).to_s)
+      self.yt  = BigDecimal((yt_element  || yt  || m23 || 0).to_s)
+    end
+    
+    # TODO override attr writers to normalize values into big decimals
+    
+    def transform(x_or_point, y = nil)
+      x, y = Point.normalize_point(x_or_point, y)
+      return unless x && y
+      
+      [xxp*x + xyp*y + xt, yxp*x + yyp*y + yt]
     end
   end
 end

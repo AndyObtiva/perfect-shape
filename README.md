@@ -140,6 +140,7 @@ Includes `PerfectShape::PointLocation`
 Points are simply represented by an `Array` of `[x,y]` coordinates when used within other shapes, but when needing point-specific operations like `point_distance`, the `PerfectShape::Point` class can come in handy.
 
 - `::point_distance(x, y, px, py)`: Returns the distance from a point to another point
+- `::normalize_point(x_or_point, y = nil)`: Normalizes point args whether two-number `point` `Array` or `x`, `y` args, returning normalized point `Array` of two `BigDecimal`'s
 - `::new(x_or_point=nil, y_arg=nil, x: nil, y: nil)`: constructs a point with (x,y) pair (default: 0,0) whether specified as `Array` of (x,y) pair, flat `x,y` args, or `x:, y:` kwargs.
 - `#min_x`: min x (always x)
 - `#min_y`: min y (always y)

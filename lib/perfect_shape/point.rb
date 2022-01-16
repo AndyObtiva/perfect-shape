@@ -33,6 +33,21 @@ module PerfectShape
         py = py.is_a?(BigDecimal) ? py : BigDecimal(py.to_s)
         BigDecimal(Math.sqrt((px - x)**2 + (py - y)**2).to_s)
       end
+      
+      # Normalizes point args whether two-number Array or x, y args returning
+      # normalized point array of two BigDecimal's
+      #
+      # @param x_or_point The point or X coordinate of the point to test.
+      # @param y The Y coordinate of the point to test.
+      #
+      # @return Array of x and y BigDecimal's representing point
+      def normalize_point(x_or_point, y = nil)
+        x = x_or_point
+        x, y = x if y.nil? && x_or_point.is_a?(Array) && x_or_point.size == 2
+        x = x.is_a?(BigDecimal) ? x : BigDecimal(x.to_s)
+        y = y.is_a?(BigDecimal) ? y : BigDecimal(y.to_s)
+        [x, y]
+      end
     end
     
     include PointLocation
