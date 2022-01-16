@@ -3,6 +3,7 @@
 ## Next Version 0.4.0
 
 - `PerfectShape::AffineTransform`: represents a 2D affine transform that performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
+- Document PerfectShape::AffineTransform#initialize in full detail
 - `PerfectShape::AffineTransform#transform_point`
 - `PerfectShape::AffineTransform#inverse_transform_point`
 - `PerfectShape::AffineTransform#transform_points`
