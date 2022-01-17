@@ -526,10 +526,10 @@ describe PerfectShape do
       return_value = affine_transform.rotate!(90)
 
       _(return_value).must_equal affine_transform
-      _(affine_transform.xxp).must_equal BigDecimal('0.36739403974420596e-15')
+      _(affine_transform.xxp - BigDecimal('0.36739403974420596e-15')).must_be :<=, 0.00001
       _(affine_transform.xyp).must_equal BigDecimal('-6.0')
       _(affine_transform.yxp).must_equal BigDecimal('8.0')
-      _(affine_transform.yyp).must_equal BigDecimal('0.48985871965894128e-15')
+      _(affine_transform.yyp - BigDecimal('0.48985871965894128e-15')).must_be :<=, 0.00001
       _(affine_transform.xt).must_equal 34
       _(affine_transform.yt).must_equal 48
     end
