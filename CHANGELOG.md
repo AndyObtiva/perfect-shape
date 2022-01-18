@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.5.0
+
+- `Line#intersect?(rectangle)`
+- `Rectangle#out_state(x_or_point, y = nil)`
+
 ## 0.4.0
 
 - `PerfectShape::AffineTransform#new`

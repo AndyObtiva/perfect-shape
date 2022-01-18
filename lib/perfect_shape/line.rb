@@ -22,6 +22,7 @@
 require 'perfect_shape/shape'
 require 'perfect_shape/point'
 require 'perfect_shape/multi_point'
+require 'perfect_shape/rectangle'
 
 module PerfectShape
   class Line < Shape
@@ -240,6 +241,30 @@ module PerfectShape
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       Line.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+    end
+    
+    def intersect?(rectangle)
+      x1 = points[0][0]
+      y1 = points[0][1]
+      x2 = points[1][0]
+      y2 = points[1][1]
+      out1 = out2 = nil
+      return true if (out2 = rectangle.out_state(x2, y2)) == 0
+      while (out1 = rectangle.out_state(x1, y1)) != 0
+        return false if (out1 & out2) != 0
+        if (out1 & (Rectangle::OUT_LEFT | Rectangle::OUT_RIGHT)) != 0
+          x = rectangle.x
+          x += rectangle.width if (out1 & Rectangle::OUT_RIGHT) != 0
+          y1 = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
+          x1 = x
+        else
+          y = rectangle.y
+          y += rectangle.height if (out1 & Rectangle::OUT_BOTTOM) != 0
+          x1 = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
+          y1 = y
+        end
+      end
+      true
     end
   end
 end

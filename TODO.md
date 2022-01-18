@@ -2,8 +2,17 @@
 
 ## Next Version 0.5.0
 
-- Shape `intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-- Shape `intersect?(rectangle, affine_transform: )`
+- `Rectangle#intersect?(rectangle)`
+- `Point#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `QuadraticBezierCurve#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `CubicBezierCurve#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Square#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Polygon#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Arc#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Ellipse#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Circle#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `Path#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- `CompositeShape#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 - Document intersection algorithm in README & gemspec intro
 - Make the last 0.5.x release Version 1.0.0
 

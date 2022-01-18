@@ -17,7 +17,7 @@ Juwelier::Tasks.new do |gem|
   gem.homepage = "http://github.com/AndyObtiva/perfect-shape"
   gem.license = "MIT"
   gem.summary = %Q{Perfect Shape - Geometric Algorithms}
-  gem.description = %Q{Perfect Shape is a collection of pure Ruby geometric algorithms that are mostly useful for GUI manipulation like checking containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, and paths containing lines, quadratic bézier curves, and cubic bezier curves, potentially with affine transforms applied like translation, scale, rotation, shear/skew, and inversion (including both Ray Casting Algorithm, aka Even-odd Rule, and Winding Number Algorithm, aka Nonzero Rule). Additionally, it contains some purely mathematical algorithms like IEEEremainder (also known as IEEE-754 remainder).}
+  gem.description = %Q{Perfect Shape is a collection of pure Ruby geometric algorithms that are mostly useful for GUI manipulation like checking viewport rectangle intersection or containment of a mouse click point in popular geometry shapes such as rectangle, square, arc (open, chord, and pie), ellipse, circle, polygon, and paths containing lines, quadratic bézier curves, and cubic bezier curves, potentially with affine transforms applied like translation, scale, rotation, shear/skew, and inversion (including both Ray Casting Algorithm, aka Even-odd Rule, and Winding Number Algorithm, aka Nonzero Rule). Additionally, it contains some purely mathematical algorithms like IEEEremainder (also known as IEEE-754 remainder).}
   gem.email = "andy.am@gmail.com"
   gem.authors = ["Andy Maleh"]
   gem.files = ['README.md', 'CHANGELOG.md', 'VERSION', 'LICENSE.txt', 'perfect-shape.gemspec', 'lib/**/*']

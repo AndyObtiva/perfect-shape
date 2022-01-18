@@ -1,9 +1,9 @@
-# Perfect Shape 0.4.0
+# Perfect Shape 0.5.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
 
-[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking viewport rectangle intersection or containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.4.0
+gem install perfect-shape -v 0.5.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.4.0'
+gem 'perfect-shape', '~> 0.5.0'
 ```
 
 And, run:
@@ -220,6 +220,7 @@ Includes `PerfectShape::MultiPoint`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: true, distance_tolerance: 0)`: checks if point lies on line, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a line shape more successfully. `outline` option makes no difference on line
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
 
@@ -362,6 +363,7 @@ Includes `PerfectShape::RectangularShape`
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a rectangle shape from its outline more successfully
 - `#edges`: edges of rectangle as `PerfectShape::Line` objects
+- `#out_state(x_or_point, y = nil)`: Returns "out state" of specified point (x,y) (whether it lies to the left, right, top, bottom of rectangle). If point is outside rectangle, it returns a bit mask combination of `Rectangle::OUT_LEFT`, `Rectangle::OUT_RIGHT`, `Rectangle::OUT_TOP`, or `Rectangle::OUT_BOTTOM`. Otherwise, it returns `0` if point is inside the rectangle.
 
 Example:
 

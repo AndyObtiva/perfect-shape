@@ -28,6 +28,18 @@ module PerfectShape
   class Rectangle < Shape
     include RectangularShape
     include Equalizer.new(:x, :y, :width, :height)
+    
+    # bitmask indicating a point lies to the left
+    OUT_LEFT = 1
+
+    # bitmask indicating a point lies above
+    OUT_TOP = 2
+
+    # bitmask indicating a point lies to the right
+    OUT_RIGHT = 4
+
+    # bitmask indicating a point lies below
+    OUT_BOTTOM = 8
         
     # Checks if rectangle contains point (two-number Array or x, y args)
     #
@@ -55,6 +67,33 @@ module PerfectShape
         Line.new(points: [[self.x + width, self.y + height], [self.x, self.y + height]]),
         Line.new(points: [[self.x, self.y + height], [self.x, self.y]])
       ]
+    end
+    
+    # Returns out state for specified point (x,y): (left, right, top, bottom)
+    #
+    # It can be 0 meaning not outside the rectangle,
+    # or if outside the rectangle, then a bit mask
+    # combination of OUT_LEFT, OUT_RIGHT, OUT_TOP, or OUT_BOTTOM
+    def out_state(x_or_point, y = nil)
+      x, y = Point.normalize_point(x_or_point, y)
+      return unless x && y
+      
+      out = 0
+      if self.width <= 0
+          out |= OUT_LEFT | OUT_RIGHT
+      elsif x < self.x
+          out |= OUT_LEFT
+      elsif x > self.x + self.width
+          out |= OUT_RIGHT
+      end
+      if self.height <= 0
+          out |= OUT_TOP | OUT_BOTTOM
+      elsif y < self.y
+          out |= OUT_TOP
+      elsif y > self.y + self.height
+          out |= OUT_BOTTOM
+      end
+      out
     end
   end
 end

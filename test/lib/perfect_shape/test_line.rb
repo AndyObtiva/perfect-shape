@@ -159,5 +159,34 @@ describe PerfectShape do
       _(shape.relative_counterclockwise(point)).must_equal -1
       _(shape.relative_counterclockwise(point)).must_equal shape.relative_counterclockwise(*point)
     end
+    
+    it 'intersects rectangle on left edge' do
+      shape = PerfectShape::Line.new(points: [[0, 33], [4, 33]])
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects rectangle on top-left corner' do
+      shape = PerfectShape::Line.new(points: [[1, 2], [3, 4]])
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects rectangle by lying inside it' do
+      shape = PerfectShape::Line.new(points: [[5, 33], [6, 33]])
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect line' do
+      shape = PerfectShape::Line.new(points: [[-1, 33], [-1, 33]])
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      refute shape.intersect?(rectangle)
+    end
+    
   end
 end
