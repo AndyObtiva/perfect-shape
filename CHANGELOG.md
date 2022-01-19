@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.1
+
+- `Point#intersect?(rectangle)` (equivalent to `Rectangle#contain?(point)`)
+
 ## 0.5.0
 
 - `Line#intersect?(rectangle)`

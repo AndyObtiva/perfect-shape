@@ -1,4 +1,4 @@
-# Perfect Shape 0.5.0
+# Perfect Shape 0.5.1
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.5.0
+gem install perfect-shape -v 0.5.1
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.5.0'
+gem 'perfect-shape', '~> 0.5.1'
 ```
 
 And, run:
@@ -177,6 +177,7 @@ Points are simply represented by an `Array` of `[x,y]` coordinates when used wit
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: true, distance_tolerance: 0)`: checks if point matches self, with a distance tolerance (0 by default). Distance tolerance provides a fuzz factor that for example enables GUI users to mouse-click-select a point shape more successfully. `outline` option makes no difference on point
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to another point
 
 Example:

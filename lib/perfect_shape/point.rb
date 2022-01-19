@@ -96,6 +96,10 @@ module PerfectShape
       Point.point_distance(self.x, self.y, x, y)
     end
     
+    def intersect?(rectangle)
+      rectangle.contain?(self.to_a)
+    end
+    
     # Convert to pair Array of x,y coordinates
     def to_a
       [self.x, self.y]

@@ -159,5 +159,33 @@ describe PerfectShape do
       _(shape.contain?(point, distance_tolerance: 2)).must_equal true
       _(shape.contain?(point, distance_tolerance: 1)).must_equal shape.contain?(*point, distance_tolerance: 1)
     end
+    
+    it 'intersects with interior of rectangle through top edge' do
+      shape = PerfectShape::Point.new(27, 3)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with interior of rectangle through top-left corner' do
+      shape = PerfectShape::Point.new(2, 3)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with interior of rectangle by lying inside of it' do
+      shape = PerfectShape::Point.new(27, 33)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with interior of rectangle' do
+      shape = PerfectShape::Point.new(0, 0)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      
+      refute shape.intersect?(rectangle)
+    end
   end
 end
