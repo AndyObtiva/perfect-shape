@@ -9,7 +9,7 @@ describe PerfectShape do
       it 'returns a negative number rounding ceiling' do
         result = PerfectShape::Math.ieee754_remainder(7.5, 4.5)
         
-        _(result).must_equal -1.5
+        _(result).must_equal (-1.5)
       end
       
       it 'returns a positive number rounding floor' do
@@ -27,7 +27,7 @@ describe PerfectShape do
       it 'returns a negative number rounding halfway to ceiling even number' do
         result = PerfectShape::Math.ieee754_remainder(15, 10)
         
-        _(result).must_equal -5
+        _(result).must_equal (-5)
       end
       
       it 'returns NaN for x=NaN' do

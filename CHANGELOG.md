@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.2
+
+- `QuadraticBezierCurve#intersect?(rectangle)`
+
 ## 0.5.1
 
 - `Point#intersect?(rectangle)` (equivalent to `Rectangle#contain?(point)`)

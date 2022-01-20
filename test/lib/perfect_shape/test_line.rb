@@ -156,7 +156,7 @@ describe PerfectShape do
       
       point = [45, 50]
 
-      _(shape.relative_counterclockwise(point)).must_equal -1
+      _(shape.relative_counterclockwise(point)).must_equal (-1)
       _(shape.relative_counterclockwise(point)).must_equal shape.relative_counterclockwise(*point)
     end
     

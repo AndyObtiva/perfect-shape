@@ -22,7 +22,6 @@
 require 'perfect_shape/shape'
 require 'perfect_shape/point'
 require 'perfect_shape/multi_point'
-require 'perfect_shape/rectangle'
 
 module PerfectShape
   class Line < Shape
@@ -244,6 +243,7 @@ module PerfectShape
     end
     
     def intersect?(rectangle)
+      require 'perfect_shape/rectangle'
       x1 = points[0][0]
       y1 = points[0][1]
       x2 = points[1][0]

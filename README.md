@@ -1,4 +1,4 @@
-# Perfect Shape 0.5.1
+# Perfect Shape 0.5.2
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.5.1
+gem install perfect-shape -v 0.5.2
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.5.1'
+gem 'perfect-shape', '~> 0.5.2'
 ```
 
 And, run:
@@ -250,6 +250,10 @@ Includes `PerfectShape::MultiPoint`
 
 ![quadratic_bezier_curve](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/quadratic_bezier_curve.png)
 
+- `::tag(coord, low, high)`: Determine where coord lies with respect to the range from low to high.  It is assumed that low < high.  The return value is one of the 5 values BELOW, LOWEDGE, INSIDE, HIGHEDGE, or ABOVE.
+- `::eqn(val, c1, cp, c2)`: Fill an array with the coefficients of the parametric equation in t, ready for solving against val with solve_quadratic. We currently have: val = Py(t) = C1*(1-t)^2 + 2*CP*t*(1-t) + C2*t^2 = C1 - 2*C1*t + C1*t^2 + 2*CP*t - 2*CP*t^2 + C2*t^2 = C1 + (2*CP - 2*C1)*t + (C1 - 2*CP + C2)*t^2; 0 = (C1 - val) + (2*CP - 2*C1)*t + (C1 - 2*CP + C2)*t^2; 0 = C + Bt + At^2; C = C1 - val; B = 2*CP - 2*C1; A = C1 - 2*CP + C2
+- `::solve_quadratic(eqn)`: Solves the quadratic whose coefficients are in the eqn array and places the non-complex roots into the res array, returning the number of roots. The quadratic solved is represented by the equation: <pre>eqn = {C, B, A}; ax^2 + bx + c = 0</pre> A return value of {@code -1} is used to distinguish a constant equation, which might be always 0 or never 0, from an equation that has no zeroes.
+- `::eval_quadratic(vals, num, include0, include1, inflect, c1, ctrl, c2)`: Evaluate the t values in the first num slots of the vals[] array and place the evaluated values back into the same array.  Only evaluate t values that are within the range <, >, including the 0 and 1 ends of the range iff the include0 or include1 booleans are true.  If an "inflection" equation is handed in, then any points which represent a point of inflection for that quadratic equation are also ignored.
 - `::new(points: [])`: constructs a quadratic bézier curve with three `points` (start point, control point, and end point) as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
 - `#points`: points (start point, control point, and end point)
 - `#min_x`: min x
@@ -264,6 +268,7 @@ Includes `PerfectShape::MultiPoint`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a quadratic bezier curve shape from its outline more successfully
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#curve_center_point`: point at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_x`: point x coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_y`: point y coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)

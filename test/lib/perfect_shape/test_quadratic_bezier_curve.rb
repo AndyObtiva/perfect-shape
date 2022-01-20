@@ -236,5 +236,26 @@ describe PerfectShape do
 
       _(shape.point_distance(point)).must_equal 20
     end
+    
+    it 'intersects rectangle on left edge' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      rectangle = PerfectShape::Rectangle.new(x: 360, y: 100, width: 200, height: 100)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects rectangle by lying fully inside it' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      rectangle = PerfectShape::Rectangle.new(x: 150, y: 100, width: 400, height: 300)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect rectangle' do
+      shape = PerfectShape::QuadraticBezierCurve.new(points: [200, 150, 270, 320, 380, 150])
+      rectangle = PerfectShape::Rectangle.new(x: 390, y: 100, width: 200, height: 100)
+      
+      refute shape.intersect?(rectangle)
+    end
   end
 end

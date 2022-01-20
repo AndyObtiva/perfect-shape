@@ -431,7 +431,7 @@ describe PerfectShape do
       _(affine_transform.yxp).must_equal 0
       _(affine_transform.yyp).must_equal 4
       _(affine_transform.xt).must_equal 60
-      _(affine_transform.yt).must_equal -360
+      _(affine_transform.yt).must_equal (-360)
     end
     
     it 'translates affine transform by (x,y) pair Array point' do
