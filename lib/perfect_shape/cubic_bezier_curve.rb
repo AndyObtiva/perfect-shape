@@ -211,5 +211,118 @@ module PerfectShape
         last_minimum_distance
       end
     end
+    
+    def intersect?(rectangle)
+      x = rectangle.x
+      y = rectangle.y
+      w = rectangle.width
+      h = rectangle.height
+      
+      # Trivially reject non-existant rectangles
+      return false if w <= 0 || h <= 0
+
+      num_crossings = rectangle_crossings(rectangle)
+      # the intended return value is
+      # num_crossings != 0 || num_crossings == Rectangle::RECT_INTERSECTS
+      # but if (num_crossings != 0) num_crossings == INTERSECTS won't matter
+      # and if !(num_crossings != 0) then num_crossings == 0, so
+      # num_crossings != RECT_INTERSECT
+      num_crossings != 0
+    end
+    
+    def rectangle_crossings(rectangle)
+      x = rectangle.x
+      y = rectangle.y
+      w = rectangle.width
+      h = rectangle.height
+      x1 = points[0][0]
+      y1 = points[0][1]
+      x2 = points[3][0]
+      y2 = points[3][1]
+    
+      crossings = 0
+      if !(x1 == x2 && y1 == y2)
+        line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
+        crossings = line.rect_crossings(x, y, x+w, y+h, crossings)
+        return crossings if crossings == Rectangle::RECT_INTERSECTS
+      end
+      # we call this with the curve's direction reversed, because we wanted
+      # to call rectCrossingsForLine first, because it's cheaper.
+      rect_crossings(x, y, x+w, y+h, 0, crossings)
+    end
+    
+    # Accumulate the number of times the cubic crosses the shadow
+    # extending to the right of the rectangle.  See the comment
+    # for the RECT_INTERSECTS constant for more complete details.
+    #
+    # crossings arg is the initial crossings value to add to (useful
+    # in cases where you want to accumulate crossings from multiple
+    # shapes)
+    def rect_crossings(rxmin, rymin, rxmax, rymax, level, crossings = 0)
+      x0 = points[0][0]
+      y0 = points[0][1]
+      xc0 = points[1][0]
+      yc0 = points[1][1]
+      xc1 = points[2][0]
+      yc1 = points[2][1]
+      x1 = points[3][0]
+      y1 = points[3][1]
+      
+      return crossings if y0 >= rymax && yc0 >= rymax && yc1 >= rymax && y1 >= rymax
+      return crossings if y0 <= rymin && yc0 <= rymin && yc1 <= rymin && y1 <= rymin
+      return crossings if x0 <= rxmin && xc0 <= rxmin && xc1 <= rxmin && x1 <= rxmin
+      if x0 >= rxmax && xc0 >= rxmax && xc1 >= rxmax && x1 >= rxmax
+        # Cubic is entirely to the right of the rect
+        # and the vertical range of the 4 Y coordinates of the cubic
+        # overlaps the vertical range of the rect by a non-empty amount
+        # We now judge the crossings solely based on the line segment
+        # connecting the endpoints of the cubic.
+        # Note that we may have 0, 1, or 2 crossings as the control
+        # points may be causing the Y range intersection while the
+        # two endpoints are entirely above or below.
+        if y0 < y1
+          # y-increasing line segment...
+          crossings += 1 if (y0 <= rymin && y1 >  rymin)
+          crossings += 1 if (y0 <  rymax && y1 >= rymax)
+        elsif y1 < y0
+          # y-decreasing line segment...
+          crossings -= 1 if (y1 <= rymin && y0 >  rymin)
+          crossings -= 1 if (y1 <  rymax && y0 >= rymax)
+        end
+        return crossings
+      end
+      # The intersection of ranges is more complicated
+      # First do trivial INTERSECTS rejection of the cases
+      # where one of the endpoints is inside the rectangle.
+      return Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
+        (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
+          
+      # Otherwise, subdivide and look for one of the cases above.
+      # double precision only has 52 bits of mantissa
+      return PerfectShape::Line.new(points: [[x0, y0], [x1, y1]]).rect_crossings(rxmin, rymin, rxmax, rymax, crossings) if (level > 52)
+      xmid = BigDecimal((xc0 + xc1).to_s) / 2
+      ymid = BigDecimal((yc0 + yc1).to_s) / 2
+      xc0 = BigDecimal((x0 + xc0).to_s) / 2
+      yc0 = BigDecimal((y0 + yc0).to_s) / 2
+      xc1 = BigDecimal((xc1 + x1).to_s) / 2
+      yc1 = BigDecimal((yc1 + y1).to_s) / 2
+      xc0m = BigDecimal((xc0 + xmid).to_s) / 2
+      yc0m = BigDecimal((yc0 + ymid).to_s) / 2
+      xmc1 = BigDecimal((xmid + xc1).to_s) / 2
+      ymc1 = BigDecimal((ymid + yc1).to_s) / 2
+      xmid = BigDecimal((xc0m + xmc1).to_s) / 2
+      ymid = BigDecimal((yc0m + ymc1).to_s) / 2
+      # [xy]mid are NaN if any of [xy]c0m or [xy]mc1 are NaN
+      # [xy]c0m or [xy]mc1 are NaN if any of [xy][c][01] are NaN
+      # These values are also NaN if opposing infinities are added
+      return 0 if xmid.nan? || ymid.nan?
+      cubic1 = CubicBezierCurve.new(points: [[x0, y0], [xc0, yc0], [xc0m, yc0m], [xmid, ymid]])
+      crossings = cubic1.rect_crossings(rxmin, rymin, rxmax, rymax, level + 1, crossings)
+      if crossings != Rectangle::RECT_INTERSECTS
+        cubic2 = CubicBezierCurve.new(points: [[xmid, ymid], [xmc1, ymc1], [xc1, yc1], [x1, y1]])
+        crossings = cubic2.rect_crossings(rxmin, rymin, rxmax, rymax, level + 1, crossings)
+      end
+      crossings
+    end
   end
 end

@@ -41,6 +41,8 @@ module PerfectShape
     # bitmask indicating a point lies below
     OUT_BOTTOM = 8
         
+    RECT_INTERSECTS = 0x80000000
+        
     # Checks if rectangle contains point (two-number Array or x, y args)
     #
     # @param x The X coordinate of the point to test.

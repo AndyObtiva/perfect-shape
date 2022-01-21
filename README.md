@@ -1,4 +1,4 @@
-# Perfect Shape 0.5.2
+# Perfect Shape 0.5.3
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.5.2
+gem install perfect-shape -v 0.5.3
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.5.2'
+gem 'perfect-shape', '~> 0.5.3'
 ```
 
 And, run:
@@ -224,6 +224,7 @@ Includes `PerfectShape::MultiPoint`
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#relative_counterclockwise(x_or_point, y=nil)`: Returns an indicator of where the specified point (px,py) lies with respect to the line segment from (x1,y1) to (x2,y2). The return value can be either 1, -1, or 0 and indicates in which direction the specified line must pivot around its first end point, (x1,y1), in order to point at the specified point (px,py). A return value of 1 indicates that the line segment must turn in the direction that takes the positive X axis towards the negative Y axis. In the default coordinate system, this direction is counterclockwise. A return value of -1 indicates that the line segment must turn in the direction that takes the positive X axis towards the positive Y axis. In the default coordinate system, this direction is clockwise. A return value of 0 indicates that the point lies exactly on the line segment. Note that an indicator value of 0 is rare and not useful for determining collinearity because of floating point rounding issues. If the point is colinear with the line segment, but not between the end points, then the value will be -1 if the point lies “beyond (x1,y1)” or 1 if the point lies “beyond (x2,y2)”.
 - `#point_distance(x_or_point, y=nil)`: Returns the distance from a point to a line segment.
+- `#rect_crossings(rxmin, rymin, rxmax, rymax, crossings = 0)`: rectangle crossings (adds to crossings arg)
 
 Example:
 
@@ -318,11 +319,14 @@ Includes `PerfectShape::MultiPoint`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a cubic bezier curve shape from its outline more successfully
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#curve_center_point`: point at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_x`: point x coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#curve_center_y`: point y coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides cubic bezier curve at its center into into 2 cubic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
 - `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
+- `#rectangle_crossings(rectangle)`: rectangle crossings (used to determine rectangle interior intersection), optimized to check if line represented by cubic bezier curve crosses the rectangle first, and if not then perform expensive check with `#rect_crossings`
+- `#rect_crossings(rxmin, rymin, rxmax, rymax, level, crossings = 0)`: rectangle crossings (adds to crossings arg)
 
 Example:
 

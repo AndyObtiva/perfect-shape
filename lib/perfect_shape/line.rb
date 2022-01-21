@@ -54,11 +54,11 @@ module PerfectShape
       #                  coordinates with respect to the line segment formed
       #                  by the first two specified coordinates.
       def relative_counterclockwise(x1, y1, x2, y2, px, py)
-        x2 -= x1;
-        y2 -= y1;
-        px -= x1;
-        py -= y1;
-        ccw = px * y2 - py * x2;
+        x2 -= x1
+        y2 -= y1
+        px -= x1
+        py -= y1
+        ccw = px * y2 - py * x2
         if ccw == 0.0
           # The point is colinear, classify based on which side of
           # the segment the point falls on.  We can calculate a
@@ -66,7 +66,7 @@ module PerfectShape
           # segment - a negative value indicates the point projects
           # outside of the segment in the direction of the particular
           # endpoint used as the origin for the projection.
-          ccw = px * x2 + py * y2;
+          ccw = px * x2 + py * y2
           if ccw > 0.0
             # Reverse the projection to be relative to the original x2,y2
             # x2 and y2 are simply negated.
@@ -75,13 +75,13 @@ module PerfectShape
             # Since we really want to get a positive answer when the
             #    point is "beyond (x2,y2)", then we want to calculate
             #    the inverse anyway - thus we leave x2 & y2 negated.
-            px -= x2;
-            py -= y2;
-            ccw = px * x2 + py * y2;
+            px -= x2
+            py -= y2
+            ccw = px * x2 + py * y2
             ccw = 0.0 if ccw < 0.0
           end
         end
-        (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
+        (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0)
       end
       
       # Returns the square of the distance from a point to a line segment.
@@ -120,12 +120,12 @@ module PerfectShape
         # px,py becomes relative vector from x1,y1 to test point
         px -= x1
         py -= y1
-        dot_product = px * x2 + py * y2;
+        dot_product = px * x2 + py * y2
         if dot_product <= 0.0
           # px,py is on the side of x1,y1 away from x2,y2
           # distance to segment is length of px,py vector
           # "length of its (clipped) projection" is now 0.0
-          projected_length_square = BigDecimal('0.0');
+          projected_length_square = BigDecimal('0.0')
         else
           # switch to backwards vectors relative to x2,y2
           # x2,y2 are already the negative of x1,y1=>x2,y2
@@ -191,10 +191,10 @@ module PerfectShape
       def point_crossings(x1, y1, x2, y2, px, py)
         return 0 if (py <  y1 && py <  y2)
         return 0 if (py >= y1 && py >= y2)
-        # assert(y1 != y2);
+        # assert(y1 != y2)
         return 0 if (px >= x1 && px >= x2)
         return ((y1 < y2) ? 1 : -1) if (px <  x1 && px <  x2)
-        xintercept = x1 + (py - y1) * (x2 - x1) / (y2 - y1);
+        xintercept = x1 + (py - y1) * (x2 - x1) / (y2 - y1)
         return 0 if (px >= xintercept)
         (y1 < y2) ? 1 : -1
       end
@@ -240,6 +240,78 @@ module PerfectShape
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
       Line.point_crossings(points[0][0], points[0][1], points[1][0], points[1][1], x, y)
+    end
+    
+    # Accumulate the number of times the line crosses the shadow
+    # extending to the right of the rectangle.  See the comment
+    # for the Rectangle::RECT_INTERSECTS constant for more complete details.
+    #
+    # crossings arg is the initial crossings value to add to (useful
+    # in cases where you want to accumulate crossings from multiple
+    # shapes)
+    def rect_crossings(rxmin, rymin, rxmax, rymax, crossings = 0)
+      x0 = points[0][0]
+      y0 = points[0][1]
+      x1 = points[1][0]
+      y1 = points[1][1]
+      return crossings if y0 >= rymax && y1 >= rymax
+      return crossings if y0 <= rymin && y1 <= rymin
+      return crossings if x0 <= rxmin && x1 <= rxmin
+      if x0 >= rxmax && x1 >= rxmax
+        # Line is entirely to the right of the rect
+        # and the vertical ranges of the two overlap by a non-empty amount
+        # Thus, this line segment is partially in the "right-shadow"
+        # Path may have done a complete crossing
+        # Or path may have entered or exited the right-shadow
+        if y0 < y1
+            # y-increasing line segment...
+            # We know that y0 < rymax and y1 > rymin
+            crossings += 1 if (y0 <= rymin)
+            crossings += 1 if (y1 >= rymax)
+        elsif y1 < y0
+            # y-decreasing line segment...
+            # We know that y1 < rymax and y0 > rymin
+            crossings -= 1 if (y1 <= rymin)
+            crossings -= 1 if (y0 >= rymax)
+        end
+        return crossings
+      end
+      # Remaining case:
+      # Both x and y ranges overlap by a non-empty amount
+      # First do trivial INTERSECTS rejection of the cases
+      # where one of the endpoints is inside the rectangle.
+      return Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
+        (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
+      # Otherwise calculate the y intercepts and see where
+      # they fall with respect to the rectangle
+      xi0 = x0
+      if y0 < rymin
+        xi0 += ((rymin - y0) * (x1 - x0) / (y1 - y0))
+      elsif y0 > rymax
+        xi0 += ((rymax - y0) * (x1 - x0) / (y1 - y0))
+      end
+      xi1 = x1
+      if y1 < rymin
+        xi1 += ((rymin - y1) * (x0 - x1) / (y0 - y1))
+      elsif y1 > rymax
+        xi1 += ((rymax - y1) * (x0 - x1) / (y0 - y1))
+      end
+      return crossings if xi0 <= rxmin && xi1 <= rxmin
+      if xi0 >= rxmax && xi1 >= rxmax
+        if y0 < y1
+          # y-increasing line segment...
+          # We know that y0 < rymax and y1 > rymin
+          crossings += 1 if (y0 <= rymin)
+          crossings += 1 if (y1 >= rymax)
+        elsif y1 < y0
+          # y-decreasing line segment...
+          # We know that y1 < rymax and y0 > rymin
+          crossings -= 1 if (y1 <= rymin)
+          crossings -= 1 if (y0 >= rymax)
+        end
+        return crossings
+      end
+      Rectangle::RECT_INTERSECTS
     end
     
     def intersect?(rectangle)

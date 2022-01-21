@@ -1,10 +1,6 @@
 # TODO
 
-## Next Version 0.5.3
-
-- `CubicBezierCurve#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-
-## Version 0.5.4
+## Next Version 0.5.4
 
 - `Rectangle#intersect?(rectangle)`
 - `Square#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)

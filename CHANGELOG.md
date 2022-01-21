@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.3
+
+- `CubicBezierCurve#intersect?(rectangle)`
+
 ## 0.5.2
 
 - `QuadraticBezierCurve#intersect?(rectangle)`
