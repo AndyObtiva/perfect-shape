@@ -1,21 +1,36 @@
 # Change Log
 
+## 0.5.4
+
+- `PerfectShape::Rectangle#intersect?(rectangle)`
+- `PerfectShape::Square#intersect?(rectangle)`
+- `PerfectShape::Rectangle#empty?`
+- `PerfectShape::Square#empty?`
+- `PerfectShape::Square#size`/`PerfectShape::Square#size=` aliases for `#length`/`#length=`
+
 ## 0.5.3
 
-- `CubicBezierCurve#intersect?(rectangle)`
+- `PerfectShape::CubicBezierCurve#intersect?(rectangle)`
+- `PerfectShape::CubicBezierCurve#rectangle_crossings(rectangle)`
+- `PerfectShape::CubicBezierCurve#rect_crossings(rxmin, rymin, rxmax, rymax, level, crossings = 0)`
+- `PerfectShape::Line#rect_crossings(rxmin, rymin, rxmax, rymax, crossings = 0)`
 
 ## 0.5.2
 
-- `QuadraticBezierCurve#intersect?(rectangle)`
+- `PerfectShape::QuadraticBezierCurve#intersect?(rectangle)`
+- `PerfectShape::QuadraticBezierCurve::tag(coord, low, high)`
+- `PerfectShape::QuadraticBezierCurve::eqn(val, c1, cp, c2)`
+- `PerfectShape::QuadraticBezierCurve::solve_quadratic(eqn)`
+- `PerfectShape::QuadraticBezierCurve::eval_quadratic(vals, num, include0, include1, inflect, c1, ctrl, c2)`
 
 ## 0.5.1
 
-- `Point#intersect?(rectangle)` (equivalent to `Rectangle#contain?(point)`)
+- `PerfectShape::Point#intersect?(rectangle)` (equivalent to `PerfectShape::Rectangle#contain?(point)`)
 
 ## 0.5.0
 
-- `Line#intersect?(rectangle)`
-- `Rectangle#out_state(x_or_point, y = nil)`
+- `PerfectShape::Line#intersect?(rectangle)`
+- `PerfectShape::Rectangle#out_state(x_or_point, y = nil)`
 
 ## 0.4.0
 

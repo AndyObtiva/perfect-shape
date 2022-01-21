@@ -181,12 +181,11 @@ describe PerfectShape do
       assert shape.intersect?(rectangle)
     end
 
-    it 'does not intersect line' do
+    it 'does not intersect rectangle' do
       shape = PerfectShape::Line.new(points: [[-1, 33], [-1, 33]])
       rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
       
       refute shape.intersect?(rectangle)
     end
-    
   end
 end

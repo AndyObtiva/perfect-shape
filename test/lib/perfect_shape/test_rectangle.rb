@@ -279,5 +279,40 @@ describe PerfectShape do
       
       _(shape.edges).must_equal expected_edges
     end
+    
+    it 'intersects rectangle' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects rectangle by lying inside it' do
+      shape = PerfectShape::Rectangle.new(x: 5, y: 6, width: 40, height: 50)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects rectangle by completely containing it' do
+      shape = PerfectShape::Rectangle.new(x: 0, y: 0, width: 60, height: 70)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects rectangle by matching it perfectly' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect rectangle' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      rectangle = PerfectShape::Rectangle.new(x: 55, y: 65, width: 50, height: 60)
+
+      refute shape.intersect?(rectangle)
+    end
   end
 end

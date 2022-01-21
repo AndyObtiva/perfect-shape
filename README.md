@@ -1,4 +1,4 @@
-# Perfect Shape 0.5.3
+# Perfect Shape 0.5.4
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.5.3
+gem install perfect-shape -v 0.5.4
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.5.3'
+gem 'perfect-shape', '~> 0.5.4'
 ```
 
 And, run:
@@ -372,8 +372,10 @@ Includes `PerfectShape::RectangularShape`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a rectangle shape from its outline more successfully
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#edges`: edges of rectangle as `PerfectShape::Line` objects
 - `#out_state(x_or_point, y = nil)`: Returns "out state" of specified point (x,y) (whether it lies to the left, right, top, bottom of rectangle). If point is outside rectangle, it returns a bit mask combination of `Rectangle::OUT_LEFT`, `Rectangle::OUT_RIGHT`, `Rectangle::OUT_TOP`, or `Rectangle::OUT_BOTTOM`. Otherwise, it returns `0` if point is inside the rectangle.
+- `#empty?`: Returns `true` if width or height are 0 (or negative) and `false` otherwise
 
 Example:
 
@@ -402,7 +404,7 @@ Extends `PerfectShape::Rectangle`
 
 ![square](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/square.png)
 
-- `::new(x: 0, y: 0, length: 1)`: constructs a square
+- `::new(x: 0, y: 0, length: 1)` (`length` alias: `size`): constructs a square
 - `#x`: top-left x
 - `#y`: top-left y
 - `#length`: length
@@ -418,7 +420,9 @@ Extends `PerfectShape::Rectangle`
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a square shape from its outline more successfully
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#edges`: edges of square as `PerfectShape::Line` objects
+- `#empty?`: Returns `true` if length is 0 (or negative) and `false` otherwise
 
 Example:
 

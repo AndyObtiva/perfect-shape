@@ -97,5 +97,24 @@ module PerfectShape
       end
       out
     end
+    
+    # A rectangle is empty if its width or height is 0 (or less)
+    def empty?
+      width <= 0.0 || height <= 0.0
+    end
+    
+    def intersect?(rectangle)
+      x = rectangle.x
+      y = rectangle.y
+      w = rectangle.width
+      h = rectangle.height
+      return false if empty? || w <= 0 || h <= 0
+      x0 = self.x
+      y0 = self.y
+      (x + w) > x0 &&
+        (y + h) > y0 &&
+        x < (x0 + self.width) &&
+        y < (y0 + self.height)
+    end
   end
 end

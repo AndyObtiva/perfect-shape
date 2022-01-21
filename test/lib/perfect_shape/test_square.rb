@@ -21,6 +21,21 @@ describe PerfectShape do
       _(shape.center_y).must_equal 3 + 25
       _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
       
+      shape = PerfectShape::Square.new(x: 2, y: 3, size: 50)
+
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.length).must_equal 50
+      _(shape.width).must_equal 50
+      _(shape.height).must_equal 50
+      _(shape.min_x).must_equal 2
+      _(shape.min_y).must_equal 3
+      _(shape.max_x).must_equal 2 + 50
+      _(shape.max_y).must_equal 3 + 50
+      _(shape.center_x).must_equal 2 + 25
+      _(shape.center_y).must_equal 3 + 25
+      _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
+      
       shape = PerfectShape::Square.new(x: 2, y: 3, width: 50)
 
       _(shape.x).must_equal 2
@@ -53,10 +68,14 @@ describe PerfectShape do
     end
     
     it 'fails to construct with width, height, and length not equal' do
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, size: 50) }).must_raise StandardError
       _(proc { PerfectShape::Square.new(x: 2, y: 3, width: 30, height: 50) }).must_raise StandardError
       _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, size: 25, width: 50) }).must_raise StandardError
       _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, size: 25, height: 50) }).must_raise StandardError
       _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, width: 50, height: 50) }).must_raise StandardError
+      _(proc { PerfectShape::Square.new(x: 2, y: 3, size: 25, width: 50, height: 50) }).must_raise StandardError
     end
     
     it 'constructs with defaults' do
@@ -322,6 +341,41 @@ describe PerfectShape do
       ]
       
       _(shape.edges).must_equal expected_edges
+    end
+    
+    it 'intersects rectangle' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 60)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 50, height: 60)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects rectangle by lying inside it' do
+      shape = PerfectShape::Square.new(x: 5, y: 6, length: 40)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects rectangle by completely containing it' do
+      shape = PerfectShape::Square.new(x: 0, y: 0, length: 70)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects rectangle by matching it perfectly' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 60)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 60, height: 60)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect rectangle' do
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50)
+      rectangle = PerfectShape::Rectangle.new(x: 55, y: 65, width: 50, height: 60)
+
+      refute shape.intersect?(rectangle)
     end
   end
 end

@@ -23,12 +23,15 @@ require 'perfect_shape/rectangle'
 
 module PerfectShape
   class Square < Rectangle
-    MESSAGE_WIDTH_AND_HEIGHT_AND_LENGTH_NOT_EQUAL = 'Square width, height, and length must all be equal if more than one is specified; or otherwise keep only one of them in arguments!'
+    MESSAGE_WIDTH_AND_HEIGHT_AND_LENGTH_NOT_EQUAL = 'Square width, height, and length must all be equal if more than one is specified; or otherwise keep only one of them in constructor arguments!'
   
     attr_reader :length
+    alias size length
     
     # Constructs with x, y, length (optionally width or height can be passed as alias for length)
-    def initialize(x: 0, y: 0, length: nil, width: nil, height: nil)
+    def initialize(x: 0, y: 0, length: nil, size: nil, width: nil, height: nil)
+      raise MESSAGE_WIDTH_AND_HEIGHT_AND_LENGTH_NOT_EQUAL if (length && size && length != size)
+      length ||= size
       raise MESSAGE_WIDTH_AND_HEIGHT_AND_LENGTH_NOT_EQUAL if (length && width && length != width) || (length && height && length != height) || (width && height && width != height)
       length ||= width || height || 1
       super(x: x, y: y, width: length, height: length)
@@ -40,6 +43,7 @@ module PerfectShape
       self.width = value unless width == value
       self.height = value unless height == value
     end
+    alias size= length=
     
     def width=(value)
       super
