@@ -94,22 +94,22 @@ module PerfectShape
         ]
       end
       
-      # Solves the quadratic whose coefficients are in the {@code eqn}
-      # array and places the non-complex roots into the {@code res}
+      # Solves the quadratic whose coefficients are in the eqn
+      # array and places the non-complex roots into the res
       # array, returning the number of roots.
       # The quadratic solved is represented by the equation:
       # <pre>
       #     eqn = {C, B, A}
       #     ax^2 + bx + c = 0
       # </pre>
-      # A return value of {@code -1} is used to distinguish a constant
+      # A return value of -1 is used to distinguish a constant
       # equation, which might be always 0 or never 0, from an equation that
       # has no zeroes.
       # @param eqn the specified array of coefficients to use to solve
       #        the quadratic equation
       # @param res the array that contains the non-complex roots
       #        resulting from the solution of the quadratic equation
-      # @return the number of roots, or {@code -1} if the equation is
+      # @return the number of roots, or -1 if the equation is
       #  a constant.
       def solve_quadratic(eqn, res)
         a = eqn[2]
@@ -187,8 +187,8 @@ module PerfectShape
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
     #
-    # @return {@code true} if the point lies within the bound of
-    # the quadratic bézier curve, {@code false} if the point lies outside of the
+    # @return true if the point lies within the bound of
+    # the quadratic bézier curve, false if the point lies outside of the
     # quadratic bézier curve's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = Point.normalize_point(x_or_point, y)

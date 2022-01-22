@@ -80,8 +80,8 @@ module PerfectShape
     # @param y The Y coordinate of the point to test.
     # @param distance_tolerance The distance from point to tolerate (0 by default)
     #
-    # @return {@code true} if the point is close enough within distance tolerance,
-    # {@code false} if the point is too far.
+    # @return true if the point is close enough within distance tolerance,
+    # false if the point is too far.
     def contain?(x_or_point, y = nil, outline: true, distance_tolerance: 0)
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y

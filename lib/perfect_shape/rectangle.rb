@@ -48,8 +48,8 @@ module PerfectShape
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
     #
-    # @return {@code true} if the point lies within the bound of
-    # the rectangle, {@code false} if the point lies outside of the
+    # @return true if the point lies within the bound of
+    # the rectangle, false if the point lies outside of the
     # rectangle's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = Point.normalize_point(x_or_point, y)

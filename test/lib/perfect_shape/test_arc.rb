@@ -352,5 +352,96 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
+    
+    it 'intersects with rectangle as type chord' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as type chord' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 3, y: 4, width: 40.5, height: 50.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by containing it as type chord' do
+      shape = PerfectShape::Arc.new(type: :chord, x: -20, y: -30, width: 100.5, height: 120.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with rectangle as type chord' do
+      shape = PerfectShape::Arc.new(type: :chord, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 2 + 30.375, width: 25.25, height: 30.375)
+      
+      refute shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle as type open' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as type open' do
+      shape = PerfectShape::Arc.new(type: :open, x: 3, y: 4, width: 40.5, height: 50.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by containing it as type open' do
+      shape = PerfectShape::Arc.new(type: :open, x: -20, y: -30, width: 100.5, height: 120.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with rectangle as type open' do
+      shape = PerfectShape::Arc.new(type: :open, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 2 + 30.375, width: 25.25, height: 30.375)
+      
+      refute shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle as type pie' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as type pie' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 3, y: 4, width: 40.5, height: 50.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by containing it as type pie' do
+      shape = PerfectShape::Arc.new(type: :pie, x: -20, y: -30, width: 100.5, height: 120.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle getting into pie part as type pie' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 2 + 30.375, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with rectangle as type pie' do
+      shape = PerfectShape::Arc.new(type: :pie, x: 2, y: 3, width: 50.5, height: 60.75, start: 0, extent: 145)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 4 + 30.375, width: 25.25, height: 30.375)
+      
+      refute shape.intersect?(rectangle)
+    end
   end
 end

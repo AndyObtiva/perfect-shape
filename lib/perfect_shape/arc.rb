@@ -141,8 +141,8 @@ module PerfectShape
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
     #
-    # @return {@code true} if the point lies within the bound of
-    # the arc, {@code false} if the point lies outside of the
+    # @return true if the point lies within the bound of
+    # the arc, false if the point lies outside of the
     # arc's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       x, y = Point.normalize_point(x_or_point, y)
@@ -211,6 +211,106 @@ module PerfectShape
       angle += 360.0 if angle < 0.0
 
       (angle >= 0.0) && (angle < ang_ext)
+    end
+    
+    def intersect?(rectangle)
+      x = rectangle.x
+      y = rectangle.y
+      w = rectangle.width
+      h = rectangle.height
+      aw = self.width
+      ah = self.height
+
+      return false if w <= 0 || h <= 0 || aw <= 0 || ah <= 0
+      ext = self.extent
+      return false if ext == 0
+
+      ax  = self.x
+      ay  = self.y
+      axw = ax + aw
+      ayh = ay + ah
+      xw  = x + w
+      yh  = y + h
+
+      # check bbox
+      return false if x >= axw || y >= ayh || xw <= ax || yh <= ay
+
+      # extract necessary data
+      axc = self.center_x
+      ayc = self.center_y
+      sx, sy = self.start_point
+      ex, ey = self.end_point
+
+      # Try to catch rectangles that intersect arc in areas
+      # outside of rectagle with left top corner coordinates
+      # (min(center x, start point x, end point x),
+      #  min(center y, start point y, end point y))
+      # and rigth bottom corner coordinates
+      # (max(center x, start point x, end point x),
+      #  max(center y, start point y, end point y)).
+      # So we'll check axis segments outside of rectangle above.
+      if ayc >= y && ayc <= yh # 0 and 180
+        return true if (sx < xw && ex < xw && axc < xw &&
+             axw > x && contain_angle?(0)) ||
+            (sx > x && ex > x && axc > x &&
+             ax < xw && contain_angle?(180))
+      end
+      if axc >= x && axc <= xw # 90 and 270
+        return true if (sy > y && ey > y && ayc > y &&
+             ay < yh && contain_angle?(90)) ||
+            (sy < yh && ey < yh && ayc < yh &&
+             ayh > y && contain_angle?(270))
+      end
+
+      # For PIE we should check intersection with pie slices
+      # also we should do the same for arcs with extent is greater
+      # than 180, because we should cover case of rectangle, which
+      # situated between center of arc and chord, but does not
+      # intersect the chord.
+      rect = PerfectShape::Rectangle.new(x: x, y: y, width: w, height: h)
+      if type == :pie || ext.abs > 180
+        # for PIE: try to find intersections with pie slices
+        line1 = PerfectShape::Line.new(points: [[axc, ayc], [sx, sy]])
+        line2 = PerfectShape::Line.new(points: [[axc, ayc], [ex, ey]])
+        return true if line1.intersect?(rect) || line2.intersect?(rect)
+      else
+        # for CHORD and OPEN: try to find intersections with chord
+        line = PerfectShape::Line.new(points: [[sx, sy], [ex, ey]])
+        return true if line.intersect?(rect)
+      end
+
+      # finally check the rectangle corners inside the arc
+      return true if contain?(x, y) || contain?(x + w, y) ||
+                     contain?(x, y + h) || contain?(x + w, y + h)
+
+      false
+    end
+    
+    # Returns the starting point of the arc.  This point is the
+    # intersection of the ray from the center defined by the
+    # starting angle and the elliptical boundary of the arc.
+    #
+    # @return An (x,y) pair Array object representing the
+    # x,y coordinates of the starting point of the arc.
+    def start_point
+      angle = Math.degrees_to_radians(-self.start)
+      x = self.x + (Math.cos(angle) * 0.5 + 0.5) * self.width
+      y = self.y + (Math.sin(angle) * 0.5 + 0.5) * self.height
+      [x, y]
+    end
+
+    # Returns the ending point of the arc.  This point is the
+    # intersection of the ray from the center defined by the
+    # starting angle plus the angular extent of the arc and the
+    # elliptical boundary of the arc.
+    #
+    # @return An (x,y) pair Array object representing the
+    # x,y coordinates  of the ending point of the arc.
+    def end_point
+      angle = Math.degrees_to_radians(-self.start - self.extent)
+      x = self.x + (Math.cos(angle) * 0.5 + 0.5) * self.width
+      y = self.y + (Math.sin(angle) * 0.5 + 0.5) * self.height
+      [x, y]
     end
   end
 end

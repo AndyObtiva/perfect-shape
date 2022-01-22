@@ -59,8 +59,8 @@ module PerfectShape
     # @param x The X coordinate of the point to test.
     # @param y The Y coordinate of the point to test.
     #
-    # @return {@code true} if the point lies within the bound of
-    # the ellipse, {@code false} if the point lies outside of the
+    # @return true if the point lies within the bound of
+    # the ellipse, false if the point lies outside of the
     # ellipse's bounds.
     def contain?(x_or_point, y = nil, outline: false, distance_tolerance: 0)
       # This is implemented again even though super would have just worked to have an optimized algorithm for Ellipse.

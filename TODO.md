@@ -2,7 +2,6 @@
 
 ## Next Version 0.5.5
 
-- `Arc#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 - `Ellipse#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 - `Circle#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.5
+
+- `PerfectShape::Arc#intersect?(rectangle)`
+
 ## 0.5.4
 
 - `PerfectShape::Rectangle#intersect?(rectangle)`
