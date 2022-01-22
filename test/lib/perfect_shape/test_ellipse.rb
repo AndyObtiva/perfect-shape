@@ -239,6 +239,33 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
-
+    
+    it 'intersects with rectangle' do
+      shape = PerfectShape::Ellipse.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it' do
+      shape = PerfectShape::Ellipse.new(x: 3, y: 4, width: 40.5, height: 50.75)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by containing it' do
+      shape = PerfectShape::Ellipse.new(x: -20, y: -30, width: 100.5, height: 120.75)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 25.25, height: 30.375)
+      
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with rectangle' do
+      shape = PerfectShape::Ellipse.new(x: 2, y: 3, width: 50.5, height: 60.75)
+      rectangle = PerfectShape::Rectangle.new(x: 2, y: 4 + 60.75, width: 25.25, height: 30.375)
+      
+      refute shape.intersect?(rectangle)
+    end
   end
 end
