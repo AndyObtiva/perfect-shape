@@ -4,6 +4,7 @@
 
 - `PerfectShape::Arc#intersect?(rectangle)`
 - `PerfectShape::Ellipse#intersect?(rectangle)`
+- `PerfectShape::Circle#intersect?(rectangle)`
 
 ## 0.5.4
 

@@ -1,11 +1,6 @@
 # TODO
 
-## Next Version 0.5.5
-
-- `Ellipse#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-- `Circle#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-
-## Version 0.5.6
+## Next Version 0.5.6
 
 - `Polygon#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 
