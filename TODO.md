@@ -3,10 +3,6 @@
 ## Next Version 0.5.6
 
 - Set Even-Odd rule as the `Path` default `type`
-- `Polygon#intersect?(rectangle)` reuse `Path` logic
-
-## Version 0.5.7
-
 - Make `Polygon` support Nonzero Rule (not just default EvenOdd Rule)
 
 # Version 1.0.0

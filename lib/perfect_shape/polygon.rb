@@ -121,5 +121,16 @@ module PerfectShape
         Line.new(points: [[point1.first, point1.last], [point2.first, point2.last]])
       end
     end
+    
+    def path
+      path_shapes = []
+      path_shapes << PerfectShape::Point.new(points[0])
+      path_shapes += points[1..-1].map { |point| PerfectShape::Line.new(points: [point]) }
+      PerfectShape::Path.new(shapes: path_shapes, closed: true)
+    end
+    
+    def intersect?(rectangle)
+      path.intersect?(rectangle)
+    end
   end
 end

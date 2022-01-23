@@ -180,32 +180,32 @@ describe PerfectShape do
       _(shape.edges).must_equal expected_edges
     end
     
-#     it 'intersects with rectangle' do
-#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       rectangle = PerfectShape::Rectangle.new(x: 180, y: 140, width: 50, height: 40)
-#
-#       assert shape.intersect?(rectangle)
-#     end
-#
-#     it 'intersects with rectangle by lying within it' do
-#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       rectangle = PerfectShape::Rectangle.new(x: 170, y: 140, width: 120, height: 90)
-#
-#       assert shape.intersect?(rectangle)
-#     end
-#
-#     it 'intersects with rectangle by containing it' do
-#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       rectangle = PerfectShape::Rectangle.new(x: 200, y: 160, width: 15, height: 20)
-#
-#       assert shape.intersect?(rectangle)
-#     end
-#
-#     it 'does not intersect with rectangle' do
-#       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
-#       rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 30, height: 20)
-#
-#       refute shape.intersect?(rectangle)
-#     end
+    it 'intersects with rectangle' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      rectangle = PerfectShape::Rectangle.new(x: 180, y: 140, width: 50, height: 40)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects with rectangle by lying within it' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      rectangle = PerfectShape::Rectangle.new(x: 170, y: 140, width: 120, height: 90)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects with rectangle by containing it' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      rectangle = PerfectShape::Rectangle.new(x: 200, y: 160, width: 15, height: 20)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect with rectangle' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 30, height: 20)
+
+      refute shape.intersect?(rectangle)
+    end
   end
 end

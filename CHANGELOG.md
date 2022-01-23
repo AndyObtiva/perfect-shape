@@ -3,6 +3,7 @@
 ## 0.5.6
 
 - `PerfectShape::Path#intersect?(rectangle)`
+- `PerfectShape::Polygon#intersect?(rectangle)`
 
 ## 0.5.5
 
