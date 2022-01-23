@@ -1,9 +1,5 @@
 # TODO
 
-## Next Version 1.0.0
-
-- `CompositeShape#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
-
 ## Far Future
 
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)

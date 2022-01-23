@@ -217,5 +217,38 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
+    
+    it 'intersects with rectangle via owned square' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 220, y: 215, diameter: 50)
+      
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 60, height: 40)
+
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle via owned circle' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 220, y: 215, diameter: 50)
+      
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      rectangle = PerfectShape::Rectangle.new(x: 170, y: 170, width: 120, height: 100)
+
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'does not intersect with rectangle (between owned square and circle)' do
+      shapes = []
+      shapes << PerfectShape::Square.new(x: 20, y: 15, length: 100)
+      shapes << PerfectShape::Circle.new(x: 220, y: 215, diameter: 50)
+      
+      shape = PerfectShape::CompositeShape.new(shapes: shapes)
+      rectangle = PerfectShape::Rectangle.new(x: 130, y: 130, width: 40, height: 30)
+      
+      refute shape.intersect?(rectangle)
+    end
   end
 end

@@ -69,5 +69,9 @@ module PerfectShape
       
       shapes.any? { |shape| shape.contain?(x, y, outline: outline, distance_tolerance: distance_tolerance) }
     end
+    
+    def intersect?(rectangle)
+      shapes.any? { |shape| shape.intersect?(rectangle) }
+    end
   end
 end

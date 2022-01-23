@@ -1,4 +1,4 @@
-# Perfect Shape 0.5.5
+# Perfect Shape 1.0.0
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 0.5.5
+gem install perfect-shape -v 1.0.0
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 0.5.5'
+gem 'perfect-shape', '~> 1.0.0'
 ```
 
 And, run:
@@ -705,11 +705,11 @@ Extends `PerfectShape::Shape`
 
 Includes `PerfectShape::MultiPoint`
 
-A polygon can be thought of as a special case of [path](#perfectshapepath) that is closed, has the [Even-Odd](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) winding rule, and consists of lines only.
+A polygon can be thought of as a special case of [path](#perfectshapepath), consisting of lines only, is closed, and has the [Even-Odd](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule) winding rule by default.
 
 ![polygon](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/polygon.png)
 
-- `::new(points: [])`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates
+- `::new(points: [], winding_rule: :wind_even_odd)`: constructs a polygon with `points` as `Array` of `Array`s of `[x,y]` pairs or flattened `Array` of alternating x and y coordinates and specified winding rule (`:wind_even_odd` or `:wind_non_zero`)
 - `#min_x`: min x
 - `#min_y`: min y
 - `#max_x`: max x
@@ -721,7 +721,7 @@ A polygon can be thought of as a special case of [path](#perfectshapepath) that 
 - `#center_y`: center y
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
-- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a polygon shape from its outline more successfully
+- `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside using either the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (aka [Even-Odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)) or [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm) (aka [Nonzero-Rule](https://en.wikipedia.org/wiki/Nonzero-rule)). Otherwise, when `outline` is `true`, it checks if point is on the outline. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a polygon shape from its outline more successfully
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#edges`: edges of polygon as `PerfectShape::Line` objects
 
@@ -824,6 +824,7 @@ A composite shape is simply an aggregate of multiple shapes (e.g. square and pol
 - `#bounding_box`: bounding box is a rectangle with x = min x, y = min y, and width/height of shape (bounding box only guarantees that the shape is within it, but it might be bigger than the shape)
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: When `outline` is `false`, it checks if point is inside any of the shapes owned by the composite shape. Otherwise, when `outline` is `true`, it checks if point is on the outline of any of the shapes owned by the composite shape. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a composite shape from its outline more successfully
+- `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 
 Example:
 
