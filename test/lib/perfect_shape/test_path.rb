@@ -69,7 +69,7 @@ describe PerfectShape do
       _(shape.shapes).must_equal []
       _(shape.points).must_equal []
       _(shape.drawing_types).must_equal []
-      _(shape.winding_rule).must_equal :wind_non_zero
+      _(shape.winding_rule).must_equal :wind_even_odd
       _(shape.closed).must_equal false
       _(shape.closed?).must_equal false
       assert_nil shape.min_x

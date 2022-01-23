@@ -1,9 +1,10 @@
 # Change Log
 
-## 0.5.6
+## 1.0.0
 
 - `PerfectShape::Path#intersect?(rectangle)`
 - `PerfectShape::Polygon#intersect?(rectangle)`
+- [API Breaking] Change `Path` default `winding_rule` to `:wind_even_odd`
 
 ## 0.5.5
 

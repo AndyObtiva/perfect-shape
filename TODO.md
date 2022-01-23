@@ -1,12 +1,8 @@
 # TODO
 
-## Next Version 0.5.6
+## Next Version 1.0.0
 
-- Set Even-Odd rule as the `Path` default `type`
 - Make `Polygon` support Nonzero Rule (not just default EvenOdd Rule)
-
-# Version 1.0.0
-
 - `CompositeShape#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 
 ## Far Future

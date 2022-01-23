@@ -45,7 +45,7 @@ module PerfectShape
     # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, or PerfectShape::CubicBezierCurve
     # winding_rule can be any of WINDING_RULES: :wind_non_zero (default) or :wind_even_odd
     # closed can be true or false
-    def initialize(shapes: [], closed: false, winding_rule: :wind_non_zero)
+    def initialize(shapes: [], closed: false, winding_rule: :wind_even_odd)
       self.closed = closed
       self.winding_rule = winding_rule
       self.shapes = shapes
