@@ -545,5 +545,72 @@ module PerfectShape
       # overlap the Y range of the rectangle.
       c1tag * c2tag <= 0
     end
+    
+    # Accumulate the number of times the quad crosses the shadow
+    # extending to the right of the rectangle.  See the comment
+    # for the RECT_INTERSECTS constant for more complete details.
+    #
+    # crossings arg is the initial crossings value to add to (useful
+    # in cases where you want to accumulate crossings from multiple
+    # shapes)
+    def rect_crossings(rxmin, rymin, rxmax, rymax, level, crossings = 0)
+      x0 = points[0][0]
+      y0 = points[0][1]
+      xc = points[1][0]
+      yc = points[1][1]
+      x1 = points[2][0]
+      y1 = points[2][1]
+      return crossings if y0 >= rymax && yc >= rymax && y1 >= rymax
+      return crossings if y0 <= rymin && yc <= rymin && y1 <= rymin
+      return crossings if x0 <= rxmin && xc <= rxmin && x1 <= rxmin
+      if x0 >= rxmax && xc >= rxmax && x1 >= rxmax
+        # Quad is entirely to the right of the rect
+        # and the vertical range of the 3 Y coordinates of the quad
+        # overlaps the vertical range of the rect by a non-empty amount
+        # We now judge the crossings solely based on the line segment
+        # connecting the endpoints of the quad.
+        # Note that we may have 0, 1, or 2 crossings as the control
+        # point may be causing the Y range intersection while the
+        # two endpoints are entirely above or below.
+        if y0 < y1
+          # y-increasing line segment...
+          crossings += 1 if y0 <= rymin && y1 >  rymin
+          crossings += 1 if y0 <  rymax && y1 >= rymax
+        elsif y1 < y0
+          # y-decreasing line segment...
+          crossings -= 1 if y1 <= rymin && y0 >  rymin
+          crossings -= 1 if y1 <  rymax && y0 >= rymax
+        end
+        return crossings
+      end
+      # The intersection of ranges is more complicated
+      # First do trivial INTERSECTS rejection of the cases
+      # where one of the endpoints is inside the rectangle.
+      return PerfectShape::Rectangle::RECT_INTERSECTS if (x0 < rxmax && x0 > rxmin && y0 < rymax && y0 > rymin) ||
+        (x1 < rxmax && x1 > rxmin && y1 < rymax && y1 > rymin)
+      # Otherwise, subdivide and look for one of the cases above.
+      # double precision only has 52 bits of mantissa
+      if level > 52
+        line = PerfectShape::Line.new(points: [x0, y0, x1, y1])
+        return line.rect_crossings(rxmin, rymin, rxmax, rymax, crossings)
+      end
+      x0c = BigDecimal((x0 + xc).to_s) / 2
+      y0c = BigDecimal((y0 + yc).to_s) / 2
+      xc1 = BigDecimal((xc + x1).to_s) / 2
+      yc1 = BigDecimal((yc + y1).to_s) / 2
+      xc = BigDecimal((x0c + xc1).to_s) / 2
+      yc = BigDecimal((y0c + yc1).to_s) / 2
+      # [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
+      # [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
+      # These values are also NaN if opposing infinities are added
+      return 0 if xc.nan? || yc.nan?
+      quad1 = QuadraticBezierCurve.new(points: [x0, y0, x0c, y0c, xc, yc])
+      crossings = quad1.rect_crossings(rxmin, rymin, rxmax, rymax, level+1, crossings)
+      if crossings != PerfectShape::Rectangle::RECT_INTERSECTS
+        quad2 = QuadraticBezierCurve.new(points: [xc, yc, xc1, yc1, x1, y1])
+        crossings = quad2.rect_crossings(rxmin, rymin, rxmax, rymax, level+1, crossings)
+      end
+      crossings
+    end
   end
 end

@@ -866,5 +866,185 @@ describe PerfectShape do
       _(shape.disconnected_shapes.count).must_equal expected_disconnected_shapes.count
       _(shape.disconnected_shapes).must_equal expected_disconnected_shapes
     end
+    
+    it 'intersects with rectangle as a path of lines' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::Line.new(points: [270, 170]),
+        PerfectShape::Line.new(points: [250, 220]),
+        PerfectShape::Line.new(points: [220, 190]),
+        PerfectShape::Line.new(points: [200, 200]),
+        PerfectShape::Line.new(points: [180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 180, y: 140, width: 50, height: 40)
+
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as a path of lines' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::Line.new(points: [270, 170]),
+        PerfectShape::Line.new(points: [250, 220]),
+        PerfectShape::Line.new(points: [220, 190]),
+        PerfectShape::Line.new(points: [200, 200]),
+        PerfectShape::Line.new(points: [180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 170, y: 140, width: 120, height: 90)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects with rectangle by containing it as a path of lines' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::Line.new(points: [270, 170]),
+        PerfectShape::Line.new(points: [250, 220]),
+        PerfectShape::Line.new(points: [220, 190]),
+        PerfectShape::Line.new(points: [200, 200]),
+        PerfectShape::Line.new(points: [180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 200, y: 160, width: 15, height: 20)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect with rectangle as a path of lines' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::Line.new(points: [270, 170]),
+        PerfectShape::Line.new(points: [250, 220]),
+        PerfectShape::Line.new(points: [220, 190]),
+        PerfectShape::Line.new(points: [200, 200]),
+        PerfectShape::Line.new(points: [180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 30, height: 20)
+
+      refute shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle as a path of quads' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 160, 270, 170]),
+        PerfectShape::QuadraticBezierCurve.new(points: [260, 195, 250, 220]),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 205, 220, 190]),
+        PerfectShape::QuadraticBezierCurve.new(points: [210, 195, 200, 200]),
+        PerfectShape::QuadraticBezierCurve.new(points: [190, 185, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 180, y: 140, width: 50, height: 40)
+
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as a path of quads' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 160, 270, 170]),
+        PerfectShape::QuadraticBezierCurve.new(points: [260, 195, 250, 220]),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 205, 220, 190]),
+        PerfectShape::QuadraticBezierCurve.new(points: [210, 195, 200, 200]),
+        PerfectShape::QuadraticBezierCurve.new(points: [190, 185, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 170, y: 140, width: 120, height: 90)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects with rectangle by containing it as a path of quads' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 160, 270, 170]),
+        PerfectShape::QuadraticBezierCurve.new(points: [260, 195, 250, 220]),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 205, 220, 190]),
+        PerfectShape::QuadraticBezierCurve.new(points: [210, 195, 200, 200]),
+        PerfectShape::QuadraticBezierCurve.new(points: [190, 185, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 200, y: 160, width: 15, height: 20)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect with rectangle as a path of quads' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 160, 270, 170]),
+        PerfectShape::QuadraticBezierCurve.new(points: [260, 195, 250, 220]),
+        PerfectShape::QuadraticBezierCurve.new(points: [235, 205, 220, 190]),
+        PerfectShape::QuadraticBezierCurve.new(points: [210, 195, 200, 200]),
+        PerfectShape::QuadraticBezierCurve.new(points: [190, 185, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 30, height: 20)
+
+      refute shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle as a path of cubics' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170]),
+        PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 205, 250, 220]),
+        PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190]),
+        PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200]),
+        PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 180, y: 140, width: 50, height: 40)
+
+      assert shape.intersect?(rectangle)
+    end
+    
+    it 'intersects with rectangle by lying within it as a path of cubics' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170]),
+        PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 205, 250, 220]),
+        PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190]),
+        PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200]),
+        PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 170, y: 140, width: 120, height: 90)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'intersects with rectangle by containing it as a path of cubics' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170]),
+        PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 205, 250, 220]),
+        PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190]),
+        PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200]),
+        PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 200, y: 160, width: 15, height: 20)
+
+      assert shape.intersect?(rectangle)
+    end
+
+    it 'does not intersect with rectangle as a path of cubics' do
+      shapes = [
+        PerfectShape::Point.new(200, 150),
+        PerfectShape::CubicBezierCurve.new(points: [235, 160, 250, 165, 270, 170]),
+        PerfectShape::CubicBezierCurve.new(points: [260, 195, 255, 205, 250, 220]),
+        PerfectShape::CubicBezierCurve.new(points: [235, 205, 227, 197, 220, 190]),
+        PerfectShape::CubicBezierCurve.new(points: [210, 195, 205, 197, 200, 200]),
+        PerfectShape::CubicBezierCurve.new(points: [190, 185, 185, 177, 180, 170]),
+      ]
+      shape = PerfectShape::Path.new(shapes: shapes, closed: true)
+      rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 30, height: 20)
+
+      refute shape.intersect?(rectangle)
+    end
   end
 end

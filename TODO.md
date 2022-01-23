@@ -2,11 +2,12 @@
 
 ## Next Version 0.5.6
 
-- `Polygon#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- Set Even-Odd rule as the `Path` default `type`
+- `Polygon#intersect?(rectangle)` reuse `Path` logic
 
 ## Version 0.5.7
 
-- `Path#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
+- Make `Polygon` support Nonzero Rule (not just default EvenOdd Rule)
 
 # Version 1.0.0
 
@@ -57,3 +58,7 @@
 - `MultiPoint#affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
 - `MultiPoint#inverse_affine_transform(affine_transform)` on `Line`, `QuadraticBezierCurve`, `CubicBezierCurve`, `Polygon`, and `Path`
 - Update all `#contain?` implementations to become `#contain?(..., affine_transform: )` or to allow alternatively setting `affine_transform=` on `Shape`, and later inverse-transform point before calculation if `:affine_transform` option is supplied
+- [Polygon Triangulation](https://en.wikipedia.org/wiki/Polygon_triangulation)
+- `PerfectShape::Polyline`: multiple lines
+- `PerfectShape::Polycubic`: multiple cubic bezier curves
+- `PerfectShape::Polyquad`: multiple quadratic bezier curves

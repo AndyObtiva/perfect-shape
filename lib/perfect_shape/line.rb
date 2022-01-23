@@ -244,7 +244,7 @@ module PerfectShape
     
     # Accumulate the number of times the line crosses the shadow
     # extending to the right of the rectangle.  See the comment
-    # for the Rectangle::RECT_INTERSECTS constant for more complete details.
+    # for the PerfectShape::Rectangle::RECT_INTERSECTS constant for more complete details.
     #
     # crossings arg is the initial crossings value to add to (useful
     # in cases where you want to accumulate crossings from multiple
@@ -280,7 +280,7 @@ module PerfectShape
       # Both x and y ranges overlap by a non-empty amount
       # First do trivial INTERSECTS rejection of the cases
       # where one of the endpoints is inside the rectangle.
-      return Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
+      return PerfectShape::Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
         (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
       # Otherwise calculate the y intercepts and see where
       # they fall with respect to the rectangle
@@ -311,7 +311,7 @@ module PerfectShape
         end
         return crossings
       end
-      Rectangle::RECT_INTERSECTS
+      PerfectShape::Rectangle::RECT_INTERSECTS
     end
     
     def intersect?(rectangle)

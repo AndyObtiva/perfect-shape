@@ -175,8 +175,8 @@ module PerfectShape
           ci += 1
           line = PerfectShape::Line.new(points: [[curx, cury], [endx, endy]])
           crossings += line.point_crossings(x, y)
-          curx = endx;
-          cury = endy;
+          curx = endx
+          cury = endy
         when :quad_to
           quad_ctrlx = coords[ci]
           ci += 1
@@ -188,8 +188,8 @@ module PerfectShape
           ci += 1
           quad = PerfectShape::QuadraticBezierCurve.new(points: [[curx, cury], [quad_ctrlx, quad_ctrly], [endx, endy]])
           crossings += quad.point_crossings(x, y)
-          curx = endx;
-          cury = endy;
+          curx = endx
+          cury = endy
         when :cubic_to
           cubic_ctrl1x = coords[ci]
           ci += 1
@@ -205,8 +205,8 @@ module PerfectShape
           ci += 1
           cubic = PerfectShape::CubicBezierCurve.new(points: [[curx, cury], [cubic_ctrl1x, cubic_ctrl1y], [cubic_ctrl2x, cubic_ctrl2y], [endx, endy]])
           crossings += cubic.point_crossings(x, y)
-          curx = endx;
-          cury = endy;
+          curx = endx
+          cury = endy
         when :close
           if cury != movy
             line = PerfectShape::Line.new(points: [[curx, cury], [movx, movy]])
@@ -266,6 +266,111 @@ module PerfectShape
       end
       the_disconnected_shapes << Line.new(points: [final_point, initial_point]) if closed?
       the_disconnected_shapes.compact
+    end
+    
+    def intersect?(rectangle)
+      x = rectangle.x
+      y = rectangle.y
+      w = rectangle.width
+      h = rectangle.height
+      # [xy]+[wh] is NaN if any of those values are NaN,
+      # or if adding the two together would produce NaN
+      # by virtue of adding opposing Infinte values.
+      # Since we need to add them below, their sum must
+      # not be NaN.
+      # We return false because NaN always produces a
+      # negative response to tests
+      return false if (x+w).nan? || (y+h).nan?
+      return false if w <= 0 || h <= 0
+      mask = winding_rule == :wind_non_zero ? -1 : 2
+      crossings = rect_crossings(x, y, x+w, y+h)
+      crossings == PerfectShape::Rectangle::RECT_INTERSECTS ||
+        (crossings & mask) != 0
+    end
+    
+    def rect_crossings(rxmin, rymin, rxmax, rymax)
+      numTypes = drawing_types.count
+      return 0 if numTypes == 0
+      coords = points.flatten
+      curx = cury = movx = movy = endx = endy = nil
+      curx = movx = coords[0]
+      cury = movy = coords[1]
+      crossings = 0
+      ci = 2
+      i = 1
+      
+      while crossings != PerfectShape::Rectangle::RECT_INTERSECTS && i < numTypes
+        case drawing_types[i]
+        when :move_to
+          if curx != movx || cury != movy
+            line = PerfectShape::Line.new(points: [curx, cury, movx, movy])
+            crossings = line.rect_crossings(rxmin, rymin, rxmax, rymax, crossings)
+          end
+          # Count should always be a multiple of 2 here.
+          # assert((crossings & 1) != 0)
+          movx = curx = coords[ci]
+          ci += 1
+          movy = cury = coords[ci]
+          ci += 1
+        when :line_to
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          line = PerfectShape::Line.new(points: [curx, cury, endx, endy])
+          crossings = line.rect_crossings(rxmin, rymin, rxmax, rymax, crossings)
+          curx = endx
+          cury = endy
+        when :quad_to
+          cx = coords[ci]
+          ci += 1
+          cy = coords[ci]
+          ci += 1
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          quadratic_bezier_curve = PerfectShape::QuadraticBezierCurve.new(points: [curx, cury, cx, cy, endx, endy])
+          crossings = quadratic_bezier_curve.rect_crossings(rxmin, rymin, rxmax, rymax, 0, crossings)
+          curx = endx
+          cury = endy
+        when :cubic_to
+          c1x = coords[ci]
+          ci += 1
+          c1y = coords[ci]
+          ci += 1
+          c2x = coords[ci]
+          ci += 1
+          c2y = coords[ci]
+          ci += 1
+          endx = coords[ci]
+          ci += 1
+          endy = coords[ci]
+          ci += 1
+          cubic_bezier_curve = PerfectShape::CubicBezierCurve.new(points: [curx, cury, c1x, c1y, c2x, c2y, endx, endy])
+          crossings = cubic_bezier_curve.rect_crossings(rxmin, rymin, rxmax, rymax, 0, crossings)
+          curx = endx
+          cury = endy
+        when :close
+          if curx != movx || cury != movy
+            line = PerfectShape::Line.new(points: [curx, cury, movx, movy])
+            crossings = line.rect_crossings(rxmin, rymin, rxmax, rymax, crossings)
+          end
+          curx = movx
+          cury = movy
+          # Count should always be a multiple of 2 here.
+          # assert((crossings & 1) != 0)
+        end
+        i += 1
+      end
+      if crossings != PerfectShape::Rectangle::RECT_INTERSECTS &&
+        (curx != movx || cury != movy)
+        line = PerfectShape::Line.new(points: [curx, cury, movx, movy])
+        crossings = line.rect_crossings(rxmin, rymin, rxmax, rymax, crossings)
+      end
+      # Count should always be a multiple of 2 here.
+      # assert((crossings & 1) != 0)
+      crossings
     end
   end
 end

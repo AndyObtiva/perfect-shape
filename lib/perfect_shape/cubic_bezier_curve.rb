@@ -223,7 +223,7 @@ module PerfectShape
 
       num_crossings = rectangle_crossings(rectangle)
       # the intended return value is
-      # num_crossings != 0 || num_crossings == Rectangle::RECT_INTERSECTS
+      # num_crossings != 0 || num_crossings == PerfectShape::Rectangle::RECT_INTERSECTS
       # but if (num_crossings != 0) num_crossings == INTERSECTS won't matter
       # and if !(num_crossings != 0) then num_crossings == 0, so
       # num_crossings != RECT_INTERSECT
@@ -244,7 +244,7 @@ module PerfectShape
       if !(x1 == x2 && y1 == y2)
         line = PerfectShape::Line.new(points: [[x1, y1], [x2, y2]])
         crossings = line.rect_crossings(x, y, x+w, y+h, crossings)
-        return crossings if crossings == Rectangle::RECT_INTERSECTS
+        return crossings if crossings == PerfectShape::Rectangle::RECT_INTERSECTS
       end
       # we call this with the curve's direction reversed, because we wanted
       # to call rectCrossingsForLine first, because it's cheaper.
@@ -294,7 +294,7 @@ module PerfectShape
       # The intersection of ranges is more complicated
       # First do trivial INTERSECTS rejection of the cases
       # where one of the endpoints is inside the rectangle.
-      return Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
+      return PerfectShape::Rectangle::RECT_INTERSECTS if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
         (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
           
       # Otherwise, subdivide and look for one of the cases above.
@@ -318,7 +318,7 @@ module PerfectShape
       return 0 if xmid.nan? || ymid.nan?
       cubic1 = CubicBezierCurve.new(points: [[x0, y0], [xc0, yc0], [xc0m, yc0m], [xmid, ymid]])
       crossings = cubic1.rect_crossings(rxmin, rymin, rxmax, rymax, level + 1, crossings)
-      if crossings != Rectangle::RECT_INTERSECTS
+      if crossings != PerfectShape::Rectangle::RECT_INTERSECTS
         cubic2 = CubicBezierCurve.new(points: [[xmid, ymid], [xmc1, ymc1], [xc1, yc1], [x1, y1]])
         crossings = cubic2.rect_crossings(rxmin, rymin, rxmax, rymax, level + 1, crossings)
       end
