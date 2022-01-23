@@ -275,6 +275,7 @@ Includes `PerfectShape::MultiPoint`
 - `#curve_center_y`: point y coordinate at the center of the curve outline (not the center of the bounding box area like `center_x` and `center_y`)
 - `#subdivisions(level=1)`: subdivides quadratic bezier curve at its center into into 2 quadratic bezier curves by default, or more if `level` of recursion is specified. The resulting number of subdivisions is `2` to the power of `level`.
 - `#point_distance(x_or_point, y=nil, minimum_distance_threshold: OUTLINE_MINIMUM_DISTANCE_THRESHOLD)`: calculates distance from point to curve segment. It does so by subdividing curve into smaller curves and checking against the curve center points until the distance is less than `minimum_distance_threshold`, to avoid being an overly costly operation.
+- `#rect_crossings(rxmin, rymin, rxmax, rymax, level, crossings = 0)`: rectangle crossings (adds to crossings arg)
 
 Example:
 

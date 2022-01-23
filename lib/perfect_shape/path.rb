@@ -35,7 +35,7 @@ module PerfectShape
     SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve]
     
     # Available winding rules
-    WINDING_RULES = [:wind_non_zero, :wind_even_odd]
+    WINDING_RULES = [:wind_even_odd, :wind_non_zero]
     
     attr_reader :winding_rule
     attr_accessor :shapes, :closed
@@ -99,7 +99,7 @@ module PerfectShape
     end
     
     def winding_rule=(value)
-      raise "Invalid winding rule: #{value}" unless WINDING_RULES.include?(value.to_s.to_sym)
+      raise "Invalid winding rule: #{value} (must be one of #{WINDING_RULES})" unless WINDING_RULES.include?(value.to_s.to_sym)
       @winding_rule = value
     end
     

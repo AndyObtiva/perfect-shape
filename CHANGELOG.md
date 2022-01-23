@@ -5,6 +5,7 @@
 - `PerfectShape::Path#intersect?(rectangle)`
 - `PerfectShape::Polygon#intersect?(rectangle)`
 - [API Breaking] Change `Path` default `winding_rule` to `:wind_even_odd`
+- Make `PerfectShape::Polygon` support `:wind_non_zero` `winding_rule` (not just default `:wind_even_odd`)
 
 ## 0.5.5
 

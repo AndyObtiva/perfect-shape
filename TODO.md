@@ -2,7 +2,6 @@
 
 ## Next Version 1.0.0
 
-- Make `Polygon` support Nonzero Rule (not just default EvenOdd Rule)
 - `CompositeShape#intersect?(rectangle)` method (helpful in determining if a shape shows up in a viewport in a GUI application)
 
 ## Far Future

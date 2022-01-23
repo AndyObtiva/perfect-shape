@@ -6,9 +6,10 @@ require_relative '../../../lib/perfect-shape'
 describe PerfectShape do
   describe PerfectShape::Polygon do
     it 'constructs with points' do
-      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]], winding_rule: :wind_non_zero)
 
       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
+      _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.min_x).must_equal 180
       _(shape.min_y).must_equal 150
       _(shape.max_x).must_equal 270
@@ -20,9 +21,10 @@ describe PerfectShape do
     end
 
     it 'constructs with flattened points' do
-      shape = PerfectShape::Polygon.new(points: [200, 150, 270, 170, 250, 220, 220, 190, 200, 200, 180, 170])
+      shape = PerfectShape::Polygon.new(points: [200, 150, 270, 170, 250, 220, 220, 190, 200, 200, 180, 170], winding_rule: :wind_even_odd)
 
       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
+      _(shape.winding_rule).must_equal :wind_even_odd
       _(shape.min_x).must_equal 180
       _(shape.min_y).must_equal 150
       _(shape.max_x).must_equal 270
@@ -37,6 +39,7 @@ describe PerfectShape do
       shape = PerfectShape::Polygon.new
 
       _(shape.points).must_equal []
+      _(shape.winding_rule).must_equal :wind_even_odd
       assert_nil shape.min_x
       assert_nil shape.min_y
       assert_nil shape.max_x
@@ -50,8 +53,10 @@ describe PerfectShape do
     it 'updates attributes' do
       shape = PerfectShape::Polygon.new
       shape.points = [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
+      shape.winding_rule = :wind_non_zero
 
       _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]]
+      _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.min_x).must_equal 180
       _(shape.min_y).must_equal 150
       _(shape.max_x).must_equal 270
@@ -92,6 +97,12 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
+    it 'does not set invalid winding rule' do
+      shape = PerfectShape::Polygon.new
+      
+      _(proc { shape.winding_rule = :invalid }).must_raise StandardError
+    end
+
     it 'equals another polygon' do
       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
       shape2 = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
@@ -108,6 +119,14 @@ describe PerfectShape do
 
     it 'contains point in center' do
       shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]])
+      point = [shape.center_x, shape.center_y]
+
+      _(shape).must_be :contain?, point
+      _(shape.contain?(point)).must_equal shape.contain?(*point)
+    end
+
+    it 'contains point in center with :wind_non_zero winding rule' do
+      shape = PerfectShape::Polygon.new(points: [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170]], winding_rule: :wind_non_zero)
       point = [shape.center_x, shape.center_y]
 
       _(shape).must_be :contain?, point
