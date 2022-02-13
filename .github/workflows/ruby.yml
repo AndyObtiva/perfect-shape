@@ -40,7 +40,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-        ruby-version: jruby-head
+        ruby-version: jruby-9.3.3.0
     - name: Install dependencies
       run: bundle install
     - name: Run tests

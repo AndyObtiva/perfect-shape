@@ -49,3 +49,4 @@
 - `PerfectShape::Polyline`: multiple lines
 - `PerfectShape::Polycubic`: multiple cubic bezier curves
 - `PerfectShape::Polyquad`: multiple quadratic bezier curves
+- Support specifying distance_tolerance direction of either to the outside of the shape or to the inside of the shape (otherwise support a shape auto-growing correctly if outline thickness is specified to automatically calculate if point is on outline correctly with the right fuzz factor)
