@@ -2,6 +2,7 @@
 
 ## 1.0.1
 
+- Relax `equalizer` gem version to '>= 0.0.11', '< 1.1.0' to avoid conflicts in projects that might use future versions
 - Fix issue with infinite loop upon setting `Circle#radius=` to a number with very small decimals
 - Fix issue with infinite loop upon setting `Circle#radius_x=` to a number with very small decimals
 - Fix issue with infinite loop upon setting `Circle#radius_y=` to a number with very small decimals

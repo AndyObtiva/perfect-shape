@@ -1,4 +1,4 @@
-# Perfect Shape 1.0.0
+# Perfect Shape 1.0.1
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 1.0.0
+gem install perfect-shape -v 1.0.1
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.0'
+gem 'perfect-shape', '~> 1.0.1'
 ```
 
 And, run:
