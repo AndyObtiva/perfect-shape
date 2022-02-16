@@ -28,6 +28,30 @@ describe PerfectShape do
       _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
     end
 
+    it 'constructs with standard dimensions (x,y,diameter) having very small decimals' do
+      # this test is ensuring the diameter= method does not go into an infinite loop with width= and height=
+      shape = PerfectShape::Circle.new(x: 2, y: 3, diameter: 60.1234567890123456789)
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter.to_i).must_equal 60
+      _(shape.width.to_i).must_equal 60
+      _(shape.height.to_i).must_equal 60
+      _(shape.center_x.to_i).must_equal 2 + 30
+      _(shape.center_y.to_i).must_equal 3 + 30
+      _(shape.radius.to_i).must_equal 30
+      _(shape.radius_x.to_i).must_equal 30
+      _(shape.radius_y.to_i).must_equal 30
+      _(shape.min_x).must_equal 2
+      _(shape.min_y).must_equal 3
+      _(shape.max_x.to_i).must_equal 2 + 60
+      _(shape.max_y.to_i).must_equal 3 + 60
+      _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
+    end
+
     it 'fails to construct with width, height, and diameter not equal' do
       _(proc { PerfectShape::Circle.new(x: 2, y: 3, width: 30, height: 50) }).must_raise StandardError
       _(proc { PerfectShape::Circle.new(x: 2, y: 3, diameter: 25, width: 50) }).must_raise StandardError

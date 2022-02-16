@@ -52,8 +52,8 @@ module PerfectShape
     def diameter=(value)
       @diameter = BigDecimal(value.to_s)
       @radius = nil
-      self.width = value unless width == value
-      self.height = value unless height == value
+      self.width = @diameter unless width == @diameter
+      self.height = @diameter unless height == @diameter
     end
     
     # Sets radius, normalizing to BigDecimal
