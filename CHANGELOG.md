@@ -3,6 +3,8 @@
 ## 1.0.1
 
 - Fix issue with infinite loop upon setting `Circle#radius=` to a number with very small decimals
+- Fix issue with infinite loop upon setting `Circle#radius_x=` to a number with very small decimals
+- Fix issue with infinite loop upon setting `Circle#radius_y=` to a number with very small decimals
 - Fix issue with infinite loop upon setting `Circle#diameter=` to a number with very small decimals
 
 ## 1.0.0

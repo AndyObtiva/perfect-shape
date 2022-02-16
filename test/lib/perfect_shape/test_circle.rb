@@ -178,6 +178,12 @@ describe PerfectShape do
       shape = PerfectShape::Circle.new
       shape.center_x = 2 + 30
       shape.center_y = 3 + 30
+      
+      # ensure no infinite loop between radius_x and radius
+      shape.radius_x = 30.1234567890123456789
+      # ensure no infinite loop between radius_y and radius
+      shape.radius_y = 30.1234567890123456789
+      
       shape.radius_x = 30
 
       _(shape.type).must_equal :open
