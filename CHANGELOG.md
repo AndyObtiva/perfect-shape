@@ -8,6 +8,9 @@
 - Fix issue with infinite loop upon setting `Circle#diameter=` to a number with very small decimals
 - Fix issue with infinite loop upon setting `Circle#width=` to a number with very small decimals
 - Fix issue with infinite loop upon setting `Circle#height=` to a number with very small decimals
+- Fix issue with infinite loop upon setting `Square#length=` to a number with very small decimals
+- Fix issue with infinite loop upon setting `Square#width=` to a number with very small decimals
+- Fix issue with infinite loop upon setting `Square#height=` to a number with very small decimals
 
 ## 1.0.0
 

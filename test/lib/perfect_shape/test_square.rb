@@ -67,6 +67,44 @@ describe PerfectShape do
       _(shape.center_y).must_equal 3 + 25
     end
     
+    it 'constructs with dimensions having very small decimal number' do
+      # This mostly test if an infinite loop occurs when using very small decimal numbers
+      shape = PerfectShape::Square.new(x: 2, y: 3, length: 50.1234567890123456789)
+
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.length.to_i).must_equal 50
+      _(shape.width.to_i).must_equal 50
+      _(shape.height.to_i).must_equal 50
+      _(shape.min_x.to_i).must_equal 2
+      _(shape.min_y.to_i).must_equal 3
+      _(shape.max_x.to_i).must_equal 2 + 50
+      _(shape.max_y.to_i).must_equal 3 + 50
+      _(shape.center_x.to_i).must_equal 2 + 25
+      _(shape.center_y.to_i).must_equal 3 + 25
+      _(shape.bounding_box).must_equal PerfectShape::Rectangle.new(x: shape.min_x, y: shape.min_y, width: shape.width, height: shape.height)
+      
+      shape = PerfectShape::Square.new(x: 2, y: 3, width: 50.1234567890123456789)
+
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.length.to_i).must_equal 50
+      _(shape.width.to_i).must_equal 50
+      _(shape.height.to_i).must_equal 50
+      _(shape.center_x.to_i).must_equal 2 + 25
+      _(shape.center_y.to_i).must_equal 3 + 25
+
+      shape = PerfectShape::Square.new(x: 2, y: 3, height: 50.1234567890123456789)
+
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.length.to_i).must_equal 50
+      _(shape.width.to_i).must_equal 50
+      _(shape.height.to_i).must_equal 50
+      _(shape.center_x.to_i).must_equal 2 + 25
+      _(shape.center_y.to_i).must_equal 3 + 25
+    end
+    
     it 'fails to construct with width, height, and length not equal' do
       _(proc { PerfectShape::Square.new(x: 2, y: 3, length: 25, size: 50) }).must_raise StandardError
       _(proc { PerfectShape::Square.new(x: 2, y: 3, width: 30, height: 50) }).must_raise StandardError

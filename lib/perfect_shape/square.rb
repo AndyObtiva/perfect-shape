@@ -40,21 +40,21 @@ module PerfectShape
     # Sets length, normalizing to BigDecimal
     def length=(value)
       @length = BigDecimal(value.to_s)
-      self.width = value unless width == value
-      self.height = value unless height == value
+      self.width = @length unless width == @length
+      self.height = @length unless height == @length
     end
     alias size= length=
     
     def width=(value)
       super
-      self.length = value unless length == value
-      self.height = value unless height == value
+      self.length = @width unless length == @width
+      self.height = @width unless height == @width
     end
     
     def height=(value)
       super
-      self.length = value unless length == value
-      self.width = value unless width == value
+      self.length = @height unless length == @height
+      self.width = @height unless width == @height
     end
   end
 end
