@@ -60,8 +60,8 @@ module PerfectShape
     def radius=(value)
       @radius = BigDecimal(value.to_s)
       @diameter = nil
-      self.radius_x = value unless width == value
-      self.radius_y = value unless height == value
+      self.radius_x = @radius unless width == @radius
+      self.radius_y = @radius unless height == @radius
     end
     
     def width=(value)

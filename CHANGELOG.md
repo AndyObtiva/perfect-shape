@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+
+- Fix issue with setting `Circle#radius=` causing an infinite loop with very small decimals
+
 ## 1.0.0
 
 - `PerfectShape::Path#intersect?(rectangle)`

@@ -60,6 +60,25 @@ describe PerfectShape do
       _(shape.radius_y).must_equal 30
     end
 
+    it 'constructs with alternate dimensions (center_x, center_y, radius) having very small decimals' do
+      # this test is ensuring the radius= method does not go into an infinite loop with radius_x= and radius_y=
+      shape = PerfectShape::Circle.new(center_x: 2 + 30.1234567890123456789, center_y: 3 + 30.1234567890123456789, radius: 30.1234567890123456789)
+
+      _(shape.type).must_equal :open
+      _(shape.start).must_equal 0
+      _(shape.extent).must_equal 360
+      _(shape.x).must_equal 2
+      _(shape.y).must_equal 3
+      _(shape.diameter.to_i).must_equal 2*30
+      _(shape.width.to_i).must_equal 2*30
+      _(shape.height.to_i).must_equal 2*30
+      _(shape.center_x.to_i).must_equal 2 + 30
+      _(shape.center_y.to_i).must_equal 3 + 30
+      _(shape.radius.to_i).must_equal 30
+      _(shape.radius_x.to_i).must_equal 30
+      _(shape.radius_y.to_i).must_equal 30
+    end
+
     it 'constructs with defaults' do
       shape = PerfectShape::Circle.new
 
