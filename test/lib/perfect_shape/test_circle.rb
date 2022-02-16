@@ -123,6 +123,11 @@ describe PerfectShape do
 
     it 'updates attributes with standard dimensions (x,y,diameter, width,height)' do
       shape = PerfectShape::Circle.new
+      # ensure no infinite loop between radius_x and radius
+      shape.width = 30.1234567890123456789
+      # ensure no infinite loop between radius_y and radius
+      shape.height = 30.1234567890123456789
+      
       shape.x = 2
       shape.y = 3
       shape.width = 60
