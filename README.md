@@ -467,6 +467,8 @@ Open Arc | Chord Arc | Pie Arc
 - `#start`: start angle in degrees
 - `#extent`: extent angle in degrees
 - `#center_point`: center point as `Array` of `[center_x, center_y]` coordinates
+- `#start_point`: start point as `Array` of (x,y) coordinates
+- `#end_point`: end point as `Array` of (x,y) coordinates
 - `#center_x`: center x
 - `#center_y`: center y
 - `#radius_x`: radius along the x-axis
@@ -480,6 +482,8 @@ Open Arc | Chord Arc | Pie Arc
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an arc shape from its outline more successfully
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#contain_angle?(angle)`: returns `true` if the angle is within the angular extents of the arc and `false` otherwise
+- `#to_path_shapes`: Converts `Arc` into basic `Path` shapes made up of `Point`s, `Line`s, and `CubicBezierCurve`s. Used by `Path` when adding an `Arc` to `Path` `shapes`
+- `#btan(increment)`: btan computes the length (k) of the control segments at the beginning and end of a cubic bezier that approximates a segment of an arc with extent less than or equal to 90 degrees.  This length (k) will be used to generate the 2 bezier control points for such a segment.
 
 Example:
 
@@ -604,6 +608,7 @@ Extends `PerfectShape::Arc`
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select an ellipse shape from its outline more successfully
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
+- `#to_path_shapes`: Converts `Ellipse` into basic `Path` shapes made up of `Point`s, `Line`s, and `CubicBezierCurve`s. Used by `Path` when adding an `Ellipse` to `Path` `shapes`
 
 Example:
 
@@ -666,6 +671,7 @@ Extends `PerfectShape::Ellipse`
 - `#==(other)`: Returns `true` if equal to `other` or `false` otherwise
 - `#contain?(x_or_point, y=nil, outline: false, distance_tolerance: 0)`: checks if point is inside when `outline` is `false` or if point is on the outline when `outline` is `true`. `distance_tolerance` can be used as a fuzz factor when `outline` is `true`, for example, to help GUI users mouse-click-select a circle shape from its outline more successfully
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
+- `#to_path_shapes`: Converts `Circle` into basic `Path` shapes made up of `Point`s, `Line`s, and `CubicBezierCurve`s. Used by `Path` when adding a `Circle` to `Path` `shapes`
 
 Example:
 
@@ -754,8 +760,8 @@ Includes `PerfectShape::MultiPoint`
 
 ![path](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/path.png)
 
-- `::new(shapes: [], closed: false, winding_rule: :wind_non_zero)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
-- `#shapes`: the shapes that the path is composed of (must always start with `PerfectShape::Point` or Array of [x,y] coordinates representing start point)
+- `::new(shapes: [], closed: false, winding_rule: :wind_even_odd)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `#shapes`: the shapes that the path is composed of (must always start with `PerfectShape::Point` or Array of `[x,y]` coordinates representing start point)
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
 - `#points`: path points calculated (derived) from shapes
@@ -786,7 +792,7 @@ path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start po
 path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
 path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
 
-shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_non_zero)
 
 shape.contain?(275, 165) # => true
 shape.contain?([275, 165]) # => true

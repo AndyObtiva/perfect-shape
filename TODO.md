@@ -1,10 +1,22 @@
 # TODO
 
+## Issues
+
+- PerfectShape::CubicBezierCurve#contain?(x, y, outline: true, distance_tolerance: 5) is not working consistently along the curve of the cubic bezier curve (it is possible the same issue occurs for quadratic bezier curves too)
+
+## Next
+
+- Path can contain a rectangle or square (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
+- Make PerfectShape::Path accept getting constructed without a point at the beginning if the first path shape had all its points (was not missing the first point) and otherwise display a better error message if the first point is missing
+- Polyline
+- Polybezier
+
 ## Far Future
 
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)
 - `PerfectShape::Triangle` (a special case of `PerfectShape::Polygon` and `PerfectShape::Path`). Also, support RightTriangle and Equilateral Triangle.
 - `Shape#area` for all shapes
+- `Shape#intersection_area(other_shape)` for all shapes (this helps with improved drag and drop deciding which drop target overlap the dragged source with the biggest area)
 - `Line#parallel?(other_line)`
 - `Arc#point_distance`, `Ellipse#point_distance`, and `Circle#point_distance`
 - `Rectangle#point_distance`, `Square#point_distance`, and `Polygon#point_distance`

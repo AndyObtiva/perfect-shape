@@ -312,5 +312,148 @@ module PerfectShape
       y = self.y + (Math.sin(angle) * 0.5 + 0.5) * self.height
       [x, y]
     end
+    
+    # Converts Arc into basic Path shapes made up of Points, Lines, and CubicBezierCurves
+    # Used by Path when adding an Arc to Path shapes
+    def to_path_shapes
+      w = BigDecimal(self.width.to_s) / 2
+      h = BigDecimal(self.height.to_s) / 2
+      x = self.x + w
+      y = self.x + h
+      ang_st_rad = -Math.degrees_to_radians(self.start)
+      ext = -self.extent
+      if ext >= 360.0 || ext <= -360
+        arc_segs = 4
+        increment = Math::PI / 2
+        cv = 0.5522847498307933
+        if ext < 0
+          increment = -increment
+          cv = -cv
+        end
+      else
+        arc_segs = (ext.abs / 90.0).ceil
+        increment = Math.degrees_to_radians(ext / arc_segs)
+        cv = btan(increment)
+        arc_segs = 0 if cv == 0
+      end
+      line_segs = nil
+      case self.type
+      when :open
+        line_segs = 0
+      when :chord
+        line_segs = 1
+      when :pie
+        line_segs = 2
+      end
+      arc_segs = line_segs = -1 if w < 0 || h < 0
+      
+      (arc_segs + line_segs).to_i.times.map do |index|
+        coords = []
+        angle = ang_st_rad
+        if index == 0
+          coords[0] = x + Math.cos(angle) * w
+          coords[1] = y + Math.sin(angle) * h
+          return Point.new(*coords)
+        end
+        if index > arc_segs
+          coords[0] = x
+          coords[1] = y
+          return Line.new(points: coords)
+        end
+        angle += increment * (index - 1)
+        relx = Math.cos(angle)
+        rely = Math.sin(angle)
+        coords[0] = x + (relx - cv * rely) * w
+        coords[1] = y + (rely + cv * relx) * h
+        angle += increment
+        relx = Math.cos(angle)
+        rely = Math.sin(angle)
+        coords[2] = x + (relx + cv * rely) * w
+        coords[3] = y + (rely - cv * relx) * h
+        coords[4] = x + relx * w
+        coords[5] = y + rely * h
+        CubicBezierCurve.new(points: coords)
+      end
+    end
+    
+    # btan computes the length (k) of the control segments at
+    # the beginning and end of a cubic bezier that approximates
+    # a segment of an arc with extent less than or equal to
+    # 90 degrees.  This length (k) will be used to generate the
+    # 2 bezier control points for such a segment.
+    #
+    #   Assumptions:
+    #     a) arc is centered on 0,0 with radius of 1.0
+    #     b) arc extent is less than 90 degrees
+    #     c) control points should preserve tangent
+    #     d) control segments should have equal length
+    #
+    #   Initial data:
+    #     start angle: ang1
+    #     end angle:   ang2 = ang1 + extent
+    #     start point: P1 = (x1, y1) = (cos(ang1), sin(ang1))
+    #     end point:   P4 = (x4, y4) = (cos(ang2), sin(ang2))
+    #
+    #   Control points:
+    #     P2 = (x2, y2)
+    #     | x2 = x1 - k * sin(ang1) = cos(ang1) - k * sin(ang1)
+    #     | y2 = y1 + k * cos(ang1) = sin(ang1) + k * cos(ang1)
+    #
+    #     P3 = (x3, y3)
+    #     | x3 = x4 + k * sin(ang2) = cos(ang2) + k * sin(ang2)
+    #     | y3 = y4 - k * cos(ang2) = sin(ang2) - k * cos(ang2)
+    #
+    # The formula for this length (k) can be found using the
+    # following derivations:
+    #
+    #   Midpoints:
+    #     a) bezier (t = 1/2)
+    #        bPm = P1 * (1-t)^3 +
+    #              3 * P2 * t * (1-t)^2 +
+    #              3 * P3 * t^2 * (1-t) +
+    #              P4 * t^3 =
+    #            = (P1 + 3P2 + 3P3 + P4)/8
+    #
+    #     b) arc
+    #        aPm = (cos((ang1 + ang2)/2), sin((ang1 + ang2)/2))
+    #
+    #   Let angb = (ang2 - ang1)/2; angb is half of the angle
+    #   between ang1 and ang2.
+    #
+    #   Solve the equation bPm == aPm
+    #
+    #     a) For xm coord:
+    #        x1 + 3*x2 + 3*x3 + x4 = 8*cos((ang1 + ang2)/2)
+    #
+    #        cos(ang1) + 3*cos(ang1) - 3*k*sin(ang1) +
+    #        3*cos(ang2) + 3*k*sin(ang2) + cos(ang2) =
+    #        = 8*cos((ang1 + ang2)/2)
+    #
+    #        4*cos(ang1) + 4*cos(ang2) + 3*k*(sin(ang2) - sin(ang1)) =
+    #        = 8*cos((ang1 + ang2)/2)
+    #
+    #        8*cos((ang1 + ang2)/2)*cos((ang2 - ang1)/2) +
+    #        6*k*sin((ang2 - ang1)/2)*cos((ang1 + ang2)/2) =
+    #        = 8*cos((ang1 + ang2)/2)
+    #
+    #        4*cos(angb) + 3*k*sin(angb) = 4
+    #
+    #        k = 4 / 3 * (1 - cos(angb)) / sin(angb)
+    #
+    #     b) For ym coord we derive the same formula.
+    #
+    # Since this formula can generate "NaN" values for small
+    # angles, we will derive a safer form that does not involve
+    # dividing by very small values:
+    #     (1 - cos(angb)) / sin(angb) =
+    #     = (1 - cos(angb))*(1 + cos(angb)) / sin(angb)*(1 + cos(angb)) =
+    #     = (1 - cos(angb)^2) / sin(angb)*(1 + cos(angb)) =
+    #     = sin(angb)^2 / sin(angb)*(1 + cos(angb)) =
+    #     = sin(angb) / (1 + cos(angb))
+    #
+    def btan(increment)
+      increment /= BigDecimal('2.0')
+      BigDecimal('4.0') / BigDecimal('3.0') * Math.sin(increment) / (BigDecimal('1.0') + Math.cos(increment))
+    end
   end
 end

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.2
+
+- `Path` can contain an `Arc`, `Ellipse`, or `Circle` (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
+
 ## 1.0.1
 
 - Relax `equalizer` gem version to '>= 0.0.11', '< 1.1.0' to avoid conflicts in projects that might use future versions
