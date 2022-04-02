@@ -356,8 +356,12 @@ module PerfectShape
           first_point_x = coords[0] = x + Math.cos(angle) * w
           first_point_y = coords[1] = y + Math.sin(angle) * h
           Point.new(*coords)
-        elsif index > arc_segs && index == arcSegs + lineSegs
-          Line.new(points: [[first_point_x, first_point_y], [last_point_x, last_point_y]])
+        elsif (index > arc_segs) && (extent - start) != 0 && ((extent - start)%360 == 0)
+          nil
+        elsif (index > arc_segs) && (index < arc_segs + line_segs) && (extent - start) == 0
+          nil
+        elsif (index > arc_segs) && (index == arc_segs + line_segs)
+          Line.new(points: [[first_point_x, first_point_y]])
         elsif index > arc_segs
           coords[0] = x
           coords[1] = y
@@ -385,7 +389,7 @@ module PerfectShape
           end
           CubicBezierCurve.new(points: coords)
         end
-      end
+      end.compact
     end
     
     # btan computes the length (k) of the control segments at
