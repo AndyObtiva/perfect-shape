@@ -464,6 +464,7 @@ module PerfectShape
     #     = sin(angb) / (1 + cos(angb))
     #
     def btan(increment)
+      return 0 if increment.nan?
       increment /= BigDecimal('2.0')
       BigDecimal('4.0') / BigDecimal('3.0') * Math.sin(increment) / (BigDecimal('1.0') + Math.cos(increment))
     end

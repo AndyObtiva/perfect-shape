@@ -104,6 +104,7 @@ PLATFORMS
   universal-java-1.8
   universal-java-11
   universal-java-17
+  universal-java-18
   x86_64-darwin-19
   x86_64-linux
 

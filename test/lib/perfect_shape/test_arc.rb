@@ -470,7 +470,7 @@ describe PerfectShape do
       _(shape.to_path_shapes[3].points[0][0].to_i).must_equal 300
       _(shape.to_path_shapes[3].points[0][1].to_i).must_equal 377
       _(shape.to_path_shapes[3].points[1][0].to_i).must_equal 344
-      _(shape.to_path_shapes[3].points[1][1].to_i).must_equal 399
+      _(shape.to_path_shapes[3].points[1][1].ceil).must_equal 400
       _(shape.to_path_shapes[3].points[2][0].to_i).must_equal 399
       _(shape.to_path_shapes[3].points[2][1].to_i).must_equal 400
 
