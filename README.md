@@ -1,9 +1,9 @@
-# Perfect Shape 1.0.1
+# Perfect Shape 1.0.2
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
 
-[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking viewport rectangle intersection or containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
+[`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking viewport rectangle intersection or containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and the [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 1.0.1
+gem install perfect-shape -v 1.0.2
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.1'
+gem 'perfect-shape', '~> 1.0.2'
 ```
 
 And, run:
@@ -760,8 +760,9 @@ Includes `PerfectShape::MultiPoint`
 
 ![path](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/path.png)
 
-- `::new(shapes: [], closed: false, winding_rule: :wind_even_odd)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, or `PerfectShape::CubicBezierCurve`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`.
+- `::new(shapes: [], closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: false)`: constructs a path with `shapes` as `Array` of shape objects, which can be `PerfectShape::Point` (or `Array` of `[x, y]` coordinates), `PerfectShape::Line`, `PerfectShape::QuadraticBezierCurve`, `PerfectShape::CubicBezierCurve`, or complex shapes that decompose into the aforementioned basic path shapes, like `PerfectShape::Arc`, `PerfectShape::Ellipse`, and `PerfectShape::Circle`. If a path is closed, its last point is automatically connected to its first point with a line segment. The winding rule can be `:wind_non_zero` (default) or `:wind_even_odd`. `line_to_complex_shapes` can be `true` or `false` (default), indicating whether to connect to complex shapes, meaning `Arc`, `Ellipse`, and `Circle`, with a line, or otherwise move to their start point instead.
 - `#shapes`: the shapes that the path is composed of (must always start with `PerfectShape::Point` or Array of `[x,y]` coordinates representing start point)
+- `#basic_shapes`: the basic shapes that the path is composed of, meaning only `Point`, `Line`, `QuadraticBezierCurve`, and `CubicBezierCurve` shapes (decomposing complex shapes like `Arc`, `Ellipse`, and `Circle` using their `#to_path_shapes` method)
 - `#closed?`: returns `true` if closed and `false` otherwise
 - `#winding_rule`: returns winding rule (`:wind_non_zero` or `:wind_even_odd`)
 - `#points`: path points calculated (derived) from shapes

@@ -5,7 +5,7 @@ require_relative '../../../lib/perfect-shape'
 
 describe PerfectShape do
   describe PerfectShape::Path do
-    it 'constructs as closed with :wind_non_zero winding rule and shapes consisting of lines and quadratic bezier curves not having start point (not needed)' do
+    it 'constructs as closed with :wind_non_zero winding rule and shapes consisting of lines and bezier curves not having start point (not needed)' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
       path_shapes << PerfectShape::Line.new(points: [270, 170])
@@ -34,7 +34,7 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of lines having single (end) point only' do
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of lines and bezier curves not having start point (not needed)' do
       path_shapes = []
       path_shapes << [200, 150]
       path_shapes << PerfectShape::Line.new(points: [270, 170])
@@ -43,13 +43,238 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
-      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
 
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
 
       _(shape.shapes).must_equal path_shapes
-      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
       _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Arc.new(x: 200, y: 150, width: 20, height: 20, start: 0, extent: 360)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :move_to
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Arc.new(x: 200, y: 150, width: 20, height: 20, start: 0, extent: 360)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: true)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes, line_to_complex_shapes: true).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      expected_drawing_types[1] = :line_to
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :line_to
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of ellipses, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Ellipse.new(x: 200, y: 150, width: 20, height: 20)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :move_to
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of ellipses, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Ellipse.new(x: 200, y: 150, width: 20, height: 20)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: true)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes, line_to_complex_shapes: true).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      expected_drawing_types[1] = :line_to
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :line_to
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of circles, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Circle.new(x: 200, y: 150, diameter: 20)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :move_to
+      _(shape.winding_rule).must_equal :wind_even_odd
+      _(shape.closed).must_equal false
+      _(shape.closed?).must_equal false
+      _(shape.min_x).must_equal 180
+      _(shape.min_y).must_equal 150
+      _(shape.max_x).must_equal 270
+      _(shape.max_y).must_equal 220
+      _(shape.width).must_equal 90
+      _(shape.height).must_equal 70
+      _(shape.center_x).must_equal 180 + 45
+      _(shape.center_y).must_equal 150 + 35
+    end
+
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of circles, lines and bezier curves not having start point (not needed)' do
+      path_shapes = []
+      path_shapes << [200, 150]
+      path_shapes << PerfectShape::Circle.new(x: 200, y: 150, diameter: 20)
+      path_shapes << PerfectShape::Line.new(points: [270, 170])
+      path_shapes << PerfectShape::Line.new(points: [250, 220])
+      path_shapes << PerfectShape::Line.new(points: [220, 190])
+      path_shapes << PerfectShape::Line.new(points: [200, 200])
+      path_shapes << PerfectShape::Line.new(points: [180, 170])
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: true)
+
+      _(shape.shapes).must_equal path_shapes
+      expected_points = [[200, 150]]
+      expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
+      _(shape.points).must_equal expected_points
+      expected_drawing_types = [:move_to]
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes, line_to_complex_shapes: true).drawing_types
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
+      expected_drawing_types[1] = :line_to
+      _(shape.drawing_types).must_equal expected_drawing_types
+      _(shape.drawing_types[1]).must_equal :line_to
       _(shape.winding_rule).must_equal :wind_even_odd
       _(shape.closed).must_equal false
       _(shape.closed?).must_equal false
@@ -84,10 +309,10 @@ describe PerfectShape do
 
     it 'updates attributes' do
       shape = PerfectShape::Path.new
-      
+
       shape.closed = true
       shape.winding_rule = :wind_non_zero
-      
+
       shape.shapes << PerfectShape::Point.new(x: 200, y: 150)
       shape.shapes << PerfectShape::Line.new(points: [270, 170])
       shape.shapes << PerfectShape::Line.new(points: [250, 220])
@@ -95,9 +320,9 @@ describe PerfectShape do
       shape.shapes << PerfectShape::Line.new(points: [200, 200])
       shape.shapes << PerfectShape::Line.new(points: [180, 170])
       shape.shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
-      shape.shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
-      
-      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [200, 150], [230, 160], [270, 220], [180, 170], [200, 150]]
+      shape.shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
+
+      _(shape.points).must_equal [[200, 150], [270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170], [200, 150]]
       _(shape.drawing_types).must_equal [:move_to, :line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to, :close]
       _(shape.winding_rule).must_equal :wind_non_zero
       _(shape.closed).must_equal true
@@ -114,13 +339,13 @@ describe PerfectShape do
 
     it 'does not set invalid winding rule' do
       shape = PerfectShape::Path.new
-      
+
       _(proc { shape.winding_rule = :invalid }).must_raise StandardError
     end
 
     it 'does not set invalid winding rule' do
       shape = PerfectShape::Path.new
-      
+
       _(proc { shape.points = [[1, 2]] }).must_raise StandardError
     end
 
@@ -133,14 +358,14 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
-      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
 
       shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
       shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
-      
+
       _(shape2).must_equal shape1
     end
-    
+
     it 'does not equal different path' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -150,24 +375,24 @@ describe PerfectShape do
       path_shapes << PerfectShape::Line.new(points: [200, 200])
       path_shapes << PerfectShape::Line.new(points: [180, 170])
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[195, 185], [200, 190]])
-      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[200, 150], [230, 160], [270, 220], [180, 170]])
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[230, 160], [270, 220], [180, 170]])
 
       shape1 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_non_zero)
       path_shapes2 = path_shapes.dup
       path_shapes2.pop
       shape2 = PerfectShape::Path.new(shapes: path_shapes2, closed: true, winding_rule: :wind_non_zero)
-      
+
       _(shape2).wont_equal shape1
-      
+
       shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_non_zero)
-      
+
       _(shape2).wont_equal shape1
-      
+
       shape2 = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
-      
+
       _(shape2).wont_equal shape1
     end
-    
+
     it 'contains point in center as closed line-based path using non-zero rule' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -323,7 +548,7 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
-    
+
     it 'contains point in center as closed quadratic-bezier-curve-based path using non-zero rule' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -479,7 +704,7 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
-    
+
     it 'contains point in center as closed cubic-bezier-curve-based path using non-zero rule' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -635,20 +860,20 @@ describe PerfectShape do
 
       _(shape.contain?(point)).must_equal false
     end
-    
+
     it 'does not contain point in center on outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
       path_shapes << PerfectShape::Line.new(points: [250, 170]) # no need for start point, just end point
       path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
       path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
-      
+
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
       point = [shape.center_x, shape.center_y]
 
       refute shape.contain?(point, outline: true)
     end
-    
+
     it 'contains point element of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -661,7 +886,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on line of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -674,7 +899,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on quadratic bezier curve of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -687,7 +912,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on cubic bezier curve of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -700,7 +925,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on last connecting line of closed path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -713,7 +938,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true)
     end
- 
+
     it 'does not contain point on line of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -726,7 +951,7 @@ describe PerfectShape do
 
       refute shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on line of path outline with distance_tolerance' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -739,7 +964,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
-    
+
     it 'does not contain point on quadratic bezier curve of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -752,7 +977,7 @@ describe PerfectShape do
 
       refute shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on quadratic bezier curve of path outline with distance tolerance' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -765,7 +990,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
-    
+
     it 'does not contain point on cubic bezier curve of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -778,7 +1003,7 @@ describe PerfectShape do
 
       refute shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on cubic bezier curve of path outline with distance tolerance' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -791,7 +1016,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
-    
+
     it 'does not contain point on last connecting line of closed path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -804,7 +1029,7 @@ describe PerfectShape do
 
       refute shape.contain?(point, outline: true)
     end
- 
+
     it 'contains point on last connecting line of closed path outline with distance tolerance' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
@@ -817,7 +1042,7 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
- 
+
     it 'returns disconnected shapes for closed path' do
       path_shapes = [
         [190, 150], # ignored since it is overridden by next point
@@ -828,7 +1053,7 @@ describe PerfectShape do
         [352, 152],
         PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]),
       ]
-      
+
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
 
       expected_disconnected_shapes = [
@@ -841,7 +1066,7 @@ describe PerfectShape do
       _(shape.disconnected_shapes.count).must_equal expected_disconnected_shapes.count
       _(shape.disconnected_shapes).must_equal expected_disconnected_shapes
     end
- 
+
     it 'returns disconnected shapes for closed path ending with a point' do
       path_shapes = [
         [190, 150], # ignored since it is overridden by next point
@@ -853,7 +1078,7 @@ describe PerfectShape do
         PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]),
         [400, 300],
       ]
-      
+
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
 
       expected_disconnected_shapes = [
@@ -866,7 +1091,7 @@ describe PerfectShape do
       _(shape.disconnected_shapes.count).must_equal expected_disconnected_shapes.count
       _(shape.disconnected_shapes).must_equal expected_disconnected_shapes
     end
-    
+
     it 'intersects with rectangle as a path of lines' do
       shapes = [
         PerfectShape::Point.new(200, 150),
@@ -881,7 +1106,7 @@ describe PerfectShape do
 
       assert shape.intersect?(rectangle)
     end
-    
+
     it 'intersects with rectangle by lying within it as a path of lines' do
       shapes = [
         PerfectShape::Point.new(200, 150),
@@ -926,7 +1151,7 @@ describe PerfectShape do
 
       refute shape.intersect?(rectangle)
     end
-    
+
     it 'intersects with rectangle as a path of quads' do
       shapes = [
         PerfectShape::Point.new(200, 150),
@@ -941,7 +1166,7 @@ describe PerfectShape do
 
       assert shape.intersect?(rectangle)
     end
-    
+
     it 'intersects with rectangle by lying within it as a path of quads' do
       shapes = [
         PerfectShape::Point.new(200, 150),
@@ -986,7 +1211,7 @@ describe PerfectShape do
 
       refute shape.intersect?(rectangle)
     end
-    
+
     it 'intersects with rectangle as a path of cubics' do
       shapes = [
         PerfectShape::Point.new(200, 150),
@@ -1001,7 +1226,7 @@ describe PerfectShape do
 
       assert shape.intersect?(rectangle)
     end
-    
+
     it 'intersects with rectangle by lying within it as a path of cubics' do
       shapes = [
         PerfectShape::Point.new(200, 150),

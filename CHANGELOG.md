@@ -2,7 +2,8 @@
 
 ## 1.0.2
 
-- `Path` can contain an `Arc`, `Ellipse`, or `Circle` (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
+- `Path` can contain an `Arc`, `Ellipse`, or `Circle` (to get affected by the winding algorithm as opposed to `CompositeShape` which has no winding algorithm)
+- `Arc`, `Ellipse`, and `Circle` `#to_path_shapes` method, which decomposes them into `Point`s, `Line`s, and `CubicBezierCurve`s to be added to a `Path`
 
 ## 1.0.1
 

@@ -6,7 +6,7 @@
 
 ## Next
 
-- Path can contain a rectangle or square (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
+- `Path` can contain a `Rectangle` or `Square` (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
 - Make PerfectShape::Path accept getting constructed without a point at the beginning if the first path shape had all its points (was not missing the first point) and otherwise display a better error message if the first point is missing
 - Polyline
 - Polybezier

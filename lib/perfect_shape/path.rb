@@ -32,28 +32,34 @@ module PerfectShape
     include Equalizer.new(:shapes, :closed, :winding_rule)
     
     # Available class types for path shapes
-    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve]
+    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve, PerfectShape::Arc, PerfectShape::Ellipse, PerfectShape::Circle]
     
     # Available winding rules
     WINDING_RULES = [:wind_even_odd, :wind_non_zero]
     
     attr_reader :winding_rule
-    attr_accessor :shapes, :closed
+    attr_accessor :shapes, :closed, :line_to_complex_shapes
     alias closed? closed
+    alias line_to_complex_shapes? line_to_complex_shapes
     
-    # Constructs Path with winding rule, closed status, and shapes (must always start with PerfectShape::Point or Array of [x,y] coordinates)
-    # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, or PerfectShape::CubicBezierCurve
+    # Constructs Path with winding rule, closed status, line_to_complex_shapes option, and shapes (must always start with PerfectShape::Point or Array of [x,y] coordinates)
+    # Shape class types can be any of SHAPE_TYPES: Array (x,y coordinates), PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve
+    # PerfectShape::Arc, PerfectShape::Ellipse, or PerfectShape::Circle
+    # Complex shapes, meaning Arc, Ellipse, and Circle, are decomposed into basic path shapes, meaning Point, Line, QuadraticBezierCurve, and CubicBezierCurve.
     # winding_rule can be any of WINDING_RULES: :wind_non_zero (default) or :wind_even_odd
-    # closed can be true or false
-    def initialize(shapes: [], closed: false, winding_rule: :wind_even_odd)
+    # closed can be true or false (default)
+    # line_to_complex_shapes can be true or false (default), indicating whether to connect to complex shapes,
+    # meaning Arc, Ellipse, and Circle, with a line, or otherwise move to their start point instead.
+    def initialize(shapes: [], closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: false)
       self.closed = closed
       self.winding_rule = winding_rule
       self.shapes = shapes
+      self.line_to_complex_shapes = line_to_complex_shapes
     end
     
     def points
       the_points = []
-      @shapes.each do |shape|
+      basic_shapes.each do |shape|
         case shape
         when Point
           the_points << shape.to_a
@@ -71,7 +77,7 @@ module PerfectShape
           end
         end
       end
-      the_points << @shapes.first.to_a if closed?
+      the_points << basic_shapes.first.to_a if closed?
       the_points
     end
     
@@ -80,7 +86,7 @@ module PerfectShape
     end
     
     def drawing_types
-      the_drawing_shapes = @shapes.map do |shape|
+      the_drawing_shapes = basic_shapes.map do |shape|
         case shape
         when Point
           :move_to
@@ -233,9 +239,9 @@ module PerfectShape
     # Lastly, if the path is closed, an extra shape is
     # added to represent the line connecting the last point to the first
     def disconnected_shapes
-      initial_point = start_point = @shapes.first.to_a.map {|n| BigDecimal(n.to_s)}
+      initial_point = start_point = basic_shapes.first.to_a.map {|n| BigDecimal(n.to_s)}
       final_point = nil
-      the_disconnected_shapes = @shapes.drop(1).map do |shape|
+      the_disconnected_shapes = basic_shapes.drop(1).map do |shape|
         case shape
         when Point
           disconnected_shape = Point.new(*shape.to_a)
@@ -371,6 +377,26 @@ module PerfectShape
       # Count should always be a multiple of 2 here.
       # assert((crossings & 1) != 0)
       crossings
+    end
+    
+    # Returns basic shapes (i.e. Point, Line, QuadraticBezierCurve, and CubicBezierCurve),
+    # decomposed from complex shapes like Arc, Ellipse, and Circle by calling their `#to_path_shapes` method
+    def basic_shapes
+      the_shapes = []
+      @shapes.each do |shape|
+        if shape.respond_to?(:to_path_shapes)
+          shape_basic_shapes = shape.to_path_shapes
+          if @line_to_complex_shapes
+            first_basic_shape = shape_basic_shapes.shift
+            new_first_basic_shape = PerfectShape::Line.new(points: [first_basic_shape.to_a])
+            shape_basic_shapes.unshift(new_first_basic_shape)
+          end
+          the_shapes += shape_basic_shapes
+        else
+          the_shapes << shape
+        end
+      end
+      the_shapes
     end
   end
 end
