@@ -348,7 +348,6 @@ module PerfectShape
       arc_segs = line_segs = -1 if w < 0 || h < 0
       
       first_point_x = first_point_y = nil
-      last_point_x = last_point_y = nil
       (arc_segs + line_segs + 1).to_i.times.map do |index|
         coords = []
         angle = ang_st_rad
@@ -365,10 +364,6 @@ module PerfectShape
         elsif index > arc_segs
           coords[0] = x
           coords[1] = y
-          if line_segs == 2
-            last_point_x = coords[0]
-            last_point_y = coords[1]
-          end
           Line.new(points: coords)
         else
           angle += increment * (index - 1)
@@ -383,10 +378,6 @@ module PerfectShape
           coords[3] = y + (rely - cv * relx) * h
           coords[4] = x + relx * w
           coords[5] = y + rely * h
-          if line_segs == 1
-            last_point_x = coords[4]
-            last_point_y = coords[5]
-          end
           CubicBezierCurve.new(points: coords)
         end
       end.compact
