@@ -63,10 +63,11 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, lines and bezier curves not having start point (not needed)' do
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, rectangles, lines and bezier curves not having start point (not needed)' do
       path_shapes = []
       path_shapes << [200, 150]
       path_shapes << PerfectShape::Arc.new(x: 200, y: 150, width: 20, height: 20, start: 0, extent: 360)
+      path_shapes << PerfectShape::Rectangle.new(x: 235, y: 160, width: 30, height: 15)
       path_shapes << PerfectShape::Line.new(points: [270, 170])
       path_shapes << PerfectShape::Line.new(points: [250, 220])
       path_shapes << PerfectShape::Line.new(points: [220, 190])
@@ -80,10 +81,12 @@ describe PerfectShape do
       _(shape.shapes).must_equal path_shapes
       expected_points = [[200, 150]]
       expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += path_shapes[2].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
       expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
       _(shape.points).must_equal expected_points
       expected_drawing_types = [:move_to]
       expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes).drawing_types
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[2].to_path_shapes).drawing_types
       expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
       _(shape.drawing_types).must_equal expected_drawing_types
       _(shape.drawing_types[1]).must_equal :move_to
@@ -100,10 +103,11 @@ describe PerfectShape do
       _(shape.center_y).must_equal 150 + 35
     end
 
-    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, lines and bezier curves not having start point (not needed)' do
+    it 'constructs as open with :wind_even_odd winding rule and shapes consisting of arcs, rectangles, lines and bezier curves not having start point (not needed)' do
       path_shapes = []
       path_shapes << [200, 150]
       path_shapes << PerfectShape::Arc.new(x: 200, y: 150, width: 20, height: 20, start: 0, extent: 360)
+      path_shapes << PerfectShape::Rectangle.new(x: 235, y: 160, width: 30, height: 15)
       path_shapes << PerfectShape::Line.new(points: [270, 170])
       path_shapes << PerfectShape::Line.new(points: [250, 220])
       path_shapes << PerfectShape::Line.new(points: [220, 190])
@@ -117,12 +121,15 @@ describe PerfectShape do
       _(shape.shapes).must_equal path_shapes
       expected_points = [[200, 150]]
       expected_points += path_shapes[1].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
+      expected_points += path_shapes[2].to_path_shapes.map {|shape| shape.respond_to?(:points) ? shape.points : [shape.to_a] }.reduce(:+)
       expected_points += [[270, 170], [250, 220], [220, 190], [200, 200], [180, 170], [195, 185], [200, 190], [230, 160], [270, 220], [180, 170]]
       _(shape.points).must_equal expected_points
       expected_drawing_types = [:move_to]
       expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[1].to_path_shapes, line_to_complex_shapes: true).drawing_types
-      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
       expected_drawing_types[1] = :line_to
+      expected_drawing_types += PerfectShape::Path.new(shapes: path_shapes[2].to_path_shapes, line_to_complex_shapes: true).drawing_types
+      expected_drawing_types[6] = :line_to
+      expected_drawing_types += [:line_to, :line_to, :line_to, :line_to, :line_to, :quad_to, :cubic_to]
       _(shape.drawing_types).must_equal expected_drawing_types
       _(shape.drawing_types[1]).must_equal :line_to
       _(shape.winding_rule).must_equal :wind_even_odd
