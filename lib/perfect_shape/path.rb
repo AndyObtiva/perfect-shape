@@ -24,6 +24,11 @@ require 'perfect_shape/point'
 require 'perfect_shape/line'
 require 'perfect_shape/quadratic_bezier_curve'
 require 'perfect_shape/cubic_bezier_curve'
+require 'perfect_shape/arc'
+require 'perfect_shape/ellipse'
+require 'perfect_shape/circle'
+require 'perfect_shape/rectangle'
+require 'perfect_shape/square'
 require 'perfect_shape/multi_point'
 
 module PerfectShape
@@ -32,7 +37,7 @@ module PerfectShape
     include Equalizer.new(:shapes, :closed, :winding_rule)
     
     # Available class types for path shapes
-    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve, PerfectShape::Arc, PerfectShape::Ellipse, PerfectShape::Circle]
+    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve, PerfectShape::Arc, PerfectShape::Ellipse, PerfectShape::Circle, PerfectShape::Rectangle, PerfectShape::Square]
     
     # Available winding rules
     WINDING_RULES = [:wind_even_odd, :wind_non_zero]
