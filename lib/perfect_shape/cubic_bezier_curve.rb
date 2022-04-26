@@ -213,8 +213,6 @@ module PerfectShape
     end
     
     def intersect?(rectangle)
-      x = rectangle.x
-      y = rectangle.y
       w = rectangle.width
       h = rectangle.height
       
