@@ -1,18 +1,18 @@
 # TODO
 
+## Next
+
+- `Path` can contain another `Path`
+
 ## Issues
 
 - PerfectShape::CubicBezierCurve#contain?(x, y, outline: true, distance_tolerance: 5) is not working consistently along the curve of the cubic bezier curve (it is possible the same issue occurs for quadratic bezier curves too)
 
-## Next
-
-- `Path` can contain a `Rectangle` or `Square` (to get affected by the winding algorithm as opposed to CompositeShape which has no winding algorithm)
-- Make PerfectShape::Path accept getting constructed without a point at the beginning if the first path shape had all its points (was not missing the first point) and otherwise display a better error message if the first point is missing
-- Polyline
-- Polybezier
-
 ## Far Future
 
+- Make PerfectShape::Path accept getting constructed without a point at the beginning if the first path shape had all its points (was not missing the first point) and otherwise display a better error message if the first point is missing
+- `Polyline`
+- `Polybezier`
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)
 - `PerfectShape::Triangle` (a special case of `PerfectShape::Polygon` and `PerfectShape::Path`). Also, support RightTriangle and Equilateral Triangle.
 - `Shape#area` for all shapes
