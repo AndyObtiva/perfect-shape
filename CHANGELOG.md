@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.3
+
+- `Rectangle` and `Square` `#to_path_shapes` method, which decomposes them into `Point`s and `Line`s to be added to a `Path`
+
 ## 1.0.2
 
 - `Path` can contain an `Arc`, `Ellipse`, or `Circle` (to get affected by the winding algorithm as opposed to `CompositeShape` which has no winding algorithm)

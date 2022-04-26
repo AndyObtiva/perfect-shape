@@ -116,5 +116,43 @@ module PerfectShape
         x < (x0 + self.width) &&
         y < (y0 + self.height)
     end
+    
+    # Converts Rectangle into basic Path shapes made up of Points and Lines
+    # Used by Path when adding a Rectangle to Path shapes
+    def to_path_shapes
+      path_shapes = []
+      x = self.x
+      y = self.y
+      w = self.width
+      h = self.height
+      index = 0
+      index = 5 if (w < 0 || h < 0)
+      max_index = 4
+      max_index = 2 if (w == 0 && h > 0) || (w > 0 && h == 0)
+      max_index = 1 if (w == 0 && h == 0)
+      first_point_x = first_point_y = nil
+      
+      until index > max_index
+        if index == max_index
+          path_shapes << Line.new(points: [[first_point_x, first_point_y]])
+        else
+          coords = []
+          coords[0] = x
+          coords[1] = y
+          coords[0] += w if ([2, 4].include?(max_index) && index == 1) || (max_index == 4 && index == 2)
+          coords[1] += h if (max_index == 2 && index == 1) || (max_index == 4 && [2, 3].include?(index))
+          if index == 0
+            first_point_x = coords[0]
+            first_point_y = coords[1]
+            path_shapes << Point.new(coords)
+          else
+            path_shapes << Line.new(points: coords)
+          end
+        end
+        index += 1
+      end
+      
+      path_shapes
+    end
   end
 end

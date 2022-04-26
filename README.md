@@ -1,4 +1,4 @@
-# Perfect Shape 1.0.2
+# Perfect Shape 1.0.3
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure high accuracy, this library does all its mathematical operations with 
 Run:
 
 ```
-gem install perfect-shape -v 1.0.2
+gem install perfect-shape -v 1.0.3
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.2'
+gem 'perfect-shape', '~> 1.0.3'
 ```
 
 And, run:
@@ -377,6 +377,7 @@ Includes `PerfectShape::RectangularShape`
 - `#edges`: edges of rectangle as `PerfectShape::Line` objects
 - `#out_state(x_or_point, y = nil)`: Returns "out state" of specified point (x,y) (whether it lies to the left, right, top, bottom of rectangle). If point is outside rectangle, it returns a bit mask combination of `Rectangle::OUT_LEFT`, `Rectangle::OUT_RIGHT`, `Rectangle::OUT_TOP`, or `Rectangle::OUT_BOTTOM`. Otherwise, it returns `0` if point is inside the rectangle.
 - `#empty?`: Returns `true` if width or height are 0 (or negative) and `false` otherwise
+- `#to_path_shapes`: Converts `Rectangle` into basic `Path` shapes made up of `Point`s and `Line`s. Used by `Path` when adding a `Rectangle` to `Path` `shapes`
 
 Example:
 
@@ -424,6 +425,7 @@ Extends `PerfectShape::Rectangle`
 - `#intersect?(rectangle)`: Returns `true` if intersecting with interior of rectangle or `false` otherwise. This is useful for GUI optimization checks of whether a shape appears in a GUI viewport rectangle and needs redrawing
 - `#edges`: edges of square as `PerfectShape::Line` objects
 - `#empty?`: Returns `true` if length is 0 (or negative) and `false` otherwise
+- `#to_path_shapes`: Converts `Square` into basic `Path` shapes made up of `Point`s and `Line`s. Used by `Path` when adding a `Square` to `Path` `shapes`
 
 Example:
 
@@ -813,7 +815,7 @@ Class
 
 Extends `PerfectShape::Shape`
 
-A composite shape is simply an aggregate of multiple shapes (e.g. square and polygon)
+A composite shape is simply an aggregate of multiple shapes (e.g. square and triangle polygon)
 
 ![composite shape](https://raw.githubusercontent.com/AndyObtiva/perfect-shape/master/images/composite-shape.png)
 

@@ -266,27 +266,27 @@ describe PerfectShape do
       _(shape.contain?(point)).must_equal false
       _(shape.contain?(*point)).must_equal shape.contain?(point)
     end
-    
+
     it 'returns edges of rectangle' do
       shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
-      
+
       expected_edges = [
         PerfectShape::Line.new(points: [[2, 3], [2 + 50, 3]]),
         PerfectShape::Line.new(points: [[2 + 50, 3], [2 + 50, 3 + 60]]),
         PerfectShape::Line.new(points: [[2 + 50, 3 + 60], [2, 3 + 60]]),
         PerfectShape::Line.new(points: [[2, 3 + 60], [2, 3]]),
       ]
-      
+
       _(shape.edges).must_equal expected_edges
     end
-    
+
     it 'intersects rectangle' do
       shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
       rectangle = PerfectShape::Rectangle.new(x: 0, y: 0, width: 50, height: 60)
-      
+
       assert shape.intersect?(rectangle)
     end
-    
+
     it 'intersects rectangle by lying inside it' do
       shape = PerfectShape::Rectangle.new(x: 5, y: 6, width: 40, height: 50)
       rectangle = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
@@ -313,6 +313,99 @@ describe PerfectShape do
       rectangle = PerfectShape::Rectangle.new(x: 55, y: 65, width: 50, height: 60)
 
       refute shape.intersect?(rectangle)
+    end
+    
+    it 'returns 5 path shapes as a rectangle with positive width and height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 60)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 5
+      _(path_shapes.map(&:class)).must_equal [PerfectShape::Point, PerfectShape::Line, PerfectShape::Line, PerfectShape::Line, PerfectShape::Line]
+
+      _(path_shapes[0].x).must_equal 2
+      _(path_shapes[0].y).must_equal 3
+
+      _(path_shapes[1].points[0][0].to_i).must_equal 2 + 50
+      _(path_shapes[1].points[0][1].to_i).must_equal 3
+
+      _(path_shapes[2].points[0][0].to_i).must_equal 2 + 50
+      _(path_shapes[2].points[0][1].to_i).must_equal 3 + 60
+
+      _(path_shapes[3].points[0][0].to_i).must_equal 2
+      _(path_shapes[3].points[0][1].to_i).must_equal 3 + 60
+
+      _(path_shapes[4].points[0][0].to_i).must_equal 2
+      _(path_shapes[4].points[0][1].to_i).must_equal 3
+    end
+    
+    it 'returns 3 path shapes as a rectangle with 0 width and positive height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 0, height: 60)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 3
+      _(path_shapes.map(&:class)).must_equal [PerfectShape::Point, PerfectShape::Line, PerfectShape::Line]
+
+      _(path_shapes[0].x).must_equal 2
+      _(path_shapes[0].y).must_equal 3
+
+      _(path_shapes[1].points[0][0].to_i).must_equal 2
+      _(path_shapes[1].points[0][1].to_i).must_equal 3 + 60
+
+      _(path_shapes[2].points[0][0].to_i).must_equal 2
+      _(path_shapes[2].points[0][1].to_i).must_equal 3
+    end
+    
+    it 'returns 3 path shapes as a rectangle with positive width and 0 height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: 0)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 3
+      _(path_shapes.map(&:class)).must_equal [PerfectShape::Point, PerfectShape::Line, PerfectShape::Line]
+
+      _(path_shapes[0].x).must_equal 2
+      _(path_shapes[0].y).must_equal 3
+
+      _(path_shapes[1].points[0][0].to_i).must_equal 2 + 50
+      _(path_shapes[1].points[0][1].to_i).must_equal 3
+
+      _(path_shapes[2].points[0][0].to_i).must_equal 2
+      _(path_shapes[2].points[0][1].to_i).must_equal 3
+    end
+    
+    
+    it 'returns 2 path shapes as a rectangle with 0 width and 0 height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 0, height: 0)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 2
+      _(path_shapes.map(&:class)).must_equal [PerfectShape::Point, PerfectShape::Line]
+
+      _(path_shapes[0].x).must_equal 2
+      _(path_shapes[0].y).must_equal 3
+
+      _(path_shapes[1].points[0][0].to_i).must_equal 2
+      _(path_shapes[1].points[0][1].to_i).must_equal 3
+    end
+    
+    it 'returns 0 path shapes as a rectangle with negative width and positive height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: -50, height: 60)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 0
+    end
+
+    it 'returns 0 path shapes as a rectangle with positive width and negative height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: 50, height: -60)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 0
+    end
+
+    it 'returns 0 path shapes as a rectangle with negative width and negative height' do
+      shape = PerfectShape::Rectangle.new(x: 2, y: 3, width: -50, height: -60)
+      path_shapes = shape.to_path_shapes
+
+      _(path_shapes.count).must_equal 0
     end
   end
 end
