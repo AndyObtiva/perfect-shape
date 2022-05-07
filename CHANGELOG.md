@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.4
+
+- `Path` can contain another `Path` (sub-path)
+
 ## 1.0.3
 
 - `Rectangle` and `Square` `#to_path_shapes` method, which decomposes them into `Point`s and `Line`s to be added to a `Path`

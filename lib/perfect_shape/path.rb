@@ -24,7 +24,14 @@ require 'perfect_shape/point'
 require 'perfect_shape/line'
 require 'perfect_shape/quadratic_bezier_curve'
 require 'perfect_shape/cubic_bezier_curve'
+require 'perfect_shape/arc'
+require 'perfect_shape/ellipse'
+require 'perfect_shape/circle'
+require 'perfect_shape/rectangle'
+require 'perfect_shape/square'
 require 'perfect_shape/multi_point'
+
+using ArrayIncludeMethods
 
 module PerfectShape
   class Path < Shape
@@ -32,7 +39,7 @@ module PerfectShape
     include Equalizer.new(:shapes, :closed, :winding_rule)
     
     # Available class types for path shapes
-    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve, PerfectShape::Arc, PerfectShape::Ellipse, PerfectShape::Circle]
+    SHAPE_TYPES = [Array, PerfectShape::Point, PerfectShape::Line, PerfectShape::QuadraticBezierCurve, PerfectShape::CubicBezierCurve, PerfectShape::Arc, PerfectShape::Ellipse, PerfectShape::Circle, PerfectShape::Rectangle, PerfectShape::Square, PerfectShape::Path]
     
     # Available winding rules
     WINDING_RULES = [:wind_even_odd, :wind_non_zero]
@@ -51,9 +58,19 @@ module PerfectShape
     # line_to_complex_shapes can be true or false (default), indicating whether to connect to complex shapes,
     # meaning Arc, Ellipse, and Circle, with a line, or otherwise move to their start point instead.
     def initialize(shapes: [], closed: false, winding_rule: :wind_even_odd, line_to_complex_shapes: false)
+      raise "Must be one of: #{SHAPE_TYPES}" unless SHAPE_TYPES.include_all?(*shapes.map(&:class).uniq)
       self.closed = closed
       self.winding_rule = winding_rule
-      self.shapes = shapes
+      self.shapes = []
+      shapes.each do |shape|
+        if shape.is_a?(Path)
+          shape.shapes.each do |subshape|
+            self.shapes << subshape
+          end
+        else
+          self.shapes << shape
+        end
+      end
       self.line_to_complex_shapes = line_to_complex_shapes
     end
     

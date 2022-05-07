@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    array_include_methods (1.4.0)
     awesome_print (1.9.2)
     builder (3.2.4)
     descendants_tracker (0.0.4)
@@ -109,6 +110,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  array_include_methods (>= 1.4.0, < 2.0.0)
   equalizer (>= 0.0.11, < 1.1.0)
   juwelier (~> 2.1.0)
   minitest (~> 5.14.4)
