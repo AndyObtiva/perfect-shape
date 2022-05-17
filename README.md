@@ -1,4 +1,4 @@
-# Perfect Shape 1.0.4
+# Perfect Shape 1.0.5
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -7,20 +7,20 @@
 
 Additionally, [`PerfectShape::Math`](#perfectshapemath) contains some purely mathematical algorithms, like [IEEE 754-1985 Remainder](https://en.wikipedia.org/wiki/IEEE_754-1985).
 
-To ensure accuracy and preciseness, this library does all its mathematical operations with [`BigDecimal`](https://ruby-doc.org/stdlib-3.0.2/libdoc/bigdecimal/rdoc/BigDecimal.html) numbers.
+To ensure accuracy and precision, this library does all its mathematical operations with [`BigDecimal`](https://ruby-doc.org/stdlib-3.0.2/libdoc/bigdecimal/rdoc/BigDecimal.html) numbers.
 
 ## Setup
 
 Run:
 
 ```
-gem install perfect-shape -v 1.0.4
+gem install perfect-shape -v 1.0.5
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.4'
+gem 'perfect-shape', '~> 1.0.5'
 ```
 
 And, run:

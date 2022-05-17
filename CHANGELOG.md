@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.5
+
+- Support Ruby 3.1 by including bundled 'matrix' gem ('>= 0.4.2', '< 1.1.0')
+
 ## 1.0.4
 
 - Add missing shapes (`Rectangle` and `Square`) to `Path::SHAPE_TYPES`

@@ -2,6 +2,7 @@ source "https://rubygems.org"
 # Add dependencies required to use your gem here.
 # Example:
 #   gem "activesupport", ">= 2.3.5"
+gem 'matrix', '>= 0.4.2', '< 1.1.0'
 gem 'equalizer', '>= 0.0.11', '< 1.1.0'
 
 # Add dependencies to develop your gem here.

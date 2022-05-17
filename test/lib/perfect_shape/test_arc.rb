@@ -458,7 +458,7 @@ describe PerfectShape do
       _(path_shapes[1].points[0][1].to_i).must_equal 322
       _(path_shapes[1].points[1][0].to_i).must_equal 455
       _(path_shapes[1].points[1][1].to_i).must_equal 300
-      _(path_shapes[1].points[2][0].to_i).must_equal 399
+      assert path_shapes[1].points[2][0].to_i.between?(399, 400)
       _(path_shapes[1].points[2][1].to_i).must_equal 300
 
       _(path_shapes[2].points[0][0].to_i).must_equal 344
@@ -466,7 +466,7 @@ describe PerfectShape do
       _(path_shapes[2].points[1][0].to_i).must_equal 300
       _(path_shapes[2].points[1][1].to_i).must_equal 322
       _(path_shapes[2].points[2][0].to_i).must_equal 300
-      _(path_shapes[2].points[2][1].to_i).must_equal 350
+      assert path_shapes[2].points[2][1].to_i.between?(349, 350)
 
       _(path_shapes[3].points[0][0].to_i).must_equal 300
       _(path_shapes[3].points[0][1].to_i).must_equal 377
@@ -477,10 +477,10 @@ describe PerfectShape do
 
       _(path_shapes[4].points[0][0].to_i).must_equal 455
       _(path_shapes[4].points[0][1].to_i).must_equal 400
-      _(path_shapes[4].points[1][0].to_i).must_equal 500
+      assert path_shapes[4].points[1][0].to_i.between?(499, 500)
       _(path_shapes[4].points[1][1].to_i).must_equal 377
       _(path_shapes[4].points[2][0].to_i).must_equal 500
-      _(path_shapes[4].points[2][1].to_i).must_equal 349
+      assert path_shapes[4].points[2][1].to_i.between?(349, 350)
     end
 
     it 'returns path shapes as an open type arc that is between three quarter and full ellipse' do
@@ -697,7 +697,7 @@ describe PerfectShape do
       _(path_shapes[1].points[0][1].to_i).must_equal 322
       _(path_shapes[1].points[1][0].to_i).must_equal 455
       _(path_shapes[1].points[1][1].to_i).must_equal 300
-      _(path_shapes[1].points[2][0].to_i).must_equal 399
+      assert path_shapes[1].points[2][0].to_i.between?(399, 400)
       _(path_shapes[1].points[2][1].to_i).must_equal 300
 
       _(path_shapes[2].points[0][0].to_i).must_equal 344
@@ -705,7 +705,7 @@ describe PerfectShape do
       _(path_shapes[2].points[1][0].to_i).must_equal 300
       _(path_shapes[2].points[1][1].to_i).must_equal 322
       _(path_shapes[2].points[2][0].to_i).must_equal 300
-      _(path_shapes[2].points[2][1].to_i).must_equal 350
+      assert path_shapes[2].points[2][1].to_i.between?(349, 350)
 
       _(path_shapes[3].points[0][0].to_i).must_equal 300
       _(path_shapes[3].points[0][1].to_i).must_equal 377
@@ -716,10 +716,10 @@ describe PerfectShape do
 
       _(path_shapes[4].points[0][0].to_i).must_equal 455
       _(path_shapes[4].points[0][1].to_i).must_equal 400
-      _(path_shapes[4].points[1][0].to_i).must_equal 500
+      assert path_shapes[4].points[1][0].to_i.between?(499, 500)
       _(path_shapes[4].points[1][1].to_i).must_equal 377
       _(path_shapes[4].points[2][0].to_i).must_equal 500
-      _(path_shapes[4].points[2][1].to_i).must_equal 349
+      assert path_shapes[4].points[2][1].to_i.between?(349, 350)
     end
 
     it 'returns path shapes as an chord type arc that is between three quarter and full ellipse' do
@@ -960,7 +960,7 @@ describe PerfectShape do
       _(path_shapes[1].points[0][1].to_i).must_equal 322
       _(path_shapes[1].points[1][0].to_i).must_equal 455
       _(path_shapes[1].points[1][1].to_i).must_equal 300
-      _(path_shapes[1].points[2][0].to_i).must_equal 399
+      assert path_shapes[1].points[2][0].to_i.between?(399, 400)
       _(path_shapes[1].points[2][1].to_i).must_equal 300
 
       _(path_shapes[2].points[0][0].to_i).must_equal 344
@@ -968,7 +968,7 @@ describe PerfectShape do
       _(path_shapes[2].points[1][0].to_i).must_equal 300
       _(path_shapes[2].points[1][1].to_i).must_equal 322
       _(path_shapes[2].points[2][0].to_i).must_equal 300
-      _(path_shapes[2].points[2][1].to_i).must_equal 350
+      assert path_shapes[2].points[2][1].to_i.between?(349, 350)
 
       _(path_shapes[3].points[0][0].to_i).must_equal 300
       _(path_shapes[3].points[0][1].to_i).must_equal 377
@@ -979,10 +979,10 @@ describe PerfectShape do
 
       _(path_shapes[4].points[0][0].to_i).must_equal 455
       _(path_shapes[4].points[0][1].to_i).must_equal 400
-      _(path_shapes[4].points[1][0].to_i).must_equal 500
+      assert path_shapes[4].points[1][0].to_i.between?(499, 500)
       _(path_shapes[4].points[1][1].to_i).must_equal 377
       _(path_shapes[4].points[2][0].to_i).must_equal 500
-      _(path_shapes[4].points[2][1].to_i).must_equal 349
+      assert path_shapes[4].points[2][1].to_i.between?(349, 350)
     end
 
     it 'returns path shapes as an pie type arc that is between three quarter and full ellipse' do
