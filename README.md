@@ -1,4 +1,4 @@
-# Perfect Shape 1.0.5
+# Perfect Shape 1.0.6
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
@@ -14,13 +14,13 @@ To ensure accuracy and precision, this library does all its mathematical operati
 Run:
 
 ```
-gem install perfect-shape -v 1.0.5
+gem install perfect-shape -v 1.0.6
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.5'
+gem 'perfect-shape', '~> 1.0.6'
 ```
 
 And, run:
@@ -84,6 +84,18 @@ Includes `PerfectShape::PointLocation`
 - `#min_y`: min y
 - `#max_x`: max x
 - `#max_y`: max y
+
+### `PerfectShape::MultiPoint`
+
+Module
+
+- `::normalize_point_array`: normalizes `Array` of multiple points into (x,y) point coordinate `Array` format per point
+- `#initialize(points: [])`: initializes `points` with `Array` of multiple points (e.g. useful for shapes like `Line` and `Polygon`).
+- `#points`: `Array` of multiple points
+- `#min_x`: min x of all points
+- `#min_y`: min y of all points
+- `#max_x`: max x of all points
+- `#max_y`: max y of all points
 
 ### `PerfectShape::AffineTransform`
 

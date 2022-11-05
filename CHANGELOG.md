@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.6
+
+- Fix issue with `Path#contain?` algorithm not working correclty when `Path` contains non-basic shapes because `shapes.count` is checked instead of `basic_shapes.count`
+- Document `PerfectShape::MultiPoint`
+
 ## 1.0.5
 
 - Support Ruby 3.1 by including bundled 'matrix' gem ('>= 0.4.2', '< 1.1.0')

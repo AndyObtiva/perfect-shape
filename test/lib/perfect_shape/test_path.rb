@@ -1049,6 +1049,16 @@ describe PerfectShape do
 
       assert shape.contain?(point, outline: true, distance_tolerance: 1)
     end
+    
+    it 'contains point when shapes only consist of a rectangle (non-basic-shape)' do
+      path_shapes = []
+      path_shapes << PerfectShape::Rectangle.new(x: 235, y: 160, width: 30, height: 15)
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [245, 170]
+
+      assert shape.contain?(point)
+    end
 
     it 'returns disconnected shapes for closed path' do
       path_shapes = [

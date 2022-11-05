@@ -134,7 +134,7 @@ module PerfectShape
         if (x * 0.0 + y * 0.0) == 0.0
           # N * 0.0 is 0.0 only if N is finite.
           # Here we know that both x and y are finite.
-          return false if shapes.count < 2
+          return false if basic_shapes.count < 2
           mask = winding_rule == :wind_non_zero ? -1 : 1
           (point_crossings(x, y) & mask) != 0
         else
@@ -161,14 +161,14 @@ module PerfectShape
     def point_crossings(x_or_point, y = nil)
       x, y = Point.normalize_point(x_or_point, y)
       return unless x && y
-      return 0 if shapes.count == 0
+      return 0 if basic_shapes.count == 0
       movx = movy = curx = cury = endx = endy = 0
       coords = points.flatten
       curx = movx = coords[0]
       cury = movy = coords[1]
       crossings = 0
       ci = 2
-      1.upto(shapes.count - 1).each do |i|
+      1.upto(basic_shapes.count - 1).each do |i|
         case drawing_types[i]
         when :move_to
           if cury != movy
@@ -244,6 +244,7 @@ module PerfectShape
     # Lastly, if the path is closed, an extra shape is
     # added to represent the line connecting the last point to the first
     def disconnected_shapes
+      # TODO it seems basic_shapes.first should always return a point, but there is a case with CompositeShape that results in a line (shape) not point returned
       initial_point = start_point = basic_shapes.first.to_a.map {|n| BigDecimal(n.to_s)}
       final_point = nil
       the_disconnected_shapes = basic_shapes.drop(1).map do |shape|
