@@ -55,6 +55,10 @@ module PerfectShape
       @points
     end
     
+    def first_point
+      points.first.to_a
+    end
+    
     def min_x
       points.map(&:first).min
     end

@@ -2,24 +2,15 @@
 
 ## Next
 
+- Fix issue with `Path#contain?` when `Path` has `line_to_complex_shapes: true` and a `Line` with no point at the beginning.
+
 ## Issues
 
 - PerfectShape::CubicBezierCurve#contain?(x, y, outline: true, distance_tolerance: 5) is not working consistently along the curve of the cubic bezier curve (it is possible the same issue occurs for quadratic bezier curves too)
-- Handle this error (this related to nesting paths having line_to_complex_shapes: true within composite shape because all basic shapes end up being lines with no point at the beginning):
-/Users/andymaleh/.rvm/gems/ruby-3.1.0@glimmer-dsl-libui/gems/perfect-shape-1.0.5/lib/perfect_shape/path.rb:247:in `disconnected_shapes': undefined method `to_a' for #<PerfectShape::Line points=[[0.0, 0.1e2]]> (NoMethodError)
-      initial_point = start_point = basic_shapes.first.to_a.map {|n| BigDecimal(n.to_s)}                                                      ^^^^^
-Did you mean?  to_s
-  from /Users/andymaleh/.rvm/gems/ruby-3.1.0@glimmer-dsl-libui/gems/perfect-shape-1.0.5/lib/perfect_shape/path.rb:132:in `contain?'
-  from /Users/andymaleh/.rvm/gems/ruby-3.1.0@glimmer-dsl-libui/gems/perfect-shape-1.0.5/lib/perfect_shape/composite_shape.rb:70:in `block in contain?'
-  from /Users/andymaleh/.rvm/gems/ruby-3.1.0@glimmer-dsl-libui/gems/perfect-shape-1.0.5/lib/perfect_shape/composite_shape.rb:70:in `any?'
-  from /Users/andymaleh/.rvm/gems/ruby-3.1.0@glimmer-dsl-libui/gems/perfect-shape-1.0.5/lib/perfect_shape/composite_shape.rb:70:in `contain?'
-  from /Users/andymaleh/code/glimmer-dsl-libui/lib/glimmer/libui/perfect_shaped.rb:18:in `contain?'
-  from /Users/andymaleh/code/glimmer-dsl-libui/lib/glimmer/libui/perfect_shaped.rb:25:in `include?'
 
 ## Far Future
 
 - `PerfectShape::Path` can contain another `PerfectShape::Path`
-- Make `PerfectShape::Path` accept getting constructed without a point at the beginning if the first path shape had all its points (was not missing the first point) and otherwise display a better error message if the first point is missing
 - `Polyline`
 - `Polybezier`
 - `PerfectShape::RoundRectangle` (rectangle with arc corners)

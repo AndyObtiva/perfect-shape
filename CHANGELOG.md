@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.7
+
+- Support constructing `PerfectShape::Path` without a point at the beginning
+- Support `first_point` method on all shapes to return first point in a shape
+
 ## 1.0.6
 
 - Fix issue with `Path#contain?` algorithm not working correclty when `Path` contains non-basic shapes because `shapes.count` is checked instead of `basic_shapes.count`

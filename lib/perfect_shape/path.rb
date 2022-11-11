@@ -64,14 +64,20 @@ module PerfectShape
     
     def points
       the_points = []
-      basic_shapes.each do |shape|
+      basic_shapes.each_with_index do |shape, i|
         case shape
         when Point
           the_points << shape.to_a
         when Array
           the_points << shape.map {|n| BigDecimal(n.to_s)}
         when Line
-          the_points << shape.points.last.to_a
+          if i == 0
+            shape.points.each do |point|
+              the_points << point.to_a
+            end
+          else
+            the_points << shape.points.last.to_a
+          end
         when QuadraticBezierCurve
           shape.points.each do |point|
             the_points << point.to_a
@@ -82,7 +88,7 @@ module PerfectShape
           end
         end
       end
-      the_points << basic_shapes.first.to_a if closed?
+      the_points << basic_shapes.first.first_point if closed?
       the_points
     end
     
@@ -91,14 +97,14 @@ module PerfectShape
     end
     
     def drawing_types
-      the_drawing_shapes = basic_shapes.map do |shape|
+      the_drawing_shapes = basic_shapes.each_with_index.flat_map do |shape, i|
         case shape
         when Point
           :move_to
         when Array
           :move_to
         when Line
-          :line_to
+          (i == 0) ? [:move_to, :line_to] : :line_to
         when QuadraticBezierCurve
           :quad_to
         when CubicBezierCurve
@@ -389,9 +395,12 @@ module PerfectShape
     # decomposed from complex shapes like Arc, Ellipse, and Circle by calling their `#to_path_shapes` method
     def basic_shapes
       the_shapes = []
-      @shapes.each do |shape|
+      @shapes.each_with_index do |shape, i|
         if shape.respond_to?(:to_path_shapes)
           shape_basic_shapes = shape.to_path_shapes
+          if i == 0 && !shape.is_a?(Array) && !shape.is_a?(PerfectShape::Point)
+            the_shapes << shape.first_point
+          end
           if @line_to_complex_shapes
             first_basic_shape = shape_basic_shapes.shift
             new_first_basic_shape = PerfectShape::Line.new(points: [first_basic_shape.to_a])

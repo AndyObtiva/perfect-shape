@@ -31,6 +31,10 @@ module PerfectShape
       self.y = y
     end
     
+    def first_point
+      [x, y]
+    end
+    
     # Sets x, normalizing to BigDecimal
     def x=(value)
       @x = BigDecimal(value.to_s)

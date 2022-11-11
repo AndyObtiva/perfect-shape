@@ -1,7 +1,9 @@
-# Perfect Shape 1.0.6
+# Perfect Shape 1.0.7
 ## Geometric Algorithms
 [![Gem Version](https://badge.fury.io/rb/perfect-shape.svg)](http://badge.fury.io/rb/perfect-shape)
 [![Test](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml/badge.svg)](https://github.com/AndyObtiva/perfect-shape/actions/workflows/ruby.yml)
+
+([Used by Fukuoka 2022 Special Award Winning Glimmer DSL for LibUI Ruby Desktop Development GUI Library](https://github.com/AndyObtiva/glimmer-dsl-libui))
 
 [`PerfectShape`](https://rubygems.org/gems/perfect-shape) is a collection of pure Ruby geometric algorithms that are mostly useful for GUI (Graphical User Interface) manipulation like checking viewport rectangle intersection or containment of a mouse click [point](#perfectshapepoint) in popular geometry shapes such as [rectangle](#perfectshaperectangle), [square](#perfectshapesquare), [arc](#perfectshapearc) (open, chord, and pie), [ellipse](#perfectshapeellipse), [circle](#perfectshapecircle), [polygon](#perfectshapepolygon), and [paths](#perfectshapepath) containing [lines](#perfectshapeline), [quadratic bézier curves](#perfectshapequadraticbeziercurve), and [cubic bezier curves](#perfectshapecubicbeziercurve), potentially with [affine transforms](#perfectshapeaffinetransform) applied like translation, scale, rotation, shear/skew, and inversion (including both the [Ray Casting Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm), aka [Even-odd Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), and the [Winding Number Algorithm](https://en.wikipedia.org/wiki/Point_in_polygon#Winding_number_algorithm), aka [Nonzero Rule](https://en.wikipedia.org/wiki/Nonzero-rule)).
 
@@ -14,13 +16,13 @@ To ensure accuracy and precision, this library does all its mathematical operati
 Run:
 
 ```
-gem install perfect-shape -v 1.0.6
+gem install perfect-shape -v 1.0.7
 ```
 
 Or include in Bundler `Gemfile`:
 
 ```ruby
-gem 'perfect-shape', '~> 1.0.6'
+gem 'perfect-shape', '~> 1.0.7'
 ```
 
 And, run:
@@ -68,6 +70,7 @@ Module
 - `#y`: top-left y
 - `#min_x`: min x (x by default)
 - `#min_y`: min y (y by default)
+- `#first_point`: first point for shape including this module (always assumes top-left corner)
 
 ### `PerfectShape::RectangularShape`
 
@@ -96,6 +99,7 @@ Module
 - `#min_y`: min y of all points
 - `#max_x`: max x of all points
 - `#max_y`: max y of all points
+- `#first_point`: first point for shape including this module
 
 ### `PerfectShape::AffineTransform`
 
