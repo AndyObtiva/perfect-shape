@@ -251,7 +251,8 @@ module PerfectShape
     # added to represent the line connecting the last point to the first
     def disconnected_shapes
       # TODO it seems basic_shapes.first should always return a point, but there is a case with CompositeShape that results in a line (shape) not point returned
-      initial_point = start_point = basic_shapes.first.to_a.map {|n| BigDecimal(n.to_s)}
+      first_point = basic_shapes.first.is_a?(Array) ? basic_shapes.first : basic_shapes.first.first_point
+      initial_point = start_point = first_point.map {|n| BigDecimal(n.to_s)}
       final_point = nil
       the_disconnected_shapes = basic_shapes.drop(1).map do |shape|
         case shape
@@ -398,9 +399,7 @@ module PerfectShape
       @shapes.each_with_index do |shape, i|
         if shape.respond_to?(:to_path_shapes)
           shape_basic_shapes = shape.to_path_shapes
-          if i == 0 && !shape.is_a?(Array) && !shape.is_a?(PerfectShape::Point)
-            the_shapes << shape.first_point
-          end
+          the_shapes << shape.first_point if i == 0
           if @line_to_complex_shapes
             first_basic_shape = shape_basic_shapes.shift
             new_first_basic_shape = PerfectShape::Line.new(points: [first_basic_shape.to_a])

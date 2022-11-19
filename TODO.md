@@ -2,7 +2,7 @@
 
 ## Next
 
-- Fix issue with `Path#contain?` when `Path` has `line_to_complex_shapes: true` and a `Line` with no point at the beginning.
+TBD
 
 ## Issues
 

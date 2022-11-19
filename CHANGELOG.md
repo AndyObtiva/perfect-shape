@@ -4,6 +4,7 @@
 
 - Support constructing `PerfectShape::Path` without a point at the beginning
 - Support `first_point` method on all shapes to return first point in a shape
+- Fix issue in using `Path#contain?` with `outline: true` when `line_to_complex_shapes: true` and path starts with a `Line` instead of a point.
 
 ## 1.0.6
 

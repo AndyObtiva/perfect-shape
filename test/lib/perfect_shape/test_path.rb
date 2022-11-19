@@ -965,6 +965,18 @@ describe PerfectShape do
       refute shape.contain?(point, outline: true)
     end
 
+    it 'does not contain point in center on outline without point in beginning' do
+      path_shapes = []
+      path_shapes << PerfectShape::Line.new(points: [[200, 150], [250, 170]]) # no need for start point, just end point
+      path_shapes << PerfectShape::QuadraticBezierCurve.new(points: [[300, 185], [350, 150]]) # no need for start point, just control point and end point
+      path_shapes << PerfectShape::CubicBezierCurve.new(points: [[370, 50], [430, 220], [480, 170]]) # no need for start point, just two control points and end point
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [shape.center_x, shape.center_y]
+
+      refute shape.contain?(point, outline: true)
+    end
+
     it 'contains point element of path outline' do
       path_shapes = []
       path_shapes << PerfectShape::Point.new(x: 200, y: 150)
