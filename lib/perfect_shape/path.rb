@@ -88,7 +88,11 @@ module PerfectShape
           end
         end
       end
-      the_points << basic_shapes.first.first_point if closed?
+      if closed?
+        first_basic_shape = basic_shapes.first
+        closing_point = first_basic_shape.is_a?(Array) ? first_basic_shape : first_basic_shape.first_point
+        the_points << closing_point
+      end
       the_points
     end
     

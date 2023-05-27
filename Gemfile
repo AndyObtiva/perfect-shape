@@ -11,6 +11,7 @@ group :development do
   gem "rdoc", "~> 3.12"
   gem "juwelier", "~> 2.1.0"
   gem 'minitest', '~> 5.14.4'
+  gem 'minitest-focus', '~> 1.3.1'
   gem 'puts_debuggerer', '~> 0.13.1'
   gem 'rake-tui', '> 0'
 end

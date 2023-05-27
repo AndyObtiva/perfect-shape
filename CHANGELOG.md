@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.8
+
+- Fix issue with a closed path crashing in `Path#contain?` if the first basic shape is a point array instead of a `PerfectShape::Point` object
+
 ## 1.0.7
 
 - Support constructing `PerfectShape::Path` without a point at the beginning

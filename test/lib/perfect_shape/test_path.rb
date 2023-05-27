@@ -1,5 +1,6 @@
 require 'puts_debuggerer'
 require 'minitest/autorun'
+require 'minitest/focus'
 
 require_relative '../../../lib/perfect-shape'
 
@@ -1151,6 +1152,16 @@ describe PerfectShape do
       path_shapes << PerfectShape::Rectangle.new(x: 235, y: 160, width: 30, height: 15)
 
       shape = PerfectShape::Path.new(shapes: path_shapes, closed: false, winding_rule: :wind_even_odd)
+      point = [245, 170]
+
+      assert shape.contain?(point)
+    end
+
+    it 'contains point when shapes only consist of a rectangle (non-basic-shape) for a closed path' do
+      path_shapes = []
+      path_shapes << PerfectShape::Rectangle.new(x: 235, y: 160, width: 30, height: 15)
+
+      shape = PerfectShape::Path.new(shapes: path_shapes, closed: true, winding_rule: :wind_even_odd)
       point = [245, 170]
 
       assert shape.contain?(point)
