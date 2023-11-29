@@ -8,6 +8,7 @@ TBD
 
 - Allow methods that accept point_or_x, y to also accept PerfectShape::Point in addition to Array and x,y Numeric values
 - PerfectShape::CubicBezierCurve#contain?(x, y, outline: true, distance_tolerance: 5) is not working consistently along the curve of the cubic bezier curve (it is possible the same issue occurs for quadratic bezier curves too)
+- Support being able to load parts of perfect-shape only as necesary instead of loading everything
 
 ## Far Future
 
